@@ -2,7 +2,7 @@
  ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,7 +57,7 @@
 
     <div class="container">
 
-      <form class="form-signin" method="POST" action="<?= FOLDER_PATH . '/login/signin' ?>">
+      <form class="form-signin" method="POST" action="<?='login/signin' ?>">
         <h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
         <label for="inputEmail" class="sr-only">Correo:</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="algo@dominio.com" required autofocus>
