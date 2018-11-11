@@ -9,7 +9,7 @@
 		}
 
 		public function obtenerArticulos(){
-			$this->db->query("SELECT titulo FROM articulos");
+			$this->db->query("SELECT fname FROM users");
 			return $this->db->registros();
 		}
 	}

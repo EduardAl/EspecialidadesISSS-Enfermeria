@@ -5,13 +5,14 @@
 		private $user=DB_USER;
 		private $password=DB_PASSWORD;
 		private $nombre_base=DB_NAME;
+		private $port = DB_PORT;
 
 		private $dbh;
 		private $st;
 		private $error;
 
 		public function __construct(){
-			$dsn = "mysql:host=".$this->host.';dbname='.$this->nombre_base;
+			$dsn = "mysql:host=".$this->host.';dbname='.$this->nombre_base.';port='.$this->port;
 			$opciones = array(
 				PDO::ATTR_PERSISTENT => true,
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
