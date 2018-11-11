@@ -56,13 +56,13 @@
 
     <div class="container">
 
-      <form class="form-signin" method="POST" action="<?='login/signin' ?>">
+      <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
         <h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
         <label for="inputEmail" class="sr-only">Correo:</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="algo@dominio.com" required autofocus>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="nombre_usuario@dominio.com" required autofocus>
         <br>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="******" >
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" >
         <?php !empty($error_message) ? print($error_message) : '' ?>
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>

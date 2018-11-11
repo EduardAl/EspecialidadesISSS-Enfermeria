@@ -9,5 +9,8 @@
 	define('RUTA_APP',dirname(dirname(__FILE__)));
 	//Ruta URL http://localhost/Especialidades/
 	define('RUTA_URL','http://localhost/Especialidades');
-	define('NOMBRESITIO','_NOMBRE_SITIO');
+	define('NOMBRESITIO','ISSS Especialidades');
+
+	//Usuario activo
+	define('USER_ACTIVE',null);
 ?>
