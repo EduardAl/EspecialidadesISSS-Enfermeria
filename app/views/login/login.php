@@ -68,10 +68,4 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
       </form>
 
-    </div> <!-- /container -->
-
-  </body>
-</html>
-
- <?php
- require RUTA_APP.'\views\inc\footer.php'; ?>
+ <?php require RUTA_APP.'\views\inc\footer.php'; ?>

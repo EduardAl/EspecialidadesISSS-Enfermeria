@@ -6,8 +6,5 @@
 		public function index(){
 			$this->vista('pages/inicio');
 		}
-		public function Users(){
-			$this->vista('pages/users');
-		}
 	}
 ?>
