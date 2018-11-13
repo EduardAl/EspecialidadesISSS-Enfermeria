@@ -29,8 +29,11 @@
 
     public function close()
     {
-      session_unset();
-      session_destroy();
+      if(isset($_SESSION))
+      {
+        session_unset();
+        session_destroy();
+      }
     }
     public function getStatus()
     {

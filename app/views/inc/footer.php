@@ -1,3 +1,4 @@
-<script type="text/javascript" src="<?php echo RUTA_URL?>/js/main.js"></script>
-</body>
-</html>
+	<script type="text/javascript" src="#"></script>
+<footer>
+	<p>Vamos a escribir algo por acá</p>
+</footer>

@@ -7,7 +7,7 @@ class Login extends Controller
 
   public function __construct()
   {
-    $this->model = $this->modelo('LoginC');
+    $this->model = $this->modelo('LoginModel');
     $this->session = new Session;
   }
 
@@ -19,24 +19,48 @@ class Login extends Controller
     $this->render(__CLASS__);
   }
 
-  public function signin($request_params)
+  public function signin()
   {
+    //Primero requeriremos los parametros
+    $request_params=[
+      'email'=> $_POST['email'],
+      'password' => $_POST['password']
+    ];
+    //Verificamos que no estén vacíos
     if($this->verify($request_params))
       return $this->renderErrorMessage('El email y password son obligatorios');
 
+    //Verificamos que exista el correo
     $result = $this->model->signIn($request_params['email']);
-
-    if(!$result->num_rows)
+    if($this->model->rowCount()!=1)
+    {
+      echo $this->model->rowCount();
       return $this->renderErrorMessage("El email {$request_params['email']} no fue encontrado");
+    }
 
-    $result = $result->fetch_object();
+    //Si se encuentra, verificar que la contraseña esté correcta
+    $pass = password_hash($result->password,PASSWORD_DEFAULT);
+    //$pass = $result->password;
 
-    if(!password_verify($request_params['password'], $result->password))
+    if(!password_verify($request_params['password'], $pass))
+    {
       return $this->renderErrorMessage('La contraseña es incorrecta');
+    }
 
     $this->session->init();
     $this->session->add('email', $result->email);
-    header('location: /php-mvc/main');
+    $this->vista('pages/inicio');
+  }
+
+  public function signout()
+  {
+    //Primero requeriremos los parametros
+    $this->session->close();
+    $this->vista('pages/inicio');
+  }
+
+  public function newUser(){
+    $this->model->newUser();
   }
 
   private function verify($request_params)
@@ -47,7 +71,8 @@ class Login extends Controller
   private function renderErrorMessage($message)
   {
     $params = array('error_message' => $message);
-    $this->render(__CLASS__, $params);
+    echo $message;
+   // $this->vista('Login/login',$message);
   }
 
 }

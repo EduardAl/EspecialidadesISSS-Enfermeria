@@ -1,6 +1,3 @@
-<?php require RUTA_APP.'\views\inc\header.php'; 
- ?>
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -10,9 +7,9 @@
 
     <style type="text/css">
       body {
-        padding-top: 40px;
+       /* padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #eee;
+        background-color: #eee;*/
       }
 
       .form-signin {
@@ -54,7 +51,13 @@
   </head>
 
   <body>
-
+    <section class="jumbotron jumbo-nav">
+    <div class="container cont">
+      <img src="<?php echo RUTA_URL?>/images/LOGO_ISSS_SIN_FONDO.png" width="100" height="100">
+      <h1>&nbsp&nbspISSS Especialidades</h1>
+    </div>
+  </section>
+  
     <div class="container">
 
       <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
@@ -63,8 +66,8 @@
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="nombre_usuario@dominio.com" required autofocus>
         <br>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" >
-        <?php !empty($error_message) ? print($error_message) : '' ?>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" required minlength="4">
+        <?php !empty($message) ? 'Jajaja' : 'ñañaña' ?>
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
       </form>
@@ -73,6 +76,3 @@
 
   </body>
 </html>
-
- <?php
- require RUTA_APP.'\views\inc\footer.php'; ?>
