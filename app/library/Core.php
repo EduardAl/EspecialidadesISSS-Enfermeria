@@ -7,6 +7,9 @@
 		protected $parametros = [];
 		//Constructor
 		public function __construct(){
+			if(isset($_SESSION))
+				echo "sesion";
+			
 			$url = $this->getUrl();
 			//Buscar si el controlador existe
 			if(file_exists("../app/controller/".ucwords($url[0]).'.php')){
