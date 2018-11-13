@@ -6,5 +6,8 @@
 		public function index(){
 			$this->vista('pages/inicio');
 		}
+        public function report(){
+			$this->vista('pages/urologia_view');
+		}
 	}
 ?>
