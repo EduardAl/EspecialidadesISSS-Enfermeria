@@ -5,8 +5,7 @@
 	<meta name="viewport" content="width=device=width,initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="id=edge">
 	<meta charset="utf-8" />
-    <script type="text/javascript" src="/public/js/funciones.js"></script>
-    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="<?php echo(RUTA_URL) ?>/css/bootstrap.css">
 	<title><?php echo NOMBRESITIO;?></title>
 </head>
     <body>
