@@ -33,7 +33,6 @@
 			$this->parametros = $url ? array_values($url):[];
 			//Llamar con parametros array
 			call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
-
 		}
 		//Funciones
 		public function getUrl(){
