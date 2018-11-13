@@ -41,7 +41,7 @@
 			{
 				require_once '../app/controller/'.$this->controladorActual.'.php';
 				$this->controladorActual = new $this->controladorActual;
-				if($url)
+				if(isset($url[1]))
 				{
 					if($url[1]=='signin')
 					{

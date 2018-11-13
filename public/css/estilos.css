@@ -64,11 +64,13 @@ body{
 /* Footer */
 footer{
 	background: #ccc;
-	padding: 0.5rem 0;
+	padding: 0.9rem 0;
 	text-align: center;
 	/* Alineamiento */
-	/*position: fixed;
+	/*
+	position: fixed;
 	left:0;
 	bottom: 0;
-	width: 100%;*/
+	width: 100%;
+	*/
 }
