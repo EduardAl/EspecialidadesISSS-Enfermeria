@@ -1,7 +1,8 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?> 
 
-<table>
-    <?php foreach($datos['post'] as $var): ?>
+<div class="container">
+<table class="table-bordered">
+    <?php foreach($datos['info'] as $var): ?>
     <tr>
         <td><?= $var->id; ?></td>
         <td><?= $var->name; ?></td>
@@ -10,4 +11,5 @@
     </tr>
 <?php endforeach; ?>
 </table>
+</div>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?> 
