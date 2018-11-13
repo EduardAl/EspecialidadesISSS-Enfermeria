@@ -1,27 +1,27 @@
 <?php
-class Controlador_Urologia extends Controller
+class Controlador_Endo extends Controller
 {
     public function __construct()
     {
-        $this->modeloUrologia = $this->modelo("Model_Urologia");
+        $this->modelo = $this->modelo("Model_Endo");
     }
 
     public function index(){
-        $this->vista("reportes/urologia/index");
+        $this->vista("reportes/endo/index");
     }
     
     public function reporte_diario(){
         if($_SERVER['REQUEST_METHOD']== 'POST')
         {
             $fecha = $_POST['fecha'];
-            $informacionModelo = $this->modeloUrologia->reporte_diario($fecha);
+            $informacionModelo = $this->modelo->reporte_diario($fecha);
             $data = [
                 "info" => $informacionModelo
             ];
-            $this->vista("reportes/urologia/urologia",$data);
+            $this->vista("reportes/endo/endo",$data);
         }
         else{
-            $this->vista("reportes/urologia/urologia_diario");
+            $this->vista("reportes/endo/endo_diario");
         }
     }
 
@@ -30,14 +30,14 @@ class Controlador_Urologia extends Controller
         {
             $fecha1 = $_POST['fecha_1'];
             $fecha2 = $_POST['fecha_2'];
-            $informacionModelo = $this->modeloUrologia->reporte_rango($fecha1,$fecha2);
+            $informacionModelo = $this->modelo->reporte_rango($fecha1,$fecha2);
             $data = [
                 "info" => $informacionModelo
             ];
-            $this->vista("reportes/urologia/urologia",$data);
+            $this->vista("reportes/endo/endo",$data);
         }
         else{
-            $this->vista("reportes/urologia/urologia_rango");
+            $this->vista("reportes/endo/endo_rango");
         }
     }
 
@@ -45,14 +45,14 @@ class Controlador_Urologia extends Controller
         if($_SERVER['REQUEST_METHOD']== 'POST')
         {
             $mes = $_POST['mes'];
-            $informacionModelo = $this->modeloUrologia->reporte_mensual($mes);
+            $informacionModelo = $this->modelo->reporte_mensual($mes);
             $data = [
                 "info" => $informacionModelo
             ];
-            $this->vista("reportes/urologia/urologia",$data);
+            $this->vista("reportes/endo/endo",$data);
         }
         else{
-            $this->vista("reportes/urologia/urologia_mes");
+            $this->vista("reportes/endo/endo_mes");
         }
     }
 } 

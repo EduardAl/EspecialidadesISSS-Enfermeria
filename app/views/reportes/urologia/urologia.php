@@ -1,7 +1,7 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?> 
 
 <div class="container">
-<table class="table-bordered">
+<table class="table table-dark">
     <?php foreach($datos['info'] as $var): ?>
     <tr>
         <td><?= $var->id; ?></td>
