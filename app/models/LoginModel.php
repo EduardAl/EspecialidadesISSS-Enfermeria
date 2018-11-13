@@ -8,18 +8,17 @@
       parent::__construct();
     }
 
-    public function signIn($email)
+    public function signIn($email,$password)
     {
-      //$email = $this->db->real_escape_string($email);
-      $sql = "SELECT email, password, nombre FROM usuarios WHERE email = '{$email}'";
-    //  $sql = "SELECT email, password, (fname + ' ' +  lname) as 'nombre',role_id FROM usuarios WHERE email = '{$email}'";
+      $sql = "SELECT email, password, concat(concat(fname,' '),lname) as 'nombre',role_id FROM users WHERE email = '{$email}' and password = sha1('{$password}')";
       $this->query($sql);
       return $this->registro();
     }
+
     public function newUser($params)
     {
       //Query
-       $sql = "Insert into users values(null,:fname,:lname,:email,:password,:created_at)";
+       $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),:created_at)";
       $this->query($sql);
 
       //Introducción de Parámetros

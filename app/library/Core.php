@@ -7,36 +7,51 @@
 		protected $parametros = [];
 		//Constructor
 		public function __construct(){
-			if(isset($_SESSION))
-				echo "sesion";
-			
-			$url = $this->getUrl();
-			//Buscar si el controlador existe
-			if(file_exists("../app/controller/".ucwords($url[0]).'.php')){
-				//Si existe se configura como controlador por defecto
-				$this->controladorActual = ucwords($url[0]);
-				//Desmontamos el controlador actual
-				unset($url[0]);
-			}
-			//Requerimos el controlador
-			require_once '../app/controller/'.$this->controladorActual.'.php';
-			$this->controladorActual = new $this->controladorActual;
-			//Verificamos que exista el método en la url
-			if(isset($url[1]))
+			session_start();
+				$url = $this->getUrl();
+			if(isset($_SESSION['email']))
 			{
-			//Verificamos la segunda parte de la url (el método)
-				if (method_exists($this->controladorActual, $url[1])) {
-					//Se configura el método
-					$this->metodoActual = $url[1];
-					//Desmontamos el método actual
-				unset($url[1]);
+				//Buscar si el controlador existe
+				if(file_exists("../app/controller/".ucwords($url[0]).'.php')){
+					//Si existe se configura como controlador por defecto
+					$this->controladorActual = ucwords($url[0]);
+					//Desmontamos el controlador actual
+					unset($url[0]);
 				}
+				//Requerimos el controlador
+				require_once '../app/controller/'.$this->controladorActual.'.php';
+				$this->controladorActual = new $this->controladorActual;
+				//Verificamos que exista el método en la url
+				if(isset($url[1]))
+				{
+				//Verificamos la segunda parte de la url (el método)
+					if (method_exists($this->controladorActual, $url[1])) {
+						//Se configura el método
+						$this->metodoActual = $url[1];
+						//Desmontamos el método actual
+						unset($url[1]);
+					}
+				}
+				//Obtenemos los parámetros
+				$this->parametros = $url ? array_values($url):[];
+				//Llamar con parametros array
+				call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
 			}
-			//Obtenemos los parámetros
-			$this->parametros = $url ? array_values($url):[];
-			//Llamar con parametros array
-			call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
-
+			else
+			{
+				require_once '../app/controller/'.$this->controladorActual.'.php';
+				$this->controladorActual = new $this->controladorActual;
+				if(isset($url[1]))
+				{
+					if($url[1]=='signin')
+					{
+						$this->metodoActual = $url[1];
+						unset($url[1]);
+					}
+				}
+				$this->parametros = ('signin'==$url) ? 'signin':[];
+				call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
+			}
 		}
 		//Funciones
 		public function getUrl(){
