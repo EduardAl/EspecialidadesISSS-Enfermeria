@@ -51,13 +51,7 @@
   </head>
 
   <body>
-    <section class="jumbotron jumbo-nav">
-    <div class="container cont">
-      <img src="<?php echo RUTA_URL?>/images/LOGO_ISSS_SIN_FONDO.png" width="100" height="100">
-      <h1>&nbsp&nbspISSS Especialidades</h1>
-    </div>
-  </section>
-  
+  <?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
     <div class="container">
 
       <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
@@ -67,9 +61,11 @@
         <br>
         <label for="inputPassword" class="sr-only">Contraseña</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" required minlength="4">
-        <?php !empty($message) ? 'Jajaja' : 'ñañaña' ?>
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+        <?php if(isset($message)) echo $message ?>
+        <!-- <span class="error" aria-live="polite">Usuario o contraseña incorrectos.</span> -->
+
       </form>
 
     </div> <!-- /container -->

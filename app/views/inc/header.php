@@ -1,14 +1,11 @@
+<?php if(!isset($_SESSION))session_start()?>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="id=edge">
 	<meta charset="utf-8" />
 	<title><?php echo NOMBRESITIO;?></title>
-	 <div class="color"><br> <br> </div> 
-	<section class="jumbotron jumbo-nav">
-		<div class="container cont">
-			<img src="<?php echo RUTA_URL?>/images/LOGO_ISSS_SIN_FONDO.png" width="100" height="100">
-			<h2>&nbsp&nbspConsultorio de Especialidades - Departamento de Enfermería</h2>
-		</div>
+	 <div class="color"><br><br> </div> 
+	<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
 	</section>
 </head>
 <body>
@@ -37,7 +34,7 @@
 						<li><a href="<?php echo RUTA_URL?>/Pages/Settings">Configuración</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#"> <?=USER_ACTIVE?></a></li>
+						<li><a href="#"> <?php if(isset($_SESSION['nombre'])) echo $_SESSION['nombre']?></a></li>
 						<li><a href="<?php echo RUTA_URL?>/Login/signout"> Cerrar Sesión</a></li>
 					</ul>
 				</div>
