@@ -54,6 +54,13 @@ body{
 .thumbnail a{
 	color: #00C5FF;
 }
+/* Tables */
+.thead-dark, .thead-dark tr th{
+	background: black;
+	color: white;
+	opacity: 0.8;
+}
+
 /* Footer */
 footer{
 	background: #ccc;

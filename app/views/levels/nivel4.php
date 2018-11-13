@@ -13,9 +13,8 @@
 					<img src="https://cdn-images-1.medium.com/max/1600/1*NN0ciTfOet2vntjy_0n9bQ.png" width="500">
 				</div>
 			</div>
-
 			<div class="col-xs-6">
-				<table class="table table-striped table-dark">
+				<table class="table table-striped">
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
@@ -45,7 +44,7 @@
     </tr>
   </tbody>
 </table>
-			</div>
+		</div>
 		</div>
 
 		<br> <br> <br> <br> <br>
