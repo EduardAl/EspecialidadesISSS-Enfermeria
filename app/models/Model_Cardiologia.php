@@ -10,8 +10,8 @@ class  Model_Cardiologia
     public function reporte_diario($fecha)
     {
         //TODO: Agregar query
-        $this->db->query();
-        $this->db->bind();
+        $this->db->query("select count(*) as info from specialties;");
+        //$this->db->bind();
         $this->db->execute();
         $var = $this->db->registros();
         return $var;

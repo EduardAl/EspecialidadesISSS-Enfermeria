@@ -21,7 +21,12 @@ class Controlador_Cardiologia extends Controller
             $this->vista("reportes/cardiologia/cardiologia",$data);
         }
         else{
-            $this->vista("reportes/cardiologia/cardiologia_diario");
+            //$fecha = $_POST['fecha'];
+            $informacionModelo = $this->modelo->reporte_diario(1);
+            $data = [
+                "info" => $informacionModelo
+            ];
+            $this->vista("reportes/cardiologia/cardiologia",$data);
         }
     }
 
