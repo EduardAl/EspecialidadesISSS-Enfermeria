@@ -12,7 +12,13 @@ class Login extends Controller
   }
 
   public function index(){
+    if(!isset($_SESSION))
+      session_start();
+    if(!isset($_SESSION['email']))
       $this->vista('login/login');
+    else
+      $this->vista('pages/inicio');
+
     }
   public function exec()
   {
