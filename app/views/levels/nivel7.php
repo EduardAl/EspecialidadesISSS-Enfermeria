@@ -42,7 +42,7 @@
 				<div class="caption">
 					<h3>Cirugía Periférica</h3>
 					<p> </p>
-					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/CirugiaPeriferica"> Ver tablas y estadísticas </a>
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Periferica"> Ver tablas y estadísticas </a>
 				</div>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 				<div class="caption">
 					<h3>Programa de Hipertensión Arterial</h3>
 					<p> </p>
-					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/ProgramaHipertensionArterial"> Ver tablas y estadísticas </a>
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Hipertension"> Ver tablas y estadísticas </a>
 				</div>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 				<div class="caption">
 					<h3>Evaluaciones CardioVasculares</h3>
 					<p> </p>
-					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/EvaluacionesCardioVasculares"> Ver tablas y estadísticas </a>
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/CardioVascular"> Ver tablas y estadísticas </a>
 				</div>
 			</div>
 		</div>
