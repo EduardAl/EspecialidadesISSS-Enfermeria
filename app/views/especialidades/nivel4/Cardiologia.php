@@ -4,18 +4,24 @@
 		<div class = "row">
 			<div class="col-xs-12">
 				<h1>Procedimientos de Cardiología</h1>
-				<a href="<?php echo RUTA_URL?>/Nivel/Mantenimiento/4">Ingresar</a>
+			$this->vista('pages/users');
+				<a href="<?php echo RUTA_URL?>/Mantenimiento/Procedimiento/Cardiologia">Ingresar</a>
 			</div>
-
-			<!-- De prueba -->
-			<div class="col-xs-12">
-				<div class="col-xs-6">
-					<div class=thumbnail style="overflow: auto; overflow-y: hidden;  max-width: 500px;">
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-					</div>
+			<!-- Procedimientos Mes -->
+			<div>
+				<div class="col-xs-12">
+					<h3>Datos del Mes Actual</h3>
 				</div>
-				<div class="col-xs-6" style="overflow: auto; max-height: 400px;">
-					<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+
+				<div class="col-xs-12">
+					<div class="col-xs-6 showing graf">
+						<div class=thumbnail style="overflow: auto; overflow-y: hidden;">
+							<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+						</div>
+					</div>
+					<div class="col-xs-6 showing" style="overflow: auto; ">
+						<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+					</div>
 				</div>
 			</div>
 		</div>

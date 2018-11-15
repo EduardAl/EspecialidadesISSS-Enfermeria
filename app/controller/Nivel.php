@@ -23,10 +23,6 @@
 			
 			$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
 			}
-		//Para darle mantenimiento al nivel
-		public function mantenimiento($num_registro){
-			$this->vista('mantenimientos/nivel'.$num_registro);
-			}
 		/*
 			*****************
 				Privadas

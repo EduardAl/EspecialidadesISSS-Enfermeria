@@ -35,7 +35,6 @@
 body{
 	background-color: #E8E8EC;
 }
-/* Inicio */
 /* Niveles */
 .caption{
 	text-align: center;
@@ -54,22 +53,30 @@ body{
 .thumbnail a{
 	color: #00C5FF;
 }
+
 /* Tables */
 .thead-dark, .thead-dark tr th{
 	background: black;
 	color: white;
 	opacity: 0.8;
 }
+div .showing{
+	max-height: 400px;
+}
+div .graf{
+	height: 500px;
+	max-width: 500px;
+}
+
 /* Footer */
 footer{
 	background: #ccc;
-	padding: 0.9rem 0;
+	vertical-align: center;
 	text-align: center;
+	padding-top: 10px;
+	height: 40px;
 	/* Alineamiento */
-	/*
-	position: fixed;
 	left:0;
 	bottom: 0;
 	width: 100%;
-	*/
 }

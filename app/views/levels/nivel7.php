@@ -3,7 +3,7 @@
 	<div class = "row">
 		<div class="col-xs-12">
 			<h1>Nivel 7</h1>
-			<a href="<?php echo RUTA_URL?>/Nivel/Mantenimiento/7">Ingresar</a>
+			<a href="<?php echo RUTA_URL?>/Mantenimiento/Nivel7">Ingresar</a>
 		</div>
 		<br> <br> <br> <br> 
 		<div class="col-xs-4">

@@ -4,7 +4,7 @@
 		<div class = "row">
 			<div class="col-xs-12">
 				<h1>Procedimientos de Gastroenterología</h1>
-				<a href="<?php echo RUTA_URL?>/Nivel/Mantenimiento/4">Ingresar</a>
+				<a href="<?php echo RUTA_URL?>/Mantenimiento/Procedimiento/Gastroenterología">Ingresar</a>
 			</div>
 
 			<!-- De prueba -->

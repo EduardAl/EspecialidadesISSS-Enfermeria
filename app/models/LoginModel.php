@@ -15,10 +15,16 @@
       return $this->registro();
     }
 
-    public function newUser($params)
+    public function newUser($params=[])
     {
-      //Query
-       $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),:created_at)";
+      $params=[
+        'first_name'=>'Julie',
+        'last_name'=>'Reyes',
+        'email'=>'algo@email.com',
+        'pass'=>'algo123'
+      ];
+      //Query // Añadir rol
+     $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate());";
       $this->query($sql);
 
       //Introducción de Parámetros
@@ -26,8 +32,19 @@
       $this->bind(':lname',$params['last_name']);
       $this->bind(':email',$params['email']);
       $this->bind(':password',$params['pass']);
-      $this->bind(':created_at',$params['created']);
+     // $this->bind(':created_at',$params['created']);
 
       return $this->execute();
+    }
+
+    //Usuarios
+    public function insertarUsuario(){
+
+    }
+    public function actualizarUsuario(){
+
+    }
+    public function eliminarUsuario(){
+      
     }
 }
