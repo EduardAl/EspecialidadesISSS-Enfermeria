@@ -39,6 +39,11 @@
 			}
 			else
 			{
+				if(ucwords($url[0])=='Recuperacion'){
+					unset($url[0]);
+					require_once '../app/controller/'.$this->controladorActual.'.php';
+					$this->controladorActual='Recuperacion';
+				}
 				require_once '../app/controller/'.$this->controladorActual.'.php';
 				$this->controladorActual = new $this->controladorActual;
 				if(isset($url[1]))
@@ -47,6 +52,14 @@
 					{
 						$this->metodoActual = $url[1];
 						unset($url[1]);
+					}
+					else{
+						if (method_exists($this->controladorActual, $url[1])) {
+							//Se configura el método
+							$this->metodoActual = $url[1];
+							//Desmontamos el método actual
+							unset($url[1]);
+						}
 					}
 				}
 				$this->parametros = ('signin'==$url) ? 'signin':[];

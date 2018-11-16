@@ -13,11 +13,12 @@
     <h1 class="display-1">Recuperar contraseña</h1>
     <p>Ingrese su correo para enviarle un correo para recuperar su contraseña:</p>
     <div class="container-fluid">
-        <form action="<?php echo(RUTA_URL)?>/controlador_recuperarpwd/enviar_correo" method="post">
+        <form action="<?php echo(RUTA_URL)?>/recuperacion/enviar_correo" method="post">
             <label for="email">Correo:</label>
             <input type="email" name="email" id="email" placeholder="correo@gmail.com" >
             <input type="submit" name="enviar" value="Enviar">
             <br>
         </form>
     </div>
- <?php require RUTA_APP.'\views\inc\footer.php'; ?>
+</body>
+<html>

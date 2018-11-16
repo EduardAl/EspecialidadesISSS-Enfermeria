@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class Controlador_Recuperarpwd extends Controller
+class Recuperacion extends Controller
 {
     public function __construct()
     {
