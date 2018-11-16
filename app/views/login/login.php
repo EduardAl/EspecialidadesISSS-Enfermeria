@@ -89,7 +89,4 @@
 
       </form>
 
-    </div> <!-- /container -->
-
-  </body>
-</html>
+ <?php require RUTA_APP.'\views\inc\footer.php'; ?>
