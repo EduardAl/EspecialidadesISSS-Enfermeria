@@ -14,7 +14,7 @@
 			require_once '../app/views/'.$view.'.php';
 			}
 			else{
-				die('La vista no existe');
+				require_once '../app/views/pages/errorNotFound.php';
 			}
 		}
 		public function exec(){

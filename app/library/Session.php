@@ -3,7 +3,10 @@
   {
     public function init()
     {
-      session_start();
+      if (!isset($_SESSION))
+      {
+        session_start();
+      }
     }
 
     public function add($key, $value)
@@ -29,6 +32,8 @@
 
     public function close()
     {
+      if(!isset($_SESSION))
+        session_start();
       session_unset();
       session_destroy();
     }

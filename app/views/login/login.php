@@ -7,9 +7,9 @@
 
     <style type="text/css">
       body {
-        padding-top: 40px;
+       /* padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #eee;
+        background-color: #eee;*/
       }
 
       .form-signin {
@@ -46,12 +46,34 @@
         border-top-left-radius: 0;
         border-top-right-radius: 0;
       }
+      .estiloError 
+      {
+          color: red;
+          animation: estiloError 5s linear forwards;
+          -webkit-animation: estiloError 5s linear forwards;
+          position: center;
+          left: 200px;    
+        }
+        @keyframes estiloError 
+        {
+          0% { opacity: 0; }
+          2% { opacity: 1; }
+          98% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @-webkit-keyframes estiloError 
+        {
+          0% { opacity: 0; }
+          2% { opacity: 1; }
+          98% { opacity: 1; }
+          100% { opacity: 0; }
+        }
     </style>
 
   </head>
 
   <body>
-
+  <?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
     <div class="container">
 
       <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
@@ -60,10 +82,11 @@
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="nombre_usuario@dominio.com" required autofocus>
         <br>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" >
-        <?php !empty($error_message) ? print($error_message) : '' ?>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" required minlength="4">
         <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button><br>
+        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError>".$datos['error_message']."</span>"; }?>
+
       </form>
 
  <?php require RUTA_APP.'\views\inc\footer.php'; ?>

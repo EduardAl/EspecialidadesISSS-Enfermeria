@@ -12,31 +12,59 @@ class Login extends Controller
   }
 
   public function index(){
+    if(!isset($_SESSION))
+      session_start();
+    if(!isset($_SESSION['email']))
       $this->vista('login/login');
+    else
+      $this->vista('pages/inicio');
+
     }
   public function exec()
   {
     $this->render(__CLASS__);
   }
 
-  public function signin($request_params)
+  public function signin()
   {
-    if($this->verify($request_params))
-      return $this->renderErrorMessage('El email y password son obligatorios');
+    if(!isset($_SESSION))
+      session_start();
+    if(!isset($_SESSION['email']))
+    {
+      //Primero requeriremos los parametros
+      $request_params=[
+        'email'=> $_POST['email'],
+        'password' => $_POST['password']
+      ];
+      //Verificamos que no estén vacíos
+      if($this->verify($request_params))
+        return $this->renderErrorMessage('El email y password son obligatorios');
 
-    $result = $this->model->signIn($request_params['email']);
+      //Verificamos que exista el correo
+      $result = $this->model->signIn($request_params['email'],$request_params['password']);
+      if($this->model->rowCount()!=1)
+      {
+        return $this->renderErrorMessage("Email o contraseña incorrectos");
+      }
+      $this->session->add('email', $result->email);
+      $this->session->add('nombre', $result->nombre);
+      $this->vista('pages/inicio');
+    }
+    else{
+      $this->vista('pages/inicio');
+    }
 
-    if(!$result->num_rows)
-      return $this->renderErrorMessage("El email {$request_params['email']} no fue encontrado");
+  }
 
-    $result = $result->fetch_object();
+  public function signout()
+  {
+    //Primero requeriremos los parametros
+    $this->session->close();
+    $this->vista('login/login');
+  }
 
-    if(!password_verify($request_params['password'], $result->password))
-      return $this->renderErrorMessage('La contraseña es incorrecta');
-
-    $this->session->init();
-    $this->session->add('email', $result->email);
-    header('location: /php-mvc/main');
+  public function newUser(){
+    $this->model->newUser();
   }
 
   private function verify($request_params)
@@ -46,8 +74,8 @@ class Login extends Controller
 
   private function renderErrorMessage($message)
   {
-    $params = array('error_message' => $message);
-    $this->render(__CLASS__, $params);
+    $datos = ['error_message' => $message];
+   $this->vista('Login/login',$datos);
   }
 
 }

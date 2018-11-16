@@ -1,6 +1,7 @@
 <?php
 	//Cargamos aquí las librerías
 	require_once 'config/configurar.php';
+
 	//require_once 'library/Base.php';
 	//require_once 'library/Core.php';
 	//require_once 'library/Controller.php';
