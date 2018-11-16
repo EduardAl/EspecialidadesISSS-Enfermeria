@@ -1,5 +1,4 @@
 <?php
-require_once '/../config/configurar.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -8,6 +7,16 @@ class Controlador_Recuperarpwd extends Controller
     public function __construct()
     {
         $this->modelo = $this->modelo("Model_Recuperarpwd");
+    }
+
+    protected function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     public function index()
@@ -23,7 +32,7 @@ class Controlador_Recuperarpwd extends Controller
             $informacionModelo = $this->modelo->verificar_correo($mail);
             if($informacionModelo == 1)
             {
-                $var = generateRandomString(10);
+                $var = $this->generateRandomString(10);
                 $informacionModelo = $this->modelo->actualizar_contra($var,$mail);
                 $correo = new PHPMailer();
                 $correo->CharSet = "utf-8";
@@ -55,16 +64,6 @@ class Controlador_Recuperarpwd extends Controller
                 $this->vista("/recover_pwd/recuperar-fallo");
             }
         }
-    }
-
-    private function generateRandomString($length = 10) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 }
 ?>
