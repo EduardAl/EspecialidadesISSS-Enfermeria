@@ -13,13 +13,21 @@
 			}
 		// Para cargar la vista de los niveles
 		public function niveles($num_registro){
-			//$datos = $this->cargarTabla($num_registro);			
-			$this->vista('levels/nivel'.$num_registro/*,$datos*/);
+			$this->vista('levels/nivel'.$num_registro);
 			}
+
+		public function Nivel(){
+			//$datos = $this->cargarTabla($num_registro);			
+			$this->vista('Pages/Niveles'/*,$datos*/);
+			}
+
 		//Para cargar las especialidades
 		public function especialidad($num_registro,$especialidad){
 			//Buscar un modo de conseguir la especialidad
-			$datos = $this->cargarTabla($especialidad);			
+			$datos = [
+				'datos1'=>$this->cargarProcedimientos($especialidad),
+				'datos2'=>$this->cargarDatosEspecialidades($especialidad),
+			];			
 			
 			$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
 			}
@@ -28,29 +36,21 @@
 				Privadas
 			*****************
 								*/
-		//Carga los gráficos
-		private function cargarGráfico($nombre){
+		//Carga la tabla y gráfico
+		private function cargarProcedimientos($nombre){
 			$param = $this->modelo('ProceduresDataModel')->procedimientos($nombre);
-			$datos=[ 
-				'values' => $param
+			$datos=[
+				'values' => $param,
+				'titulo' => ['Actividad','Meta','Realizado','% Realización'],
 			];
 			return $datos;
 			}
-		//Carga la tabla
-		private function cargarTabla($nombre){
-			$param = $this->modelo('ProceduresDataModel')->tablaProcedimientos($nombre);
-			$param2 = $this->modelo('ProceduresDataModel')->procedimientos($nombre);
-			$param3 = $this->modelo('ProceduresDataModel')->procedimientos('Urologia');
-
-			$param4=[
-				'tabla' => $param3,
-				'titulo' => ['Actividad','Meta','Realizado','Porcentaje de realización'],
-			];
+			private function cargarDatosEspecialidades($nombre){
+				//Modificar los títulos
+			$param = $this->modelo('ProceduresDataModel')->procedimientos($nombre);
 			$datos=[
-				'values' => $param2,
-				'tabla' => $param,
+				'values' => $param,
 				'titulo' => ['Actividad','Meta','Realizado','% Realización'],
-				'datos 1' => $param4
 			];
 			return $datos;
 			}

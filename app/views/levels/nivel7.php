@@ -48,19 +48,9 @@
 		</div>
 		<div class="col-xs-4">
 			<div class=thumbnail>
-				<img src="<?php echo RUTA_URL?>/images/hipertensionArterial.jpg">
-				<div class="caption">
-					<h3>Programa de Hipertensión Arterial</h3>
-					<p> </p>
-					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Hipertension"> Ver tablas y estadísticas </a>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class=thumbnail>
 				<img src="<?php echo RUTA_URL?>/images/evaluacionCardiovascular.jpg">
 				<div class="caption">
-					<h3>Evaluaciones CardioVasculares</h3>
+					<h4>Programa de Hipertensión Arterial y Evaluaciones CardioVasculares</h4>
 					<p> </p>
 					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/CardioVascular"> Ver tablas y estadísticas </a>
 				</div>

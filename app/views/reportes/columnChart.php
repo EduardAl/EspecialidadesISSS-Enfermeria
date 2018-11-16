@@ -3,7 +3,6 @@ google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawTitleSubtitle);
 
 function drawTitleSubtitle() {
-
       var data = new google.visualization.arrayToDataTable([
           ['', 'Meta', 'Realizado']
           <?php
@@ -94,8 +93,8 @@ function drawTitleSubtitle() {
                         },
                     }
             };
-      var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+      var materialChart = new google.charts.Bar(document.getElementById('chart_div<?php echo $id?>'));
       materialChart.draw(data, options);
     }
 </script>
-<div id="chart_div" ></div>
+<div id="chart_div<?php echo $id?>" ></div>

@@ -1,5 +1,6 @@
 <?php
- if(isset($datos['tabla'])){?>
+ if(isset($datos['values'])){
+ 	?>
 <table class="table table-striped">
 	<thead class="thead-dark">
 	    <tr>
@@ -12,7 +13,7 @@
 	<tbody class="tbody-table">
 		<?php
 			$i = 0; 
-			foreach ($datos['tabla'] as $key) {
+			foreach ($datos['values'] as $key) {
 				$i++;
 				echo "<tr><th scope='row'>".$i."</th>";
 				foreach ($key as $val) {

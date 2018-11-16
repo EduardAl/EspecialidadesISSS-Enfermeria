@@ -14,5 +14,4 @@
       $this->query($sql);
       return $this->registro();
     }
-    }
 }

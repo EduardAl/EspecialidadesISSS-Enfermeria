@@ -47,7 +47,7 @@ body{
 	background-color: #050D42;
 	color: #fff;
 }
-.thumbnail h3{
+.thumbnail h3, .thumbnail h4{
 	color: #fff;
 }
 .thumbnail p{
