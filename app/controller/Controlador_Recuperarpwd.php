@@ -1,4 +1,5 @@
 <?php
+require_once '/../config/configurar.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -22,6 +23,8 @@ class Controlador_Recuperarpwd extends Controller
             $informacionModelo = $this->modelo->verificar_correo($mail);
             if($informacionModelo == 1)
             {
+                $var = generateRandomString(10);
+                $informacionModelo = $this->modelo->actualizar_contra($var,$mail);
                 $correo = new PHPMailer();
                 $correo->CharSet = "utf-8";
                 $correo->isSMTP();
@@ -36,7 +39,8 @@ class Controlador_Recuperarpwd extends Controller
                 $correo->addAddress($mail);
                 $correo->Subject = "Reestablecer Contraseña";
                 $correo->isHTML(true);
-                $correo->Body = "Haga click en el siguiente enlace para reestablecer";
+                $texto = "Su nueva contraseña es :$var";
+                $correo->Body = $texto;
                 if($correo->Send())
                 {
                     $this->vista("/recover_pwd/recuperar-exito");
@@ -51,6 +55,16 @@ class Controlador_Recuperarpwd extends Controller
                 $this->vista("/recover_pwd/recuperar-fallo");
             }
         }
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
 ?>

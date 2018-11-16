@@ -7,7 +7,7 @@ class Login extends Controller
 
   public function __construct()
   {
-    $this->model = $this->modelo('LoginC');
+    //$this->model = $this->modelo('Login');
     $this->session = new Session;
   }
 
