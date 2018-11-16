@@ -7,8 +7,6 @@
 	<meta http-equiv="X-UA-Compatible" content="id=edge">
 	<link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL?>/css/estilos.css">
 	<title><?php echo NOMBRESITIO;?></title>
-	 <div class="color"><br><br> </div> 
-	<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?> 
 	</section>
 </head>
 <body>

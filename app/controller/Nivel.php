@@ -49,7 +49,7 @@
 			$datos=[
 				'values' => $param2,
 				'tabla' => $param,
-				'titulo' => ['Actividad','Meta','Realizado','% Realización']
+				'titulo' => ['Actividad','Meta','Realizado','% Realización'],
 				'datos 1' => $param4
 			];
 			return $datos;
