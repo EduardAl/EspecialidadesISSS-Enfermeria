@@ -20,7 +20,7 @@ class Controlador_Recuperarpwd extends Controller
         {
             $mail = $_POST['email'];
             $informacionModelo = $this->modelo->verificar_correo($mail);
-            if(1 == 1)
+            if($informacionModelo == 1)
             {
                 $correo = new PHPMailer();
                 $correo->CharSet = "utf-8";
@@ -32,8 +32,8 @@ class Controlador_Recuperarpwd extends Controller
                 $correo->Host = "smtp.gmail.com";
                 $correo->Port = "465";
                 $correo->From ="recuperacion@esto.com";
-                $correo->FromName ="Edu :DDDD";
-                $correo->addAddress("eduardo.arevalom97@gmail.com","Edu 2");
+                $correo->FromName ="Sistema ISSS";
+                $correo->addAddress($mail);
                 $correo->Subject = "Reestablecer Contraseña";
                 $correo->isHTML(true);
                 $correo->Body = "Hola";
@@ -45,6 +45,10 @@ class Controlador_Recuperarpwd extends Controller
                 {
                     echo 'Message could not be sent. Mailer Error: ', $correo->ErrorInfo;
                 }
+            }
+            else
+            {
+                $this->vista("/recover_pwd/recuperar-fallo");
             }
         }
     }
