@@ -33,7 +33,6 @@ class Recuperacion extends Controller
             if($informacionModelo == 1)
             {
                 $var = $this->generateRandomString(10);
-                $informacionModelo = $this->modelo->actualizar_contra($var,$mail);
                 $correo = new PHPMailer();
                 $correo->CharSet = "utf-8";
                 $correo->isSMTP();
@@ -48,10 +47,11 @@ class Recuperacion extends Controller
                 $correo->addAddress($mail);
                 $correo->Subject = "Reestablecer Contraseña";
                 $correo->isHTML(true);
-                $texto = "Su nueva contraseña es :$var";
+                $texto = "Su nueva contraseña es : $var";
                 $correo->Body = $texto;
                 if($correo->Send())
                 {
+                    $informacionModelo = $this->modelo->actualizar_contra($var,$mail);
                     $this->vista("/recover_pwd/recuperar-exito");
                 }
                 else
