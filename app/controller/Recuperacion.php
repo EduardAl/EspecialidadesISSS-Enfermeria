@@ -39,7 +39,7 @@ class Recuperacion extends Controller
                 $correo->isSMTP();
                 $correo->SMTPAuth = true;
                 $correo->Username = "eabigboy4@gmail.com";
-                $correo->Password = "ftcanwagiousttj";
+                $correo->Password = "ftcanwagiousttji";
                 $correo->SMTPSecure = "ssl";
                 $correo->Host = "smtp.gmail.com";
                 $correo->Port = "465";

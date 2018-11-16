@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <title><?php echo NOMBRESITIO;?></title>
-</head>
+<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
+
 <body>
-    <h1 class="display-1">Recuperar contraseña</h1>
-    <p>Ingrese su correo para enviarle un correo para recuperar su contraseña:</p>
-    <div class="container-fluid">
+    <div class="container">
+        <div class="col-xs-12" style="align-items: center;">
+            <h1 >Recuperar contraseña</h1>
+            <p>Ingrese su correo para enviarle una nueva contraseña:</p>
+        </div>
         <form action="<?php echo(RUTA_URL)?>/recuperacion/enviar_correo" method="post">
-            <label for="email">Correo:</label>
-            <input type="email" name="email" id="email" placeholder="correo@gmail.com" >
-            <input type="submit" name="enviar" value="Enviar">
-            <br>
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <label class="navbar-right" for="email" >Correo:</label>
+                </div>
+                <div class="col-xs-6">
+                <input type="email" name="email" id="email" placeholder="correo@gmail.com" class="form-control">
+                <br>
+                <input type="submit" name="enviar" value="Enviar" class="btn btn-lg btn-primary">
+                </div>
+            </div>
         </form>
     </div>
-</body>
-<html>
+<?php require RUTA_APP.'\views\inc\footer.php'; ?>
