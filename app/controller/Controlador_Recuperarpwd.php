@@ -36,7 +36,7 @@ class Controlador_Recuperarpwd extends Controller
                 $correo->addAddress($mail);
                 $correo->Subject = "Reestablecer Contraseña";
                 $correo->isHTML(true);
-                $correo->Body = "Hola";
+                $correo->Body = "Haga click en el siguiente enlace para reestablecer";
                 if($correo->Send())
                 {
                     $this->vista("/recover_pwd/recuperar-exito");
