@@ -23,6 +23,9 @@
  						<h3>Visión</h3>
  						<p><i>
  							"Ser una institución modelo en atención en salud, moderna, eficiente y orientada hacia la protección social universal".
+ 							<br>
+ 							<br>
+ 							<br>
  						</i></p>
  					</div>
  				</div>

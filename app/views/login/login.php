@@ -46,6 +46,28 @@
         border-top-left-radius: 0;
         border-top-right-radius: 0;
       }
+      .estiloError 
+      {
+          color: red;
+          animation: estiloError 5s linear forwards;
+          -webkit-animation: estiloError 5s linear forwards;
+          position: center;
+          left: 200px;    
+        }
+        @keyframes estiloError 
+        {
+          0% { opacity: 0; }
+          2% { opacity: 1; }
+          98% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @-webkit-keyframes estiloError 
+        {
+          0% { opacity: 0; }
+          2% { opacity: 1; }
+          98% { opacity: 1; }
+          100% { opacity: 0; }
+        }
     </style>
 
   </head>
@@ -62,9 +84,8 @@
         <label for="inputPassword" class="sr-only">Contraseña</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" required minlength="4">
         <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-        <?php if(isset($message)) echo $message ?>
-        <!-- <span class="error" aria-live="polite">Usuario o contraseña incorrectos.</span> -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button><br>
+        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError>".$datos['error_message']."</span>"; }?>
 
       </form>
 
