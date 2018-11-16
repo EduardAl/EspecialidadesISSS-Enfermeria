@@ -39,7 +39,7 @@ class Recuperacion extends Controller
                 $correo->isSMTP();
                 $correo->SMTPAuth = true;
                 $correo->Username = "eabigboy4@gmail.com";
-                $correo->Password = "ftcanwagiousttji";
+                $correo->Password = "ftcanwagiousttj";
                 $correo->SMTPSecure = "ssl";
                 $correo->Host = "smtp.gmail.com";
                 $correo->Port = "465";
@@ -56,12 +56,18 @@ class Recuperacion extends Controller
                 }
                 else
                 {
-                    echo 'Message could not be sent. Mailer Error: ', $correo->ErrorInfo;
+                    $var = [
+                        "info" => $correo->ErrorInfo
+                    ];
+                    $this->vista("/recover_pwd/recuperar-fallo",$var);
                 }
             }
             else
             {
-                $this->vista("/recover_pwd/recuperar-fallo");
+                $var = [
+                    "info" => "Su correo no fue encontrado"
+                ];
+                $this->vista("/recover_pwd/recuperar-fallo",$var);
             }
         }
     }

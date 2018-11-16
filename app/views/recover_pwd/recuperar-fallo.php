@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Fallo :c</h1>
+    <h1><?php echo($datos["info"])?></h1>
 </body>
 </html>
