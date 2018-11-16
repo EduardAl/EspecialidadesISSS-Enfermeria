@@ -24,7 +24,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a href="<?php echo RUTA_URL?>/Pages/index" class="navbar-brand" >Especialidades</a>
+					<a href="<?php echo RUTA_URL?>/Pages/index" class="navbar-brand" >Inicio</a>
 				</div>
 
 				<div id="navbar" class="navbar-collapse collapse">
