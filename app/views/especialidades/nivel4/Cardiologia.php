@@ -9,13 +9,15 @@
 
 			<!-- De prueba -->
 			<div class="col-xs-12">
-				<div class="col-xs-6">
-					<div class=thumbnail style="overflow: auto; overflow-y: hidden;  max-width: 500px;">
+				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+					<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="col-xs-12">
+					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;  min-width: 1210px; max-width: 2000px;">
 						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 					</div>
-				</div>
-				<div class="col-xs-6" style="overflow: auto; max-height: 400px;">
-					<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 				</div>
 			</div>
 		</div>

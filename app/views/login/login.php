@@ -49,8 +49,8 @@
       .estiloError 
       {
           color: red;
-          animation: estiloError 5s linear forwards;
-          -webkit-animation: estiloError 5s linear forwards;
+          animation: estiloError 4s linear forwards;
+          -webkit-animation: estiloError 4s linear forwards;
           position: center;
           left: 200px;    
         }

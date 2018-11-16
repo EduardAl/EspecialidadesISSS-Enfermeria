@@ -48,7 +48,7 @@
 			$datos=[
 				'values' => $param2,
 				'tabla' => $param,
-				'titulo' => ['Actividad','Meta','Realizado','Porcentaje de realización']
+				'titulo' => ['Actividad','Meta','Realizado','% Realización']
 			];
 			return $datos;
 			}
