@@ -12,7 +12,10 @@
 	</section>
 </head>
 <body>
+	<div class="Página">
 	<header>
+	 <div class="color"><br><br> </div> 
+		<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
 		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -23,12 +26,12 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" >Especialidades</a>
+					<a href="<?php echo RUTA_URL?>/Pages/index" class="navbar-brand" >Especialidades</a>
 				</div>
 
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="<?php echo RUTA_URL?>/Pages/index">Inicio</a></li>
+					<!--<li><a href="<?php echo RUTA_URL?>/Pages/index">Niveles</a></li>-->
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/4">Nivel 4</a></li>
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/5">Nivel 5</a></li>
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/6">Nivel 6</a></li>

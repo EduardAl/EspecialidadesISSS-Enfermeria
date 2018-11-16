@@ -18,7 +18,7 @@ function drawTitleSubtitle() {
         width: 1000,
         height: 400,
         chart: {
-          title: 'Procedimientos de Especialidades'
+          title: 'Procedimientos de Especialidades',
         }
       };
 /*/

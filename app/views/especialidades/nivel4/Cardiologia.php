@@ -1,11 +1,15 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
-<body>
 	<div class = "container">
 		<div class = "row">
 			<div class="col-xs-12">
 				<h1>Procedimientos de Cardiología</h1>
-				<a href="<?php echo RUTA_URL?>/Nivel/Mantenimiento/4">Ingresar</a>
+				<a href="<?php echo RUTA_URL?>/Mantenimiento/Procedimiento/Cardiologia">Ingresar</a>
 			</div>
+			<!-- Procedimientos Mes -->
+			<div>
+				<div class="col-xs-12">
+					<h3>Datos del Mes Actual</h3>
+				</div>
 
 			<!-- De prueba -->
 			<div class="col-xs-12">
@@ -22,5 +26,4 @@
 			</div>
 		</div>
 	</div>
-</body>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

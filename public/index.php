@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="<?php echo RUTA_URL?>/css/bootstrap-theme.min.css"> 
     <link rel="stylesheet" href="<?php echo RUTA_URL?>/css/estilos.css">
     <script type="text/javascript" src="<?php echo RUTA_URL?>/js/loader.js"></script>
-    <script src="<?php echo RUTA_URL?>/js/bootstrap.min.js"></script>
-</head>
-    <body>
+    <script type="text/javascript" src="<?php echo RUTA_URL?>/js/jquery.js"></script>
+    <script type="text/javascript" src ="<?php echo RUTA_URL?>/js/bootstrap.min.js"></script>
+
     <?php
 		//Instanciamos la clase controlador
 		$Iniciar = new Core;

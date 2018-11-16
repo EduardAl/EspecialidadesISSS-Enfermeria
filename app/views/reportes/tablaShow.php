@@ -9,7 +9,7 @@
 		} ?>
 	    </tr>
 	</thead>
-	<tbody>
+	<tbody class="tbody-table">
 		<?php
 			$i = 0; 
 			foreach ($datos['tabla'] as $key) {
