@@ -36,15 +36,22 @@
 			}
 			$this->mantenimientoRecarga($level);
 			}
-		public function IngresoEspecialidad($level,$especialidad)
-		{
+		public function IngresoProcedimiento($nivel,$especialidad){
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				$this->modelo('MantenimientosModel')->insertarProcedimiento($_POST[$data[$i]],$data[$i]);
+			}
+			$this->mantenimientoRecarga($nivel);
+			}
+
+		public function IngresoEspecialidad($nivel,$especialidad){
 			$datosRecibidos = count($_POST);
 			$data = array_keys($_POST);
 			for ($i=0; $i < $datosRecibidos; $i++) { 
 				$this->modelo('MantenimientosModel')->insertarSpecialtyThings($especialidad,$data[$i],$_POST[$data[$i]]);
 			}
-			$this->mantenimientoRecarga($level);
-
+			$this->mantenimientoRecarga($nivel);
 			}
 
 		private function mantenimientoRecarga($nivel){

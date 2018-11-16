@@ -53,7 +53,7 @@
 					echo "<h3>".$key->title."</h3>";
 					?>
 			
-  					<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoEspecialidad/4/'.$key->id?>">
+  					<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoProcedimiento/4/'.$key->id?>">
 					<div class="col-xs-12" style="display: inline-block; align-items: center">
     					<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
 					</div>
