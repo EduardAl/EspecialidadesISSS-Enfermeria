@@ -22,4 +22,20 @@
       ];
       return $datos;
       }
+    public function newUser($params=[])
+    {
+      //Query // Añadir rol
+     $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate(),:rol);";
+      $this->query($sql);
+
+      //Introducción de Parámetros
+      
+      $this->bind(':fname',$params['fname']);
+      $this->bind(':lname',$params['lname']);
+      $this->bind(':email',$params['email']);
+      $this->bind(':password',$params['password']);
+      $this->bind(':rol',$params['rol']);
+
+      return $this->execute();
+    }
 }
