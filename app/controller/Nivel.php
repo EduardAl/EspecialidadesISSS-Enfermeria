@@ -40,11 +40,17 @@
 		private function cargarTabla($nombre){
 			$param = $this->modelo('ProceduresDataModel')->tablaProcedimientos($nombre);
 			$param2 = $this->modelo('ProceduresDataModel')->procedimientos($nombre);
+			$param3 = $this->modelo('ProceduresDataModel')->procedimientos('Urologia');
 
+			$param4=[
+				'tabla' => $param3,
+				'titulo' => ['Actividad','Meta','Realizado','Porcentaje de realización'],
+			];
 			$datos=[
 				'values' => $param2,
 				'tabla' => $param,
-				'titulo' => ['Actividad','Meta','Realizado','Porcentaje de realización']
+				'titulo' => ['Actividad','Meta','Realizado','Porcentaje de realización'],
+				'datos 1' => $param4
 			];
 			return $datos;
 			}

@@ -1,4 +1,4 @@
-	<script type="text/javascript" src="#"></script>
+</div>
 <footer >
 	<p>ISSS</p>
 </footer>

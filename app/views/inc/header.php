@@ -4,12 +4,12 @@
 	<meta http-equiv="X-UA-Compatible" content="id=edge">
 	<meta charset="utf-8" />
 	<title><?php echo NOMBRESITIO;?></title>
-	 <div class="color"><br><br> </div> 
-	<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
-	</section>
 </head>
 <body>
+	<div class="Página">
 	<header>
+	 <div class="color"><br><br> </div> 
+		<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
 		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">

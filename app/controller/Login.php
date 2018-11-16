@@ -74,8 +74,8 @@ class Login extends Controller
 
   private function renderErrorMessage($message)
   {
-    $params = array('error_message' => $message);
-   $this->vista('Login/login',$message);
+    $datos = ['error_message' => $message];
+   $this->vista('Login/login',$datos);
   }
 
 }

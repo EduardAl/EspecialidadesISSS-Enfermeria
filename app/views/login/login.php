@@ -56,16 +56,14 @@
 
       <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
         <h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
-        <label for="inputEmail" class="sr-only">Correo:</label>
+        <label for="inputEmail">Correo:</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="nombre_usuario@dominio.com" required autofocus>
         <br>
-        <label for="inputPassword" class="sr-only">Contraseña</label>
+        <label for="inputPassword" >Contraseña:</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="**********" required minlength="4">
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-        <?php if(isset($message)) echo $message ?>
-        <!-- <span class="error" aria-live="polite">Usuario o contraseña incorrectos.</span> -->
-
+        <span class="error" aria-live="polite"><?php if(isset($datos['error_message'])) echo $datos['error_message']; ?></span>
       </form>
 
     </div> <!-- /container -->

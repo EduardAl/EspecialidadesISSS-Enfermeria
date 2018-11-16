@@ -17,21 +17,17 @@
 
     public function newUser($params=[])
     {
-      $params=[
-        'first_name'=>'Julie',
-        'last_name'=>'Reyes',
-        'email'=>'algo@email.com',
-        'pass'=>'algo123'
-      ];
       //Query // Añadir rol
-     $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate());";
+     $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate(),1);";
       $this->query($sql);
 
       //Introducción de Parámetros
+      
       $this->bind(':fname',$params['first_name']);
       $this->bind(':lname',$params['last_name']);
       $this->bind(':email',$params['email']);
       $this->bind(':password',$params['pass']);
+      
      // $this->bind(':created_at',$params['created']);
 
       return $this->execute();

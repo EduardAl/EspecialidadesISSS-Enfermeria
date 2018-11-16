@@ -1,4 +1,7 @@
 /* Header*/
+.Página{
+	min-height: 617px;
+}
 .col-xs-12{
 	display: inline-block;
 }
@@ -60,6 +63,14 @@ body{
 	color: white;
 	opacity: 0.8;
 }
+.tbody-table{
+	/*text-align: center;*/
+}
+.formulario, .formulario tr th{
+	background: #050D42;
+	color: white;
+	opacity: 0.8;
+}
 div .showing{
 	max-height: 400px;
 }
@@ -67,6 +78,7 @@ div .graf{
 	height: 500px;
 	max-width: 500px;
 }
+
 
 /* Footer */
 footer{
