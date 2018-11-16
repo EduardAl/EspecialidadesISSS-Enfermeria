@@ -78,32 +78,5 @@
 		</div>
 	</div>
 </div>
-
-<!-- 
-
-// Primero están los valores del nivel
-
-	| Nº de valoraciones por Enfermería                        |
-	| Caídas de pacientes                                      |
-	| Quejas de pacientes                                      |
-	| Quejas resueltas a  pacientes                            |
-	| Accidentes por contactos con sangre y fluidos corporales |
-	| Cirugías programadas y agregadas                         |
-	| Cirugías realizadas                                      |
-	| Cirugias suspendidas                                     |
-	| Cirugias suspendias por intervenciòn de enfermerìa       |
-
-
-
-
-	// Ausentismo
-
-// Cosas de Especialidades
-
-	//Tabla Speciality things
-
-	//Procedimientos
-
--->
 </body>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>
