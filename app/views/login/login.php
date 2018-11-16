@@ -86,7 +86,10 @@
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button><br>
         <?php if(isset($datos['error_message'])) { echo "<span class=estiloError>".$datos['error_message']."</span>"; }?>
-
+        <br>
+        <br>
+        <br>
+        <a href="<?php echo RUTA_URL?>/Recuperacion/">Recuperar cuenta</a>
       </form>
 
  <?php require RUTA_APP.'\views\inc\footer.php'; ?>
