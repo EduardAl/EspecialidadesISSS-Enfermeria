@@ -1,12 +1,17 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
-
+<STYLE>
+.hideable { position: relative; visibility: visible; }
+</STYLE>
 <SCRIPT>
-window.onload = function(){
-	$('#form-hide').hide();
+function Mostrar_Ocultar(hide) {
+if (document.layers)
+document.form.visibility = hide ? 'show' : 'hide';
+else {
+var g = document.all ? document.all.form :
+document.getElementById('contenido');
+g.style.visibility = hide ? 'visible' : 'hidden';
 }
-function Mostrar_Ocultar(){
-		$('#form-hide').show('fast');
-	}
+}
 </SCRIPT>
 <body>
 	<div class = "container">
@@ -26,7 +31,7 @@ function Mostrar_Ocultar(){
 				</div>
 				<div class="col-xs-1"></div>
 			</div>
-			<form name="form" id="form-hide" method="POST" action="<?= RUTA_URL . '/Users/newUser' ?>">
+			<form name="form" style="visibility: visible;">
 				<div class="container">
 					<div class="col-xs-3"></div>
 						<div class="col-xs-6" style="align: center;">
@@ -34,12 +39,12 @@ function Mostrar_Ocultar(){
 					        <div class="row text-center">
 					        	<label for="inputFName" class="text-center">Nombre:</label>
 					        </div>
-					        <input type="name" name="fname" id="inputFName" class="form-control" placeholder="Inserte su Nombre" required autofocus>
+					        <input type="name" name="name" id="inputFName" class="form-control" placeholder="Inserte su Nombre" required autofocus>
 					        <br>
 					        <div class="row text-center">
 						        <label for="inputLName" class="">Apellido:</label>
 						    </div>
-					        <input type="name" name="lname" id="inputLName" class="form-control" placeholder="Inserte su Apellido" required autofocus>
+					        <input type="name" name="name" id="inputLName" class="form-control" placeholder="Inserte su Apellido" required autofocus>
 					        <br>
 					        <div class="row text-center">
 						        <label for="inputEmail" class="">Correo:</label>
@@ -54,7 +59,7 @@ function Mostrar_Ocultar(){
 					        <div class="row text-center">
 					        	<label for="inputRol" class="">Rol:</label>
 					        </div>
-					       <select name="rol" class="form-control">
+					        <select class="form-control">
 								<option value="1">Administrador</option>
 								<option value="2">Usuario</option>
 								<option value="3">Invitado</option>

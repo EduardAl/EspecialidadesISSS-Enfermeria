@@ -63,10 +63,6 @@ class Login extends Controller
     $this->vista('login/login');
   }
 
-  public function newUser(){
-    $this->model->newUser();
-  }
-
   private function verify($request_params)
   {
     return empty($request_params['email']) OR empty($request_params['password']);
@@ -75,7 +71,7 @@ class Login extends Controller
   private function renderErrorMessage($message)
   {
     $datos = ['error_message' => $message];
-   $this->vista('Login/login',$datos);
+    $this->vista('Login/login',$datos);
   }
 
 }

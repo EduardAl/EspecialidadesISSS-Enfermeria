@@ -6,5 +6,19 @@
 			$datos = $this->modelo("UsersModel")->cargarTabla();
 			$this->vista('pages/users',$datos);
 		}
+		public function newUser(){
+			echo "<br><br><br><br><br><br><br>Llega";
+			if(isset($_POST)){
+				try{
+			    	$this->modelo('UsersModel')->newUser($_POST);
+					$this->vista('pages/users',$datos);
+			    }
+			    catch(Exception $exe)
+			    {
+			    	$datos = ['error_message' => $exe->message()];
+    				$this->vista('pages/Users',$datos);
+			    }
+			}
+		}
 	}
 ?>
