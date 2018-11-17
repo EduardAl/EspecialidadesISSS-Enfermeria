@@ -47,10 +47,10 @@
 			}
 			private function cargarDatosEspecialidades($nombre){
 				//Modificar los títulos
-			$param = $this->modelo('ProceduresDataModel')->procedimientos($nombre);
+			$param = $this->modelo('ProceduresDataModel')->datosEspecialidades($nombre);
 			$datos=[
 				'values' => $param,
-				'titulo' => ['Actividad','Meta','Realizado','% Realización'],
+				'titulo' => ['Actividad','Cantidad'],
 			];
 			return $datos;
 			}

@@ -7,8 +7,8 @@
       ['Actividades', 'Valores']
     <?php
     	foreach ($datos['values'] as $key) {
-    		echo ",['".$key->titulo."',";
-    		echo $key->value."]";
+    		echo ",['".$key->Título."',";
+    		echo $key->Value."]";
     	}
     ?>
     ]);

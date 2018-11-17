@@ -20,7 +20,7 @@
 			<div class="col-xs-12">
 				<div class="col-xs-12">
 					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;  min-width: 1210px; max-width: 2000px;">
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
 					</div>
 				</div>
 			</div>
