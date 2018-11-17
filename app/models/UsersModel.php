@@ -18,7 +18,7 @@
 
       $datos=[
         'titulo' => ['Nombre','Email','Fecha de creación','Rol'],
-        'tabla' => $this->cargarUsuarios()
+        'values' => $this->cargarUsuarios()
       ];
       return $datos;
       }
