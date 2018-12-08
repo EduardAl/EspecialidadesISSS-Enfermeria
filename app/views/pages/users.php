@@ -2,7 +2,9 @@
 
 <SCRIPT>
 window.onload = function(){
+	<?php if(!isset($datos['error_message'])) { ?>
 	$('#form-hide').hide();
+<?php }?>
 }
 function Mostrar_Ocultar(){
 		$('#form-hide').show('fast');
@@ -61,7 +63,8 @@ function Mostrar_Ocultar(){
 							</select>
 					        <br>
 					        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
-					        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError>".$datos['error_message']."</span>"; }?>
+					        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
+					    	}?>
 				     	</div>
 				    <div class="col-xs-3"></div>
 				</div>

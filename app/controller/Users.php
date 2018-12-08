@@ -10,11 +10,15 @@
 			if(isset($_POST)){
 				try{
 			    	$this->modelo('UsersModel')->newUser($_POST);
-					$this->vista('pages/users',$datos);
+					$datos = $this->modelo("UsersModel")->cargarTabla();
+					unset($_POST);
+					header('Location:'.RUTA_URL.'/Users');
+					//$this->vista('pages/users',$datos);
 			    }
 			    catch(Exception $exe)
 			    {
-			    	$datos = ['error_message' => $exe->message()];
+					$datos = $this->modelo("UsersModel")->cargarTabla();
+			    	$datos['error_message'] = $exe->getMessage();
     				$this->vista('pages/Users',$datos);
 			    }
 			}

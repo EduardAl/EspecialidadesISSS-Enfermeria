@@ -79,7 +79,6 @@ div .graf{
 	max-width: 500px;
 }
 
-
 /* Footer */
 footer{
 	background: #ccc;
@@ -91,4 +90,5 @@ footer{
 	left:0;
 	bottom: 0;
 	width: 100%;
+	position: fixed;
 }
