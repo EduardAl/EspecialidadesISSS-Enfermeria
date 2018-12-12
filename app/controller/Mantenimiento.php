@@ -34,7 +34,7 @@
 			for ($i=0; $i < $datosRecibidos; $i++) { 
 				$this->modelo('MantenimientosModel')->insertarLevelThings($nivel,$data[$i],$_POST[$data[$i]]);
 			}
-			$this->mantenimientoRecarga($level);
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
 			}
 		public function IngresoProcedimiento($nivel,$especialidad){
 			$datosRecibidos = count($_POST);
@@ -42,7 +42,7 @@
 			for ($i=0; $i < $datosRecibidos; $i++) { 
 				$this->modelo('MantenimientosModel')->insertarProcedimiento($_POST[$data[$i]],$data[$i]);
 			}
-			$this->mantenimientoRecarga($nivel);
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
 			}
 
 		public function IngresoEspecialidad($nivel,$especialidad){
@@ -51,7 +51,7 @@
 			for ($i=0; $i < $datosRecibidos; $i++) { 
 				$this->modelo('MantenimientosModel')->insertarSpecialtyThings($especialidad,$data[$i],$_POST[$data[$i]]);
 			}
-			$this->mantenimientoRecarga($nivel);
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
 			}
 
 		private function mantenimientoRecarga($nivel){

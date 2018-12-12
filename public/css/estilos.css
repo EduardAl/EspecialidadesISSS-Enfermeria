@@ -38,6 +38,9 @@
 body{
 	background-color: #E8E8EC;
 }
+.mouseHover:hover {
+	cursor: pointer;
+}
 /* Niveles */
 .caption{
 	text-align: center;
@@ -67,7 +70,7 @@ body{
 	/*text-align: center;*/
 }
 .formulario, .formulario tr th{
-	background: #050D42;
+	background: #31AEE8;
 	color: white;
 	opacity: 0.8;
 }
@@ -90,5 +93,7 @@ footer{
 	left:0;
 	bottom: 0;
 	width: 100%;
+	/*
 	position: fixed;
+	*/
 }

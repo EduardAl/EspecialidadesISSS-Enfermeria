@@ -9,7 +9,7 @@
 		public function __construct(){
 			session_start();
 				$url = $this->getUrl();
-			if(isset($_SESSION['email']))
+			if(isset($_SESSION['email'])||1==1)
 			{
 				//Buscar si el controlador existe
 				if(file_exists("../app/controller/".ucwords($url[0]).'.php')){

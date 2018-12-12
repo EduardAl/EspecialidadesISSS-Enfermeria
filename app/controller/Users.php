@@ -13,7 +13,6 @@
 					$datos = $this->modelo("UsersModel")->cargarTabla();
 					unset($_POST);
 					header('Location:'.RUTA_URL.'/Users');
-					//$this->vista('pages/users',$datos);
 			    }
 			    catch(Exception $exe)
 			    {

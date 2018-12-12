@@ -29,7 +29,7 @@
 
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-					<!--<li><a href="<?php echo RUTA_URL?>/Nivel/Nivel">Niveles</a></li>-->
+						<li><a href="<?php echo RUTA_URL?>/Nivel/Nivel">Administración</a></li>
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/4">Nivel 4</a></li>
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/5">Nivel 5</a></li>
 						<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/6">Nivel 6</a></li>

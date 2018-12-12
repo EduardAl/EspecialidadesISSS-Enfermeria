@@ -11,7 +11,7 @@ if(isset($datos))
 		} ?>
 	    </tr>
 	</thead>
-	<tbody>
+	<tbody class="datosFormulario">
 		<?php
 			$j = 1; 
 			$valores=$datos['Tipo'];
@@ -20,7 +20,7 @@ if(isset($datos))
 				echo "<tr>";
 				echo "<tr><th scope='row'>".$key->title."</th>";
 				for ($i=1; $i < count($datos['TítulosX']); $i++) {
-					echo "<th scope='row'>"."<input type='".$valores[$i-1]."' name='".$key->id."' required value='0'></th>";
+					echo "<th scope='row'>"."<input type='".$valores[$i-1]."' min='0' name='".$key->id."' required value='0'></th>";
 				}
 				echo "</tr>";
 			}
