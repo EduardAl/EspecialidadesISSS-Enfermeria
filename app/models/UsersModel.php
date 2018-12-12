@@ -25,17 +25,26 @@
     public function newUser($params=[])
     {
       //Query // Añadir rol
-     $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate(),:rol);";
+     $sql = "Select COUNT(email) as number from users where email='".$params['email']."'";
       $this->query($sql);
+      $emailExiste = $this->registro();
+        if($emailExiste->number==0){
+        $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate(),:rol);";
+        $this->query($sql);
 
-      //Introducción de Parámetros
-      
-      $this->bind(':fname',$params['fname']);
-      $this->bind(':lname',$params['lname']);
-      $this->bind(':email',$params['email']);
-      $this->bind(':password',$params['password']);
-      $this->bind(':rol',$params['rol']);
+        //Introducción de Parámetros
+        
+        $this->bind(':fname',$params['fname']);
+        $this->bind(':lname',$params['lname']);
+        $this->bind(':email',$params['email']);
+        $this->bind(':password',$params['password']);
+        $this->bind(':rol',$params['rol']);
 
-      return $this->execute();
+        return $this->execute();
+      }
+      else{
+        $error = 'Ya existe un usuario registrado con este email.';
+        throw new Exception($error);
+      }
     }
 }
