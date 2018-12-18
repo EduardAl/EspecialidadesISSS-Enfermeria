@@ -1,13 +1,18 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
 
 <SCRIPT>
+	var prueba = false;
 window.onload = function(){
 	<?php if(!isset($datos['error_message'])) { ?>
 	$('#form-hide').hide();
 <?php }?>
 }
 function Mostrar_Ocultar(){
+	prueba=!prueba;
+	if(prueba)
 		$('#form-hide').show('fast');
+	else
+		$('#form-hide').hide('fast');
 	}
 </SCRIPT>
 <body>

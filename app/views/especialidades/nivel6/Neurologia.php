@@ -59,30 +59,13 @@
 		<br><br>
 		<!-- Procedimientos Mes -->
 		<div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $data=$datos; $datos=$data['datos1']; $id=1;
+			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+					<?php $data=$datos; $id=1;$datos=$data['datos2']; $id++;
 					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
 			</div>
 			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;  min-width: 1210px; max-width: 2000px;">
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $datos=$data['datos2']; $id++;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;  min-width: 1210px; max-width: 2000px;">
-						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
+				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;  min-width: 1210px; max-width: 2000px;">
+					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
 				</div>
 			</div>
 		</div>

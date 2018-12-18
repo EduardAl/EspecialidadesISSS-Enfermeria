@@ -1,4 +1,9 @@
 /* Header*/
+html{
+	min-height: 100%;
+	position: relative;
+}
+
 .Página{
 	min-height: 536px;
 }
@@ -37,6 +42,8 @@
 /* Body */
 body{
 	background-color: #E8E8EC;
+	margin: 0;
+	margin-bottom: 40px;
 }
 .mouseHover:hover {
 	cursor: pointer;
@@ -102,7 +109,5 @@ footer{
 	left:0;
 	bottom: 0;
 	width: 100%;
-	/*
-	position: fixed;
-	*/
+	position: absolute;
 }
