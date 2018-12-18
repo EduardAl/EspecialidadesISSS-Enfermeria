@@ -29,7 +29,7 @@
       $this->query($sql);
       $emailExiste = $this->registro();
         if($emailExiste->number==0){
-        $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),curdate(),:rol);";
+        $sql = "Insert into users values(null,:fname,:lname,:email,sha1(:password),Now(),:rol);";
         $this->query($sql);
 
         //Introducción de Parámetros

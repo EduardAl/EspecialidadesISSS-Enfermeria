@@ -2,10 +2,24 @@
 <div class = "container">
 	<div class = "row">
 		<div class="col-xs-12">
-			<h1>Nivel 7</h1>
-			<a href="<?php echo RUTA_URL?>/Mantenimiento/Nivel/7">Ingresar</a>
+			<div class="col-xs-10">
+				<h1>Séptimo Nivel</h1>
+			</div>
+			<div class="col-xs-2" >
+				<form action="<?php echo RUTA_URL?>/Mantenimiento/Nivel/7">
+					<br>
+	      			<button class="btn btn-primary btn-block" type="submit">Ingresar</button>
+	      		</form>
+			</div>
 		</div>
-		<br> <br> <br> <br> 
+		<br> <br> <br>
+
+		<div class="col-xs-12">
+			<h3>Especialidades del Nivel</h3>
+		</div>
+		<br> <br> <br> <br>
+
+
 		<div class="col-xs-4">
 			<div class=thumbnail>
 				<img src="<?php echo RUTA_URL?>/images/neumologia.jpg">

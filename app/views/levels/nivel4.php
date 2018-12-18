@@ -3,21 +3,24 @@
 	<div class = "row">
 
 		<div class="col-xs-12">
-			<h1>Cuarto Nivel</h1>
-			<a href="<?php echo RUTA_URL?>/Mantenimiento/Nivel/4">Ingresar</a>
-		</div>
-
-		<!-- Tabla -->
-		<div class="col-xs-12" style="overflow: auto; max-height: 500px;">
-				<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+			<div class="col-xs-10">
+				<h1>Cuarto Nivel</h1>
+			</div>
+			<div class="col-xs-2" >
+				<form action="<?php echo RUTA_URL?>/Mantenimiento/Nivel/4">
+					<br>
+	      			<button class="btn btn-primary btn-block" type="submit">Ingresar</button>
+	      		</form>
+			</div>
 		</div>
 
 		<br> <br> <br>
 
 		<div class="col-xs-12">
-		<div class="col-xs-12">
-			<h2>Especialidades del Nivel</h2>
+			<h3>Especialidades del Nivel</h3>
 		</div>
+		<br> <br> <br> <br>
+
 		<div class="col-xs-4">
 			<div class=thumbnail>
 				<img src="<?php echo RUTA_URL?>/images/urologia.jpg">

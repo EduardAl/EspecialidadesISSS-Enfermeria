@@ -1,6 +1,6 @@
 /* Header*/
 .Página{
-	min-height: 617px;
+	min-height: 536px;
 }
 .col-xs-12{
 	display: inline-block;
@@ -81,7 +81,16 @@ div .graf{
 	height: 500px;
 	max-width: 500px;
 }
+/* Separaciones*/
+hr {
 
+    display: block;
+    height: 2px;
+    border: 0;
+    border-top: 1px solid #999;
+    margin: 1em 0;
+    padding: 0; 
+}
 /* Footer */
 footer{
 	background: #ccc;

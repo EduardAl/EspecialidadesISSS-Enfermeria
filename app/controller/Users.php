@@ -10,8 +10,6 @@
 			if(isset($_POST)){
 				try{
 			    	$this->modelo('UsersModel')->newUser($_POST);
-					$datos = $this->modelo("UsersModel")->cargarTabla();
-					unset($_POST);
 					header('Location:'.RUTA_URL.'/Users');
 			    }
 			    catch(Exception $exe)
