@@ -32,6 +32,16 @@
 		</div>
 		<div class="col-xs-4">
 			<div class=thumbnail>
+				<img src="<?php echo RUTA_URL?>/images/Endocrinologia.jpg">
+				<div class="caption">
+					<h3>Endocrinología</h3>
+					<p> </p>
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Endocrinologia"> Ver tablas y estadísticas </a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<div class=thumbnail>
 				<img src="<?php echo RUTA_URL?>/images/neurologia.jpg">
 				<div class="caption">
 					<h3>Neurología</h3>

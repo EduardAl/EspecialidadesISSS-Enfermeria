@@ -7,10 +7,8 @@
 				<h1>Cuarto Nivel</h1>
 			</div>
 			<div class="col-xs-2" >
-				<form action="<?php echo RUTA_URL?>/Mantenimiento/Nivel/4">
 					<br>
-	      			<button class="btn btn-primary btn-block" type="submit">Ingresar</button>
-	      		</form>
+	      			<button class="btn btn-primary btn-block" onclick="window.location='<?php echo RUTA_URL?>/Mantenimiento/Nivel/4'">Ingresar</button>
 			</div>
 		</div>
 

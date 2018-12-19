@@ -1,15 +1,14 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
 <div class = "container">
 	<div class = "row">
+
 		<div class="col-xs-12">
 			<div class="col-xs-10">
 				<h1>Quinto Nivel</h1>
 			</div>
 			<div class="col-xs-2" >
-				<form action="<?php echo RUTA_URL?>/Mantenimiento/Nivel/5">
 					<br>
-	      			<button class="btn btn-primary btn-block" type="submit">Ingresar</button>
-	      		</form>
+	      			<button class="btn btn-primary btn-block" onclick="window.location='<?php echo RUTA_URL?>/Mantenimiento/Nivel/5'">Ingresar</button>
 			</div>
 		</div>
 

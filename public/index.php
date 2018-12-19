@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="<?php echo RUTA_URL?>/css/bootstrap-datetimepicker.css">
     <script type="text/javascript" src="<?php echo RUTA_URL?>/js/moment-with-locales.js"></script>
     <script type="text/javascript" src="<?php echo RUTA_URL?>/js/bootstrap-datetimepicker.js"></script>
+
+    <script type="text/javascript" src="<?php echo RUTA_URL?>/js/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="<?php echo RUTA_URL?>/js/Chart.min.js"></script>
     
 
 </head>

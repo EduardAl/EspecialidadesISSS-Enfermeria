@@ -34,7 +34,7 @@
 				];
 				unset($_SESSION['tiempo']);
 	      		$_SESSION['tiempo'] = $tiempo;
-				header('Location:'.RUTA_URL."/Nivel/Especialidades/$num_registro/$especialidad/1");
+				header('Location:'.RUTA_URL."/Nivel/Especialidades/$num_registro/$especialidad");
 			}
 			else
 			{
@@ -46,7 +46,7 @@
 				$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
 			}
 			}
-		public function especialidades($num_registro,$especialidad,$tiempo){
+		public function especialidades($num_registro,$especialidad){
 			//Buscar un modo de conseguir la especialidad
 			$tiempo = $_SESSION['tiempo'];
 			$fechaT="Mes Actual";
