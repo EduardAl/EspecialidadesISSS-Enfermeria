@@ -102,6 +102,10 @@
 			$("#fecha2").val("<?php echo $tempo['fecha2']?>");
 			<?php
 			}
+			else
+			{
+				console.log("No entra");
+			}
 			?>
 			if($("#dates").val()!="Per"){
 		    	$('#datetimepicker1').children().prop('disabled',true);

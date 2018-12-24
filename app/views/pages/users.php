@@ -10,9 +10,12 @@ window.onload = function(){
 function Mostrar_Ocultar(){
 	prueba=!prueba;
 	if(prueba)
+	{
 		$('#form-hide').show('fast');
+		 $("html, body").animate({ scrollTop: $('#form-hide').offset().top }, 800);
+	}
 	else
-		$('#form-hide').hide('fast');
+		$('#form-hide').hide('slow');
 	}
 </SCRIPT>
 <body>

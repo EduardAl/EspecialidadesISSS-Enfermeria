@@ -24,46 +24,46 @@
 		//Para cargar las especialidades
 		public function especialidad($num_registro,$especialidad){
 
-			if(isset($_POST['cbOrdenar'])){
-				$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
-				$fecha2 = (isset($_POST['fecha2']))?$_POST['fecha2']:date("Y/m/d");
-				$tiempo = [
-					'tipo'=>$_POST['cbOrdenar'],
-					'fecha1'=>$fecha1,
-					'fecha2'=>$fecha2,
-				];
-				unset($_SESSION['tiempo']);
-	      		$_SESSION['tiempo'] = $tiempo;
-				header('Location:'.RUTA_URL."/Nivel/Especialidades/$num_registro/$especialidad");
+			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
+			$fecha2 = (isset($_POST['fecha2']))?$_POST['fecha2']:date("Y/m/d");
+			$tipo = (isset($_POST['cbOrdenar'])?$_POST['cbOrdenar']:'Month');
+			$tiempo = [
+				'tipo'=>$tipo,
+				'fecha1'=>$fecha1,
+				'fecha2'=>$fecha2,
+			];
+			unset($_SESSION['tiempo']);
+      		$_SESSION['tiempo'] = $tiempo;
+			header('Location:'.RUTA_URL."/Nivel/Especialidades/$num_registro/$especialidad");
 			}
-			else
-			{
+		public function especialidades($num_registro,$especialidad){
+			//Buscar un modo de conseguir la especialidad
+			if(isset($_SESSION['tiempo'])){
+				$tiempo = $_SESSION['tiempo'];
+				$fechaT="Mes Actual";
+				if($tiempo['tipo']=="Year"){
+					$fechaT="Año Actual";
+				}
+				else if($tiempo['tipo']=="Per"){
+					$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
+				}
+				$datos = [
+					'datos1'=>$this->cargarProcedimientos($especialidad,$tiempo),
+					'datos2'=>$this->cargarDatosEspecialidades($especialidad,$tiempo),
+					'fechaT'=>$fechaT,
+					'tiempo'=>$tiempo,
+				];			
+			}
+			else{
+				unset($_SESSION['tiempo']);
 				$datos = [
 					'datos1'=>$this->cargarProcedimientos($especialidad),
 					'datos2'=>$this->cargarDatosEspecialidades($especialidad),
 					'fechaT'=>'Mes Actual',
 				];			
-				$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
 			}
-			}
-		public function especialidades($num_registro,$especialidad){
-			//Buscar un modo de conseguir la especialidad
-			$tiempo = $_SESSION['tiempo'];
-			$fechaT="Mes Actual";
-			if($tiempo['tipo']=="Year"){
-				$fechaT="Año Actual";
-			}
-			else if($tiempo['tipo']=="Per"){
-				$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
-			}
-			$datos = [
-				'datos1'=>$this->cargarProcedimientos($especialidad,$tiempo),
-				'datos2'=>$this->cargarDatosEspecialidades($especialidad,$tiempo),
-				'fechaT'=>$fechaT,
-				'tiempo'=>$tiempo,
-			];			
-			$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
-			}
+			$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);}
+			
 		/*
 			*****************
 				Privadas

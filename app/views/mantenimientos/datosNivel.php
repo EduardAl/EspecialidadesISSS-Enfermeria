@@ -7,27 +7,25 @@ if(isset($datos))
 	<thead class="formulario">
 	    <tr>
 		<?php foreach ($datos['TítulosX'] as $key) {
-			echo "<th scope='col'>".$key."</th>";
+			echo "<th scope='col' style='text-align: center;'>".$key."</th>";
 		} ?>
 	    </tr>
 	</thead>
 	<tbody class="datosFormulario">
 		<?php
 			$j = 1; 
-			$valores=$datos['Tipo'];
 			foreach ($datos['TítulosY'] as $key) {
 				$j++;
-				echo "<tr>";
+				//echo "<tr>";
 				echo "<tr><th scope='row'>".$key->title."</th>";
 				for ($i=1; $i < count($datos['TítulosX']); $i++) {
-					echo "<th scope='row'>"."<input type='".$valores[$i-1]."' min='0' name='".$key->id."' required value='0'></th>";
+					echo "<th scope='row' style='text-align: center;'>"."<input type='number' min='0' style='text-align: center;' name='".$key->id."' required value='0'></th>";
 				}
 				echo "</tr>";
 			}
 		?>
 	</tbody>
 </table>
-</form>
 <?php
 }
 ?>

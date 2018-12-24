@@ -28,28 +28,31 @@
 	</script>
 	<div class = "container" style="min-height: 500px;">
 		<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a class="mouseHover" onclick="Mostrar_Ocultar(1)">Datos del Nivel</a></li>
-						<li><a class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
-						<li><a class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos de Especialidades</a></li>
-					</ul>
+			<ul class="nav navbar-nav">
+				<li><a class="mouseHover" onclick="Mostrar_Ocultar(1)">Datos del Nivel</a></li>
+				<li><a class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
+				<li><a class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos de Especialidades</a></li>
+			</ul>
+		</div>
 		<div class = "row">
 			<div  class="col-xs-12">
 				<h1 class="">Quinto Nivel</h1>
 			</div>
 			<!-- Procedimientos Mes -->
 			<div class="col-xs-12" id="datosNivel">
-  				<form class="form-formulario" method="POST" action="<?= RUTA_URL . '/Mantenimiento/IngresoNivel/5' ?>">
+  				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoNivel/5'?>">
 					<div class="col-xs-12" style=" display: inline-block; align-items: center">
-					<h3>Ingreso de datos de nivel</h3>
+						<h3>Ingreso de datos de nivel</h3>
 					</div>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-    					<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-					</div><?php 
+					
+					<?php 
 					$data = $datos;
 					$datos=$data['levelThings'];
 					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
 					?>
+					<div class="col-xs-12" style="display: inline-block; align-items: center">
+    					<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+					</div>
 				</form>
 			</div>
 			<div class='col-xs-12' id="datosEspecialidades">
