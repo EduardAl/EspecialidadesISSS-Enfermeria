@@ -5,7 +5,7 @@
     //Variables controladoras
     var myChart<?php echo $id?>;
     var ctx<?php echo $id?> = document.getElementById("chart<?php echo $id?>").getContext('2d');
-    var type<?php echo $id?> = 'bar';
+    var type<?php echo $id?> = 'radar';
     var data<?php echo $id?> =  {
             labels:[
             <?php
@@ -17,7 +17,7 @@
             datasets: [
             {
                 label: "Meta",
-                backgroundColor: 'rgba(0,0,139,0.8)',
+                backgroundColor: 'rgba(0, 179, 255, 0.6)',
                 data: [
                 <?php
                 foreach ($datos['values'] as $key) {
@@ -28,7 +28,7 @@
             },
             {
                 label: "Realizado",
-                backgroundColor: 'rgba(0, 179, 255, 0.8)',
+                backgroundColor: 'rgb(0,0,139)',
                 data: [
                 <?php
                 foreach ($datos['values'] as $key) {
@@ -40,14 +40,14 @@
             ]
             };
     var options<?php echo $id?> = {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-            };
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+        };
 
     //Inicializador del gráfico
     function start<?php echo $id?>(){

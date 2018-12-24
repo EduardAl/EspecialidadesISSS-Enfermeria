@@ -1,5 +1,17 @@
-
-<div class="col-xs-2 navbar-right" style="padding-top:  10px;">
+<div class="col-xs-1" >
+  <label style="color: white; position: center; padding-top:  6px;">Tipo de Gráfica:</label>
+</div>
+<div class="col-xs-2" style="padding-top:  10px;">
+  <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
+    <option value="pie">Pastel</option>
+    <option value="doughnut">Dona</option>
+    <option value="bar">Barra</option>
+  </select>
+</div>
+<div class="col-xs-1" >
+  <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
+</div>
+<div class="col-xs-2" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
     <option value="0">Azul</option>
     <option value="1">Rosas</option>
@@ -28,23 +40,12 @@
     <option value="24">Cereza</option>
   </select>
 </div>
-<div class="col-xs-1 navbar-right" >
-  <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
-</div>
-<div class="col-xs-2 navbar-right" style="padding-top:  10px;">
-  <select name="cbTipo" class="form-control" id="colors<?php echo $id?>" >
-  </select>
-</div>
-<div class="col-xs-1 navbar-right" >
-  <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
-</div>
 <br><br><br><canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
 <script>
 
   //Variables controladoras
   var myChart<?php echo $id?>;
   var ctx<?php echo $id?> = document.getElementById("chart<?php echo $id?>").getContext('2d');
-  var type<?php echo $id?> = 'doughnut';
   var backgroundColor;
   var data<?php echo $id?> =  {
     labels:[
@@ -69,24 +70,31 @@
       },
       ]};
   var options<?php echo $id?> = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero:true
+            }
+        }]
+    }
     };
 
   //Inicializador del gráfico
-  function start<?php echo $id?>(){
-     myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
-      type: this.type<?php echo $id?>,
+  function start<?php echo $id?>(type){
+    myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
+      type: type,
       data: this.data<?php echo $id?>,
       options: this.options<?php echo $id?>
       }); 
   }
+  start<?php echo $id?>('pie');
 
   //Cambio de gráfico
-  function changeChart<?php echo $id?>() {
-      myChart<?php echo $id?>.destroy();
-      this.type<?php echo $id?> = (this.type<?php echo $id?>=='pie')?'doughnut':'pie';
-      start<?php echo $id?>();
-  }
-  start<?php echo $id?>();
+ $("#type<?php echo $id?>").change(function(){
+    myChart<?php echo $id?>.destroy();
+    start<?php echo $id?>($(this).val());
+ });
+
     //-------------------------------------------------------------------------------
 
     //ComboBox

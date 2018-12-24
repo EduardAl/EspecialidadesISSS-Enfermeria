@@ -12,7 +12,7 @@
 		<div id="filtro" class="col-xs-12" align="right">
 			<form method="post" action="<?php echo  RUTA_URL . '/Nivel/Especialidad/4/Urologia'?>">
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Ver por:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 				</div>
 				<div class="col-xs-2">
 					<select name="cbOrdenar" class="form-control" id="dates" >
@@ -22,7 +22,7 @@
 					</select>
 				</div>
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Desde:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Desde:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Hasta:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -102,10 +102,6 @@
 			$("#fecha2").val("<?php echo $tempo['fecha2']?>");
 			<?php
 			}
-			else
-			{
-				console.log("No entra");
-			}
 			?>
 			if($("#dates").val()!="Per"){
 		    	$('#datetimepicker1').children().prop('disabled',true);
@@ -127,13 +123,10 @@
         $('#datetimepicker1').datetimepicker({
             locale:'es',
             format: 'YYYY/MM/DD',
-            defaultDate: new Date()
         });
         $('#datetimepicker2').datetimepicker({
             locale:'es',
             format: 'YYYY/MM/DD',
-            defaultDate: new Date(),
-            useCurrent: false //Important! See issue #1075
         });
         $("#datetimepicker1").on("dp.change", function (e) {
             $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
