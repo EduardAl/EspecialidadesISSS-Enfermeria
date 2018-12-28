@@ -27,7 +27,11 @@ html{
 }
 .jumbo-nav{
 	margin: 0;
+	background:#66A5AD;
+	/*
 	background:#428BCA;
+	background: linear-gradient(#01041A, #0B3861, #2E64FE);
+	*/
 	background-image: url("../images/back.jpg");
 	color: #fff;
 	padding: 20px 0 10px 0;
@@ -88,7 +92,14 @@ div .graf{
 	height: 500px;
 	max-width: 500px;
 }
-/* Separaciones*/
+/* Nav Bar 2 */
+.barra li a{
+	color: white;
+}
+.barra li a:hover{
+	color:black;
+}
+/* Separaciones */
 hr {
 
     display: block;

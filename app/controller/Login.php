@@ -48,6 +48,7 @@ class Login extends Controller
       }
       $this->session->add('email', $result->email);
       $this->session->add('nombre', $result->nombre);
+      //$this->session->add('acceso', $result->tipo);
       $this->vista('pages/inicio');
     }
     else{

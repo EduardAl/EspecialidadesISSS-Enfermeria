@@ -1,10 +1,18 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
 <div class = "container">
 	<div class = "row">
-		<div class="col-xs-12">
-			<h1>Procedimientos de Urología</h1>
+		<div class="col-xs-8">
+			<h1>Urología</h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
+
+		<div class="col-xs-4">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a class="mouseHover" onclick="find('#procedimientos');">Procedimientos</a></li>
+				<li><a class="mouseHover" onclick="find('#pacientes');">Pacientes</a></li>
+			</ul>
+		</div>
+
 		<br><br><br><br><br>
 		<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
@@ -53,36 +61,39 @@
 			</form>
 		</div>
 		<br><br>
-		<div class="col-xs-12" style="display: inline-block; align-items: center">
+		<div id="procedimientos" class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
 		</div>
 		<br><br>
 		<!-- Procedimientos Mes -->
-		<div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $data=$datos; $datos=$data['datos1']; $id=1;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
+		<div  class="col-xs-12" id="procedimientos">
+			<div class="col-xs-12" >
+				<h3>Procedimientos</h3>
+			</div>
+			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+				<?php $data=$datos; $datos=$data['datos1']; $id=1;
+				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;">
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-					</div>
+				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;">
+					<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $datos=$data['datos2']; $id++;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
+		</div>
+		<div id="pacientes" class="col-xs-12" style="display: inline-block; align-items: center">
+			<hr>
+		</div>
+		<div  class="col-xs-12" id="pacientes">
+			<div class="col-xs-12" >
+				<h3>Pacientes</h3>
+			</div>
+			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+				<?php $datos=$data['datos2']; $id++;
+				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
-						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
+				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
+					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
 				</div>
 			</div>
 		</div>
@@ -135,5 +146,9 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
+
+    function find(encontrar){
+    	$("html, body").animate({ scrollTop: $(encontrar).offset().top }, 500);
+    }
 </script>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

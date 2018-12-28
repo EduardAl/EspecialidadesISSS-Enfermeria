@@ -11,22 +11,24 @@
     public function insertarProcedimiento($dato,$nombre)
     {
       if($dato>0){
-      	$sql = "INSERT into procedure_data values (null, ".$dato.", curdate(),".$nombre.");";
+      	$sql = "INSERT into procedure_data values (null, :dato, curdate(),".$nombre.")ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
+        $this->bind(':dato',$dato);
         return $this->execute();
       }
     }
     public function insertarLevelThings($nivel,$id,$params){
       if($params>0){
-        $sql = "INSERT into level_things_data values (null, :dato, curdate(), (select id from level_things where id = '".$id."'),(select id from levels where name like '%".$nivel."%'));";
+        $sql = "INSERT into level_things_data values (null, :dato, curdate(), :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
+        $this->bind(':id',$id);
         return $this->execute();
       }
     }
     public function insertarSpecialtyThings($especialidad,$id,$params){
       if($params>0){
-        $sql = "INSERT into specialty_things_data values (null, :dato, curdate(), :id,(select id from specialties where id = ".$especialidad."));";
+        $sql = "INSERT into specialty_things_data values (null, :dato, curdate(), :id,(select id from specialties where id = ".$especialidad.")) ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
         $this->bind(':id',$id);
@@ -35,12 +37,34 @@
     }
     public function insertarGoal($especialidad,$id,$params){
       if($params>0){
-        $sql = "BEGIN TRAN
-        IF EXISTS(select * from goals where procedure_id=:id and month(date)=month(curdate()) and year(curdate())) then 
-        UPDATE goals set number=':dato' where procedure_id=:id and month(date)=month(curdate()) and year(curdate())
-        ELSE 
-          INSERT into goals values(null,:dato,curdate(),:id)
-        COMMIT";
+        $sql = "INSERT into goals values(null,:dato,curdate(),:id) ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
+    }
+    public function insertarAusentismo($nivel,$id,$params){
+      if($params>0){
+        $sql = "INSERT into absences_data values (null, :dato, curdate(), :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
+    }
+    public function insertarAdministrativo($nivel,$id,$params){
+      if($params>0){
+        $sql = "INSERT into administrative_management_data values (null, :dato, curdate(), :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
+    }
+    public function actualizarEducacion($nivel,$id,$params){
+      if($params>0){
+        $sql = "INSERT into administrative_management_data values (null, :dato, curdate(), :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
         $this->bind(':id',$id);
@@ -96,7 +120,26 @@
         ];
         array_push($retornar, $formulario);
       }
-      return $retornar;
+      return $retornar;//
       }
-    //
+
+    public function administrative_management(){
+      $sql = "SELECT activities as 'title', id as 'id' from administrative_management order by activities;";
+      $this->query($sql);
+      $formulario = [
+        'TítulosX' => ['Descripción','Cantidad'],
+        'TítulosY' => $this->registros(),
+      ];
+      return $formulario;
+      }
+
+    public function health_education(){
+      $sql = "SELECT activities as 'title', id as 'id' from health_education order by activities;";
+      $this->query($sql);
+      $formulario = [
+        'TítulosX' => ['Descripción','Cantidad'],
+        'TítulosY' => $this->registros(),
+      ];
+      return $formulario;
+      }
 }

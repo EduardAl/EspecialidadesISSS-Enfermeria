@@ -2,9 +2,17 @@
 <div class = "container">
 	<div class = "row">
 		<div class="col-xs-12">
-			<h1>Procedimientos de Oftalmología</h1>
+			<h1>Oftalmología</h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
+
+		<div class="col-xs-4">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a class="mouseHover" onclick="find('#procedimientos');">Procedimientos</a></li>
+				<li><a class="mouseHover" onclick="find('#pacientes');">Pacientes</a></li>
+			</ul>
+		</div>
+
 		<br><br><br><br><br>
 		<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
@@ -12,7 +20,7 @@
 		<div id="filtro" class="col-xs-12" align="right">
 			<form method="post" action="<?php echo  RUTA_URL . '/Nivel/Especialidad/5/Oftalmologia'?>">
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Ver por:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 				</div>
 				<div class="col-xs-2">
 					<select name="cbOrdenar" class="form-control" id="dates" >
@@ -22,7 +30,7 @@
 					</select>
 				</div>
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Desde:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Desde:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -35,7 +43,7 @@
 					</div>
 				</div>
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center;">Hasta:</label>
+					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -53,36 +61,39 @@
 			</form>
 		</div>
 		<br><br>
-		<div class="col-xs-12" style="display: inline-block; align-items: center">
+		<div id="procedimientos" class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
 		</div>
 		<br><br>
 		<!-- Procedimientos Mes -->
-		<div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $data=$datos; $datos=$data['datos1']; $id=1;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
+		<div  class="col-xs-12" id="procedimientos">
+			<div class="col-xs-12" >
+				<h3>Procedimientos</h3>
+			</div>
+			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+				<?php $data=$datos; $datos=$data['datos1']; $id=1;
+				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;">
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-					</div>
+				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;">
+					<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php $datos=$data['datos2']; $id++;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
+		</div>
+		<div id="pacientes" class="col-xs-12" style="display: inline-block; align-items: center">
+			<hr>
+		</div>
+		<div  class="col-xs-12" id="pacientes">
+			<div class="col-xs-12" >
+				<h3>Pacientes</h3>
+			</div>
+			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
+				<?php $datos=$data['datos2']; $id++;
+				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden;">
-						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
+				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
+					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
 				</div>
 			</div>
 		</div>
@@ -123,13 +134,10 @@
         $('#datetimepicker1').datetimepicker({
             locale:'es',
             format: 'YYYY/MM/DD',
-            defaultDate: new Date()
         });
         $('#datetimepicker2').datetimepicker({
             locale:'es',
             format: 'YYYY/MM/DD',
-            defaultDate: new Date(),
-            useCurrent: false //Important! See issue #1075
         });
         $("#datetimepicker1").on("dp.change", function (e) {
             $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
@@ -138,5 +146,9 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
+
+    function find(encontrar){
+    	$("html, body").animate({ scrollTop: $(encontrar).offset().top }, 500);
+    }
 </script>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

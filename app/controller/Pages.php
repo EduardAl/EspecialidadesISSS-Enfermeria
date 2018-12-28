@@ -11,5 +11,8 @@
 		public function Settings(){
 			$this->vista('pages/configuracion');
 		}
+		public function Error(){
+			$this->vista('pages/errorNotFound');
+		}
 	}
 ?>

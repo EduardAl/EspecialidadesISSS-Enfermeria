@@ -20,16 +20,17 @@
 
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<?php echo RUTA_URL?>/Nivel/Nivel">Administración</a></li>
-					<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/4">Nivel 4</a></li>
-					<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/5">Nivel 5</a></li>
-					<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/6">Nivel 6</a></li>
-					<li><a href="<?php echo RUTA_URL?>/Nivel/niveles/7">Nivel 7</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Administracion">Administración</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/4">Nivel 4</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/5">Nivel 5</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/6">Nivel 6</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/7">Nivel 7</a></li>
 					<li><a href="<?php echo RUTA_URL?>/Users">Usuarios</a></li>
-				<!--<li><a href="<?php// echo RUTA_URL?>/Pages/Settings">Configuración</a></li>-->
+				<!--<li><a href="<?php echo RUTA_URL?>/Pages/Settings">Configuración</a></li>-->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"> <?php if(isset($_SESSION['nombre'])) echo $_SESSION['nombre']?></a></li>
+<?php if(isset($_SESSION['nombre'])) echo
+ 					"<li><a href='#'>".$_SESSION['nombre']."</a></li>"?>
 					<li><a href="<?php echo RUTA_URL?>/Login/signout"> Cerrar Sesión</a></li>
 				</ul>
 			</div>

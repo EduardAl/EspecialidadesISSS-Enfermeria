@@ -1,30 +1,8 @@
 <div class="col-xs-1" >
-  <label style="color: white; position: center; padding-top:  6px;">Tipo de Gráfica:</label>
-</div>
-<div class="col-xs-2" style="padding-top:  10px;">
-  <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
-    <option value="bar">Barra</option>
-    <option value="doughnut" selected>Dona</option>
-    <option value="pie">Pastel</option>
-  </select>
-</div>
-<div class="col-xs-1" >
   <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
 </div>
 <div class="col-xs-2" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
-    <option value="#0B0B61">Azul</option>
-    <option value="#0489B1">Celeste</option>
-    <option value="#8A0808">Rojo</option>
-    <option value="#B45F04">Naranja</option>
-    <option value="#DBA901">Amarillo</option>
-    <option value="#0B610B">Verde</option>
-    <option value="#04B404">Verde Claro</option>
-    <option value="#3B240B">Café</option>
-    <option value="#8A2908">Café Claro</option>
-    <option value="#848484">Gris</option>
-
-    <option disabled="disabled">----------</option>
     
     <option value="D1" selected>Degradado Azul</option>
     <option value="D2">Degradado Rojo</option>
@@ -54,37 +32,81 @@
     <option value="1">Rosas</option>
   </select>
 </div>
-<br><br><br><canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
+<br><br><br>
+<canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>
 <script>
-
-  //Variables controladoras
-  var myChart<?php echo $id?>;
-  var ctx<?php echo $id?> = document.getElementById("chart<?php echo $id?>").getContext('2d');
-  var data<?php echo $id?> =  {
-    labels:[
-      <?php
-          foreach ($datos['values'] as $key) {
-            //echo "'".'1'."', ";
-            echo "'".$key->Título."', ";
-          }
-        ?>
-        ],
-      datasets: [
-      {
-        label:'Valores',
-        data:
-          [
-          <?php
-            foreach ($datos['values'] as $key) {
-              echo $key->Value.",";
-            }
-          ?>
-          ],
-          backgroundColor:
- ['#070719','#0B173B','#0B2161','#08298A','#0431B4','#0040FF','#2E64FE','#0489B1','#58ACFA','#81DAF5']
-      },
-      ]};
-  var options<?php echo $id?> = {
+    //Variables controladoras
+    var myChart<?php echo $id?>;
+    var ctx<?php echo $id?> = document.getElementById("chart<?php echo $id?>").getContext('2d');
+    var data<?php echo $id?> =  {
+            labels:[
+            <?php
+              $aux=count($datos['titulosG'])+1;
+                foreach ($datos['titulosG'] as $key) {
+                  echo "'".$key."', ";
+                }
+              ?>
+              ],
+            datasets: [
+            {
+                label: "Nivel 4",
+                backgroundColor: '#070719',
+                data: [
+                <?php
+                $i=0;
+                foreach ($datos['values'][0] as $key) {
+                    if($i>0&&$i<$aux)
+                        echo $key.", ";
+                      $i++;
+                }
+                ?>
+                ]
+            },
+            {
+                label: "Nivel 5",
+                backgroundColor: '#0B173B',
+                data: [
+                <?php
+                 $i=0;
+                foreach ($datos['values'][1] as $key) {
+                    if($i>0&&$i<$aux)
+                        echo $key.", ";
+                      $i++;
+                }
+                ?>
+                ]
+            },
+            {
+                label: "Nivel 6",
+                backgroundColor: '#0B2161',
+                data: [
+                <?php
+                 $i=0;
+                foreach ($datos['values'][2] as $key) {
+                    if($i>0&&$i<$aux)
+                        echo $key.", ";
+                      $i++;
+                }
+                ?>
+                ]
+            },
+            {
+                label: "Nivel 7",
+                backgroundColor: '#08298A',
+                data: [
+                <?php
+                 $i=0;
+                foreach ($datos['values'][3] as $key) {
+                    if($i>0&&$i<$aux)
+                        echo $key.", ";
+                      $i++;
+                }
+                ?>
+                ]
+            },
+            ]
+            };
+    var options<?php echo $id?> = {
         scaleShowValues: true,
         scales: {
             yAxes: [{
@@ -100,30 +122,18 @@
         }
         };
 
-  //Inicializador del gráfico
+    //Inicializador del gráfico
   function start<?php echo $id?>(type){
-    //,'#FCC875','#BAA896'    '#763626'
     myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
       type: type,
       data: this.data<?php echo $id?>,
-      }); 
-    if(type=="bar"){
-      myChart<?php echo $id?>.options=this.options<?php echo $id?>;
-      myChart<?php echo $id?>.update();
+      options:this.options<?php echo $id?>
+    }); 
     }
-  }
-  start<?php echo $id?>($("#type<?php echo $id?>").val());
+  start<?php echo $id?>('bar');
 
-  //Cambio de gráfico
- $("#type<?php echo $id?>").change(function(){
-    myChart<?php echo $id?>.destroy();
-    start<?php echo $id?>($(this).val());
- });
 
-    //-------------------------------------------------------------------------------
-
-    //ComboBox
-  $("#colors<?php echo $id?>").change(function(){
+ $("#colors<?php echo $id?>").change(function(){
     var bColor='#140237';
     switch($(this).val()){
 
@@ -145,11 +155,7 @@
         break;
 
       //Planteados
-      /*
-      case "0":
-      bColor=['#140237','#220E6F','#00BFFF','#B0E0E6','#DFCAFA','#9370DB','#6D00FC','#470672','#0A8967','#00E1A5'];
-        break;
-      */
+      
       case "1":
       bColor=['#8B0000','#FF8C00','#F08080','#FFFACD','#265C00','#7AA802','#EDAE01','#D61800','#E94F08','#7F152E'];
         break;        
@@ -168,8 +174,6 @@
       case "6":
       bColor=['#BCBABE','#1995AD','#A1D6E2','#F1F1F2','#B6C2C9','#C4DFE6','#ACD0C0','#8FCAE8','#66A5AD','#12959E'];
         break;        
-      case "7":
-        break;        
       case "8":
       bColor=['#4CB5F5','#B7B8B6','#B3C100','#34675C','#2E4600','#486B00','#A2C523','#2D4262','#1D9C94','#6FB98F'];
         break;        
@@ -182,13 +186,8 @@
       case "11":
       bColor=['#75B1A9','#D9B44A','#4F6457','#ACD0C0','#97B8C2','#F1DCC9','#D6C6B9','#BF9A77','#EFD48B','#688B8A'];
         break;
-      case "12":
-      break;
       case "13":
       bColor=['#73605B','#D09683','#363237','#2D4262','#D5C3AA','#867666','#7D5E3C','#4D648D','#283655','#1E1F26'];
-        break;
-      case "14":
-      //QUEDA EN EVALUACIÓN
         break;
       case "15":
       bColor=['#2E2300','#C05805','#6E6702','#DB9501','#81715E','#FAAE3D','#E38533','#A57C65','#919636','#5A5F37'];
@@ -202,17 +201,11 @@
       case "18":
       bColor=['#0F1B07','#FDF49F','#5C821A','#C6D166','#B7B8B6','#B3C100','#34675C','#7E7B15','#563E20','#EBDF00'];
         break;
-      case "19":
-      //QUEDA EN EVALUACIÓN
-        break;
       case "20":
       bColor=['#F25C00','#F9A603','#F7EFE2','#F70025','#8C0004','#E7552C','#FFB745','#DDDEDE','#F34A4A','#962715'];
         break;
       case "21":
       bColor=['#AF4425','#662E1C','#C9A66B','#EBDCB2','#DAC3B3','#CDAB81','#BF9A77','#AA4B41','#E38B75','#7E675E']
-        break;
-      case "22":
-      //QUEDA EN EVALUACIÓN
         break;
       case "23":
       bColor=['#B8D20B','#321B12','#F77604','#F56C57','#00CFFA','#FF0038','#43D156','#020509','#FAAF08','#F0810F'];
@@ -220,11 +213,12 @@
       case "24":
       bColor=['#A10115','#C0B2B5','#D72C16','#F0EFEA','#F25C00','#F7EFE2','#F9A603','#F1F3CE','#DB9501','#F6D7A3'];
         break;
-      default:
-        bColor=($(this).val());
-        break;
     }
-    myChart<?php echo $id?>.data.datasets[0].backgroundColor=bColor;
+    myChart<?php echo $id?>.data.datasets[0].backgroundColor=bColor[0];
+    myChart<?php echo $id?>.data.datasets[1].backgroundColor=bColor[1];
+    myChart<?php echo $id?>.data.datasets[2].backgroundColor=bColor[2];
+    myChart<?php echo $id?>.data.datasets[3].backgroundColor=bColor[3];
     myChart<?php echo $id?>.update();
   });
+
 </script>

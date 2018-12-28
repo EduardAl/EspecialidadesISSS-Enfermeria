@@ -12,19 +12,25 @@
 		private $error;
 
 		public function __construct(){
-			$dsn = "mysql:host=".$this->host.';dbname='.$this->nombre_base.';port='.$this->port;
-			$opciones = array(
-				PDO::ATTR_PERSISTENT => true,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-			);
-			//Creamos una instancia
-			try {
-				$this->dbh = new PDO($dsn,$this->user, $this->password,$opciones);
-				//Para caracteres especiales
-				$this->dbh->exec('set names utf8');
-			} catch (PDOException $e) {
-				$this->error = $e->getMessage();
-				echo $this->error;
+			//Configuramos sí se puede modificar todo con sus permisos
+			if(isset($_SESSION['email'])){
+				$dsn = "mysql:host=".$this->host.';dbname='.$this->nombre_base.';port='.$this->port;
+				$opciones = array(
+					PDO::ATTR_PERSISTENT => true,
+					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+				);
+				//Creamos una instancia
+				try {
+					$this->dbh = new PDO($dsn,$this->user, $this->password,$opciones);
+					//Para caracteres especiales
+					$this->dbh->exec('set names utf8');
+				} catch (PDOException $e) {
+					$this->error = $e->getMessage();
+					echo $this->error;
+				}
+			}
+			else{
+				header('Location:'.RUTA_URL."/Pages/Error");
 			}
 		}
 		//Prepara la consulta
