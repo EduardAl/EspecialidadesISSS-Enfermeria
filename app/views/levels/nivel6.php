@@ -6,9 +6,13 @@
 				<h1 style="color: white;">Sexto Nivel</h1>
 			</div>
 			<div class="col-xs-2" >
-				<br>
-	  			<button class="btn btn-primary btn-block" onclick="window.location='<?php echo RUTA_URL?>/Mantenimiento/Nivel/6'">Ingresar Datos</button>
-			</div>
+				<br><?php
+				if((isset($_SESSION['acceso']))&&
+					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
+					echo '
+	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/6\'">Ingresar Datos</button>';?>
+
+	  		</div>
 		</div>
 	</div>
 	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
@@ -208,7 +212,10 @@
 			$("#es").css("background-color","transparent");
 			$("#es").css("color","white");
 			$('#especialidades').show('slow');
-			$('#graficos').hide('slow');
+			if(ex!=0)
+				$('#graficos').hide();
+			else
+				$('#graficos').hide('slow');
 		}
 		else{
 			$("#es").css("background-color","#E8E8EC");

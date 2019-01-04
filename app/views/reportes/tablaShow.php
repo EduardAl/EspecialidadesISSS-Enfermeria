@@ -3,12 +3,22 @@
  	?>
 <table class="table table-striped">
 	<thead class="thead-dark">
-	    <tr>
+		<?php
+			if(isset($datos['tituloE'])){
+				echo "<tr class='monthThead' style='background:white;'><th>  </th>";
+				foreach ($datos['tituloE'] as $key) {
+					echo "<th scope='col' style='text-align: center;'>".$key."</th>";
+				} 
+				echo "</tr>";
+			}
+		?>
+		<tr>
 			<th scope='col'>#</th>
 		<?php
 			foreach ($datos['titulo'] as $key) {
 				echo "<th scope='col' style='text-align: center;'>".$key."</th>";
-		} ?>
+			} 
+		?>
 	    </tr>
 	</thead>
 	<tbody class="tbody-table">

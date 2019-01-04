@@ -58,9 +58,8 @@ function Mostrar_Ocultar(){
 						        	<label for="inputRol" class="">Rol:</label>
 						        </div>
 						       <select name="rol" class="form-control">
-									<option value="1">Administrador</option>
-									<option value="2">Usuario</option>
-									<option value="3">Invitado</option>
+									<option value="3">Usuario</option>
+									<option value="4">Administrativo</option>
 								</select>
 						        <br>
 						        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>

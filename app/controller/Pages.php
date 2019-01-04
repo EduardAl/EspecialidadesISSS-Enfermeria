@@ -12,7 +12,10 @@
 			$this->vista('pages/configuracion');
 		}
 		public function Error(){
-			$this->vista('pages/errorNotFound');
+			if(isset($_SESSION['error']))
+				$this->vista('pages/errorNotFound');
+			else
+				header('Location:'.RUTA_URL."/Pages/index");
 		}
 	}
 ?>

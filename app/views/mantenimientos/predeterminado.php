@@ -1,4 +1,5 @@
-<?php if(!isset($lNivel))$lNivel="Cuarto Nivel";if(!isset($nNivel))$nNivel="4";?>
+<?php if(!isset($lNivel))$lNivel="Cuarto Nivel";if(!isset($nNivel))$nNivel="4";
+$bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso']==2)); ?>
 <div id="navbar" class="navbar-collapse collapse" style="background: #050D42;">
 	<div class="container">
 		<ul class="nav navbar-nav barra">
@@ -6,16 +7,30 @@
 			<li><a id="5"class="mouseHover" onclick="Mostrar_Ocultar(5)">Ausentismo</a></li>
 			<li><a id="2"class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
 			<li><a id="3"class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos de Especialidades</a></li>
-			<li><a id="6"class="mouseHover" onclick="Mostrar_Ocultar(6)">Educación en Salud</a></li>
+			<li><a id="6"class="mouseHover" onclick="Mostrar_Ocultar(6)">Educación y Charlas</a></li>
 			<li><a id="7"class="mouseHover" onclick="Mostrar_Ocultar(7)">Gestión Administrativa</a></li>
 		</ul>
 	</div>
 </div>
 <div class = "container" style="min-height: 500px;">
 	<div class = "row">
-		<div  class="col-xs-12">
+		<div  class="col-xs-<?php echo ($bool)?3:12?>">
 			<h1 class=""><?php echo $lNivel?></h1>
-		</div>
+		</div><?php if($bool) { ?>
+			
+		<div class="col-xs-9">
+			<div class="col-xs-4">
+				<div class="form-group" style="padding-top: 22px;">
+				    <div class='input-group date' id='admin'>
+				        <input type='text' class="form-control" id="adminFecha" style="background: white;"readonly/>
+				        <span class="input-group-addon">
+			        	    <span class="glyphicon glyphicon-calendar"></span>
+			    	    </span>
+				    </div>
+				</div>
+			</div>
+		</div><?php }?>
+
 		<!-- Procedimientos Mes -->
 		<div class="col-xs-12" id="datosNivel">
 			<div>
@@ -28,6 +43,7 @@
 					if(count($datos['TítulosY'])>0){
 			?>
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoNivel/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
 				</div>
@@ -57,6 +73,7 @@
 					echo "<div class='col-xs-12'><h3>".$key->title."</h3></div>";
 			?>
 			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoEspecialidad/'.$nNivel.'/'.$key->id?>">
+				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12" style="display: inline-block; align-items: center">
 					<?php 
 					$datos=$data['specialty'];
@@ -94,6 +111,7 @@
 						echo "<div class='col-xs-12'><h3>".$key->title."</h3></div>";
 			?>
 				<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoProcedimiento/'.$nNivel.'/'.$key->id?>">
+					<input class="admin" type="text" name="fecha" hidden>
 					<div class="col-xs-12" style="display: inline-block; align-items: center">
 						<?php 
 						$datos=$data['procedures'];
@@ -134,6 +152,7 @@
 					?>
 			
 			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoMeta/'.$nNivel.'/'.$key->id?>">
+				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12" style="display: inline-block; align-items: center">
 					<?php 
 					$datos=$data['procedures'];
@@ -167,6 +186,7 @@
 					if(count($datos['TítulosY'])>0){
 			?>
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAusentismo/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
 				</div>
@@ -186,20 +206,122 @@
 		</div>
 		<div class="col-xs-12" id="educacion">
 			<div class='col-xs-10'>					
-				<h2>Educación en Salud</h2>
+				<h2>Educación y Charlas</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(4);">Nuevo</button>
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(61);">Nuevo</button>
 			</div>
-			<?php 
-				if(isset($data['education'])){
-					$datos=$data['education'];
-					if(count($datos['TítulosY'])>0){
+			<div class='col-xs-12'>	
+				<hr>
+			</div>				
+			<div id="filtro" class="col-xs-12" align="right">
+				<form method="post" action="<?=RUTA_URL.'/Mantenimiento/RecargarEducacion/'.$nNivel?>">
+					<div class="col-xs-1">
+						<label style="text-align: center; padding-top: 8px;">Desde:</label>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker1'>
+						        <input type='text' class="form-control" name="fecha1" id="fecha1" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-1">
+						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker2'>
+						        <input type='text' class="form-control" name="fecha2" id="fecha2" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-2">
+						<button class="btn btn-primary btn-block" type="submit">Actualizar</button>
+					</div>
+				</form>
+			</div>
+			<div class='col-xs-12'>					
+				<hr>
+			</div>
+			<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/IngresoCharla/'.$nNivel?>">
+				<div class="container" align="center" id="hide">
+						<div class="col-xs-3"></div>
+							<div class="col-xs-6" style="align: center;">
+						        <h2 class="text-center">Registro</h2>
+						        <div class="row text-center">
+						        	<label for="inputFName" class="text-center">Descripción:</label>
+						        </div>
+						        <input type="name" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Descripción" required>
+						        <br>
+
+						        <div class="row text-center">
+						        	<label for="inputFDate" class="text-center">Fecha:</label>
+						        </div>
+
+								<div class="form-group">
+					                <div class='input-group date' id='fechaCh'>
+					                    <input type='text' class="form-control" name="fechaC" id="fechaC" required/>
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+					                </div>
+					            </div>
+
+						        <div class="row text-center">
+						        	<label for="tipo" class="">Tipo:</label>
+						        </div>
+						       <select name="tipo" class="form-control" required>
+						       		<?php
+						       			if(isset($data['health']))
+							       		foreach ($data['health'] as $key) {
+							       			echo "<option value=".$key->id.">".$key->title."</option>";
+							       		}
+									?>
+								</select>
+						        <br>
+						        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
+						        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
+						    	}?>
+					     	</div>
+					    <div class="col-xs-3"></div>
+					</div>
+			</form>
+			<?php
+				if(isset($data['education'])&&count($data['education'])>0)
+				{
+					foreach ($data['education'] as $key) {
 			?>
-			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/ActualizarEducacion/'.$nNivel?>">
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-			<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+			<form action="<?php echo RUTA_URL.'/Mantenimiento/Ingreso/'.$nNivel?>" method="POST">
+				<div class='col-xs-12'>
+					<h4><?php echo $key->title;?></h4>
+					<div class="col-xs-11">
+						<p><?php echo $key->detalles;?></p>
+						<input type="text" name="idCharla" value="<?php echo $key->id;?>" hidden>
+					</div>
+					<div class="col-xs-1">
+						<button class="btn btn-primary navbar-right" type="submit">Modificar</button>
+					</div>
 				</div>
+			</form>
+			<div class="col-xs-1"><br></div>
+			<form class="form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarEducacion/'.$nNivel.'/'.$key->id?>">
+				<input class="admin" type="text" name="fecha" hidden>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+					<?php 
+						if($key->tipo=="Personal")
+							$datos=$data['listeners'][0];
+						else
+							$datos=$data['listeners'][1];
+						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+					?>
+				</div >
 				<div class="col-xs-12" >
 					<div class="col-xs-12">
 						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
@@ -209,8 +331,12 @@
 					<hr>
 				</div>
 			</form>
-			<?php 
+			<?php
 					}
+				}
+				else
+				{
+					echo "<div class='col-xs-10'><br><br><p>No hay charlas programadas en este nivel</p></div>";
 				}
 			?>
 		</div>
@@ -224,6 +350,7 @@
 					if(count($datos['TítulosY'])>0){
 			?>
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAdministrativo/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
 				</div>
@@ -244,8 +371,27 @@
 	</div>
 </div>
 <script type="text/javascript">
+	var hidden=true;
 	window.onload = function(){
-		Mostrar_Ocultar(<?php if(isset($datos['cargado']))echo $datos['cargado'];else echo 1;?>);
+		Mostrar_Ocultar(<?php if(isset($data['cargado'])){echo $data['cargado'];}else echo 1;?>);
+		var val = new Date();
+		<?php if($bool){?>
+
+		$('.admin').val($("#adminFecha").val());<?php } ?>
+
+		$('#hide').hide();<?php
+		if(isset($data['tiempo']))
+		{
+		$tempo =$data['tiempo'];?>
+
+		$("#fecha1").val("<?php echo $tempo['fecha1']?>");
+		$("#fecha2").val("<?php echo $tempo['fecha2']?>");<?php
+		}
+		else{?>
+
+		$("#fecha1").val("<?php echo date('Y/m/d')?>");
+		$("#fecha2").val("<?php echo date('Y/m/d')?>");<?php
+		}?>
 	}
 	function Mostrar_Ocultar(num){
 
@@ -330,9 +476,23 @@
 			$('#educacion').show('fast');
 			$('#procedimientosEspecialidades').hide();
 			$('#datosNivel').hide();
+			$('#ausentismo').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#administrativa').hide();
+		}
+		else if(num==61)
+		{
+			$("#6").css("background-color","#E8E8EC");
+			$("#6").css("color","black");
+			if(hidden){
+				$('#hide').show('slow');
+				hidden=false;
+			}
+			else{
+				$('#hide').hide('slow');
+				hidden=true;
+			}
 		}
 		else if(num==7)
 		{
@@ -345,4 +505,38 @@
 			$('#educacion').hide();
 		}
 	}
+	$(function () {
+        $('#datetimepicker1').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+        });
+        $('#datetimepicker2').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+        });
+        $('#fechaCh').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+        });<?php if($bool) { ?>
+
+		$('#admin').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+            ignoreReadonly:true,
+            defaultDate:new Date(),
+        });
+
+        $("#admin").on("dp.change", function (e) {
+        $('.admin').val(e.date.format('YYYY/MM/DD'));
+        });<?php
+			}       
+        ?>
+
+        $("#datetimepicker1").on("dp.change", function (e) {
+            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker2").on("dp.change", function (e) {
+            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+        });
+    });
 </script>

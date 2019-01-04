@@ -19,7 +19,7 @@ if(isset($datos))
 				//echo "<tr>";
 				echo "<tr><th scope='row'>".$key->title."</th>";
 				for ($i=1; $i < count($datos['TítulosX']); $i++) {
-					echo "<th scope='row' style='text-align: center;'>"."<input type='number' min='0' style='text-align: center;' name='".$key->id."' required value='0'></th>";
+					echo "<th scope='row' style='text-align: center;'>"."<input type='number' min='-1' style='text-align: center;' name='".$key->id."' required value='0'></th>";
 				}
 				echo "</tr>";
 			}
@@ -29,22 +29,3 @@ if(isset($datos))
 <?php
 }
 ?>
-<!-- 
-
-// Primero están los valores del nivel
-
-	| Nº de valoraciones por Enfermería                        |
-	| Caídas de pacientes                                      |
-	| Quejas de pacientes                                      |
-	| Quejas resueltas a  pacientes                            |
-	| Accidentes por contactos con sangre y fluidos corporales |
-	| Cirugías programadas y agregadas                         |
-	| Cirugías realizadas                                      |
-	| Cirugias suspendidas                                     |
-	| Cirugias suspendias por intervenciòn de enfermerìa       |
-
-1. 
-
-
-
--->

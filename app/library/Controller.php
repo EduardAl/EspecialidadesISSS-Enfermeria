@@ -14,20 +14,9 @@
 			require_once '../app/views/'.$view.'.php';
 			}
 			else{
+				$_SESSION['error']='La página no existe';
 				require_once '../app/views/pages/errorNotFound.php';
 			}
-		}
-		public function vistaPost($view,$datos=[]){
-			//Verificar si la vista existe
-			if (file_exists('../app/views/'.$view.'.php')) {
-			header('Location:'.RUTA_URL.'/'.$view);
-			}
-			else{
-				require_once '../app/views/pages/errorNotFound.php';
-			}
-		}
-		public function exec(){
-			
 		}
 	}
 ?>

@@ -40,7 +40,7 @@
         SELECT p.name as 'Actividad',sum(pd.number) as 'Meta', sum(pd.number) as 'Realizado', '100.00%' as '% realización' from procedures p left outer join procedure_data pd on p.id =pd.procedure_id left outer join goals g on pd.procedure_id = g.procedure_id and g.date between '".$fecha3."' and '".$fecha4."' inner join specialties s on s.id = p.specialty_id where s.name LIKE '%".$nombre."%' and pd.date between '".$fecha1."' and '".$fecha2."' and g.id is null group by p.name
         UNION ALL
         SELECT p.name as 'Actividad',ifnull(sum(g.number),0) as 'Meta',0 as 'Realizado','0.00%' as '% realización' from procedures p left outer join procedure_data pd on p.id =pd.procedure_id and pd.date between '".$fecha1."' and '".$fecha2."' left outer join goals g on p.id = g.procedure_id and g.date between '".$fecha3."' and '".$fecha4."' inner join specialties s on s.id = p.specialty_id where s.name LIKE '%".$nombre."%'  and pd.id is null group by p.name
-        ) F order by Actividad";
+        ) F order by F.Actividad";
       $this->query($sql);
       return $this->registros();
       }
@@ -59,7 +59,6 @@
         }
       }
       //Modificar el query
-      $sql = "SELECT st.name as 'Título', sum(sd.number) as 'Value' from specialty_things_data sd inner join specialty_things st on sd.specialty_things_id=st.id  inner join specialties s on sd.specialty_id=s.id where s.name like '%".$nombre."%' and sd.date between '".$fecha1."' and '".$fecha2."' group by st.id;";
 
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select st.name as 'Título' from specialty_things st) A left join 
@@ -89,8 +88,8 @@
       //Modificar el query
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select lt.name as 'Título' from level_things lt) A left join 
-          (SELECT lt.name as 'tit', sum(lth.number) as'Value' from level_things_data lth inner join level_things lt on lt.id=lth.level_things_id inner join levels l on l.id =lth.level_id  where l.name LIKE '%".$nivel."%' and lth.date between '".$fecha1."' and '".$fecha2."' group by lt.name) B on A.Título=B.tit
-       )F order by F.Título";
+          (SELECT lt.name as 'tit', sum(lth.number) as'Value' from level_things_data lth inner join level_things lt on lt.id=lth.level_things_id inner join levels l on l.id =lth.level_id  where l.name LIKE '%".$nivel."%' and lth.date between '".$fecha1."' and '".$fecha2."' group by lt.id) B on A.Título=B.tit
+       )F";
 
       $this->query($sql);
       $this->bind(':nivel',$nivel);
@@ -113,8 +112,8 @@
       //Modificar el query
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select ab.type as 'Título' from absences ab) A left join 
-          (SELECT ab.type as 'tit', sum(abd.number) as'Value' from absences_data abd inner join absences ab on ab.id=abd.absences_id inner join levels l on l.id =abd.level_id  where l.name LIKE '%".$nivel."%' and abd.date between '".$fecha1."' and '".$fecha2."' group by ab.type) B on A.Título=B.tit
-       )F order by F.Título";
+          (SELECT ab.type as 'tit', sum(abd.number) as'Value' from absences_data abd inner join absences ab on ab.id=abd.absences_id inner join levels l on l.id =abd.level_id  where l.name LIKE '%".$nivel."%' and abd.date between '".$fecha1."' and '".$fecha2."' group by ab.id) B on A.Título=B.tit
+       )F";
 
       $this->query($sql);
       $this->bind(':nivel',$nivel);
@@ -137,8 +136,8 @@
       //Modificar el query
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select am.activities as 'Título' from administrative_management am) A left join 
-          (SELECT am.activities as 'tit', sum(amd.number) as'Value' from administrative_management_data amd inner join administrative_management am on am.id=amd.administrative_management_id inner join levels l on l.id =amd.level_id  where l.name LIKE '%".$nivel."%' and amd.date between '".$fecha1."' and '".$fecha2."' group by am.activities) B on A.Título=B.tit
-       )F order by F.Título";
+          (SELECT am.activities as 'tit', sum(amd.number) as'Value' from administrative_management_data amd inner join administrative_management am on am.id=amd.administrative_management_id inner join levels l on l.id =amd.level_id  where l.name LIKE '%".$nivel."%' and amd.date between '".$fecha1."' and '".$fecha2."' group by am.id) B on A.Título=B.tit
+       )F";
 
       $this->query($sql);
       $this->bind(':nivel',$nivel);
@@ -169,7 +168,7 @@
       }
          $sql = "SELECT * from (SELECT A.Nivel,ifnull(B.Consulta,0) as 'Consulta',ifnull(C.Preparacion,0) as 'Preparacion',CONCAT(ROUND(ifnull((C.Preparacion/B.Consulta)*100,0),2),'%') as 'Porcentaje' from 
         (Select l.name as 'Nivel' from levels l) A left join 
-        (SELECT l.name as 'niv', sum(std.number) as'Consulta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date between '".$fecha1."' and '".$fecha2."' group by l.name) B 
+        (SELECT l.name as 'niv', sum(std.number) as'Consulta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date between '".$fecha1."' and '".$fecha2."' group by l.id) B 
           on A.Nivel=B.niv left join (".
           "SELECT l.name as 'niv', sum(std.number) as'Preparacion' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=2 and std.date between '".$fecha1."' and '".$fecha2."' group by l.id) C 
           on A.Nivel=C.niv

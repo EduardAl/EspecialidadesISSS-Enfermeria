@@ -48,13 +48,9 @@ class Login extends Controller
       }
       $this->session->add('email', $result->email);
       $this->session->add('nombre', $result->nombre);
-      //$this->session->add('acceso', $result->tipo);
-      $this->vista('pages/inicio');
+      $this->session->add('acceso', $result->tipo);
     }
-    else{
-      $this->vista('pages/inicio');
-    }
-
+      header('Location:'.RUTA_URL.'/Login/index');
   }
 
   public function signout()

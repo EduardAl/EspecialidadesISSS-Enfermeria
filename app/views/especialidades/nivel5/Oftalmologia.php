@@ -1,15 +1,16 @@
 <?php require RUTA_APP.'\views\inc\header.php'; ?>
 <div class = "container">
 	<div class = "row">
-		<div class="col-xs-12">
+		<div class="col-xs-6">
 			<h1>Oftalmología</h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
 
-		<div class="col-xs-4">
+		<div class="col-xs-6">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a class="mouseHover" onclick="find('#procedimientos');">Procedimientos</a></li>
 				<li><a class="mouseHover" onclick="find('#pacientes');">Pacientes</a></li>
+				<li><a class="mouseHover" onclick="find('#pacientes');">Educación Continua</a></li>
 			</ul>
 		</div>
 

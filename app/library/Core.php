@@ -7,8 +7,9 @@
 		protected $parametros = [];
 		//Constructor
 		public function __construct(){
+			try{
 			session_start();
-				$url = $this->getUrl();
+			$url = $this->getUrl();
 			if(isset($_SESSION['email']))
 			{
 				//Buscar si el controlador existe
@@ -64,6 +65,10 @@
 				}
 				$this->parametros = ('signin'==$url) ? 'signin':[];
 				call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
+			}
+			}
+			catch(Exception $exe){
+				
 			}
 		}
 		//Funciones
