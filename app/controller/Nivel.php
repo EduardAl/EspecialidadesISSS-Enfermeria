@@ -153,7 +153,7 @@
 				if($params['cbSeparador']=="1")
 					$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
 				else
-					$datos['fecha']="Desde <em>".date("Y-m-01",strtotime($params['fecha1']))."</em> hasta <em>".date("Y-m-t",strtotime($params['fecha2']))."</em>";
+					$datos['fecha']="Desde <em>".date("Y-m-01",strtotime($fecha1))."</em> hasta <em>".date("Y-m-t",strtotime($fecha2))."</em>";
 			}
 			else
 				$nuevo['separador']=1;
