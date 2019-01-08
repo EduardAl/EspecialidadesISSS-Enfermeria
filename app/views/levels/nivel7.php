@@ -26,7 +26,7 @@
 </div>
 <div class = "container">
 	<div class = "row">
-		<div id="especialidades" style="min-height: 350px;">
+		<div id="especialidades" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
 			<div class="col-xs-12">
 				<h3>Especialidades del Nivel</h3>
 			</div>
@@ -83,7 +83,7 @@
 			</div>
 		</div>
 
-		<div id="graficos" style="min-height: 350px;">
+		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
 			<div class="col-xs-8">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>

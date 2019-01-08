@@ -13,9 +13,7 @@
 			}
 
 		public function Administracion(){
-			$datos = [
-					'datos1'=>$this->cargarPPacientes(),
-				];	
+			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
 			$this->vista('Pages/Niveles',$datos);
 		}
 		// Para cargar la vista de los niveles
@@ -62,20 +60,18 @@
 			$this->vista('levels/nivel'.$num_registro,$datos);
 			}
 
-		public function Nivel(){
-			$this->vista('Pages/Niveles'/*,$datos*/);
-			}
-
 		//Para cargar las especialidades
 		public function especialidad($num_registro='',$especialidad=''){
 
 			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
 			$fecha2 = (isset($_POST['fecha2']))?$_POST['fecha2']:date("Y/m/d");
 			$tipo = (isset($_POST['cbOrdenar'])?$_POST['cbOrdenar']:'Month');
+			$separador = (isset($_POST['cbSeparador'])?$_POST['cbSeparador']:'1');
 			$tiempo = [
 				'tipo'=>$tipo,
 				'fecha1'=>$fecha1,
 				'fecha2'=>$fecha2,
+				'separador'=>$separador
 			];
 			unset($_SESSION['tiempo']);
       		$_SESSION['tiempo'] = $tiempo;
@@ -88,12 +84,15 @@
 			{
 				if(isset($_SESSION['tiempo'])){
 					$tiempo = $_SESSION['tiempo'];
-					$fechaT="Mes Actual";
 					if($tiempo['tipo']=="Year"){
 						$fechaT="Año Actual";
 					}
 					else if($tiempo['tipo']=="Per"){
 						$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
+					}
+					else{
+						$fechaT="Mes Actual";
+						$tiempo['separador']='1';
 					}
 					$datos = [
 						'datos1'=>$this->cargarProcedimientos($especialidad,$tiempo),
@@ -121,15 +120,11 @@
 								*/
 		//Carga la tabla y gráfico
 		private function cargarProcedimientos($nombre,$tiempo=0){
-			$param = $this->modelo('ProceduresDataModel')->procedimientos($nombre,$tiempo);
-			$datos=[
-				'values' => $param,
-				'titulo' => ['Actividad','Meta','Realizado','% Realización'],
-			];
-			return $datos;
+			return $this->modelo('ProceduresDataModel')->procedimientos($nombre,$tiempo);
 			}
+
 		private function cargarDatosEspecialidades($nombre,$tiempo=0){
-				//Modificar los títulos
+			//Modificar los títulos
 			$param = $this->modelo('ProceduresDataModel')->datosEspecialidades($nombre,$tiempo);
 			$datos=[
 				'values' => $param,
@@ -138,13 +133,74 @@
 			return $datos;
 			}
 
-		private function cargarPPacientes($tiempo=0){
-			$param = $this->modelo('ProceduresDataModel')->pPacientes($tiempo);
-			$datos=[
-				'values' => $param,
-				'titulo' => ['Nivel','Total Consulta','Preparación de Pacientes','% Realización'],
-				'titulosG' => ['Total Consulta','Preparación de Pacientes'],
-			];
+		private function cargarNiveles($params){
+			$fecha1=date('Y-m-1');
+			$fecha2=date('Y-m-t');
+			if(isset($params['cbFecha'])){
+				if($params['cbFecha']=='Per'){
+					$fecha1=date("Y-m-d",strtotime($params['fecha1']));
+					$fecha2=date("Y-m-d",strtotime($params['fecha2']));
+					
+				}
+				else if ($params['cbFecha']=='Year'){
+					$fecha1=date("Y-m-d");
+					$fecha2=date("Y-12-31");
+					$datos['fecha']='Año Actual';
+				}
+			}
+			if(isset($params['cbSeparador'])){
+				$nuevo['separador']=$params['cbSeparador'];
+				if($params['cbSeparador']=="1")
+					$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
+				else
+					$datos['fecha']="Desde <em>".date("Y-m-01",strtotime($params['fecha1']))."</em> hasta <em>".date("Y-m-t",strtotime($params['fecha2']))."</em>";
+			}
+			else
+				$nuevo['separador']=1;
+			$nuevo['tipo']=$params['cbFecha'];
+			$nuevo['fecha1']=$fecha1;
+			$nuevo['fecha2']=$fecha2;
+			switch ($params['cbInforme']) {
+				case 'indicadores':
+					$datos['indicadores']=$this->modelo('ProceduresDataModel')->indicadores($nuevo);
+					$datos['cargado']=1;
+					break;
+				case 'pPacientes':
+					$datos['pPacientes']=$this->modelo('ProceduresDataModel')->pPacientes($nuevo);
+					$datos['cargado']=2;
+					break;
+				case 'ausentismo':
+					$datos['ausentismo'] = $this->modelo('ProceduresDataModel')->ausentismo($nuevo);
+					$datos['cargado']=3;
+					break;
+				case 'eduSalud':
+					$datos['eduSalud']=$this->modelo('ProceduresDataModel')->salud($nuevo);
+					$datos['cargado']=4;
+					break;
+				case 'eduCharlas':
+					$datos['eduCharlas']=$this->modelo('ProceduresDataModel')->charlas($nuevo);
+					$datos['cargado']=5;
+					break;
+				case 'eduContinua':
+					$datos['eduContinua']=$this->modelo('ProceduresDataModel')->continua($nuevo);
+					$datos['cargado']=6;
+					break;
+				case 'eduEpidemiologia':
+					$datos['eduEpidemiologia']=$this->modelo('ProceduresDataModel')->continuaEpidemiologia($nuevo);
+					$datos['cargado']=7;
+					break;
+				case 'eduOftalmologia':
+					$datos['eduOftalmologia']=$this->modelo('ProceduresDataModel')->continuaOftalmologia($nuevo);
+					$datos['cargado']=8;
+					break;
+				case 'administracion':
+					$datos['administracion'] = $this->modelo('ProceduresDataModel')->administracion($nuevo);
+					$datos['cargado']=9;
+					break;
+				default:
+					$datos[]='';
+					break;
+			}
 			return $datos;
 		}
 		private function cargarDatosNivel($nivel,$tiempo=0){

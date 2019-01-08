@@ -36,7 +36,7 @@
 				//Obtenemos los parámetros
 				$this->parametros = $url ? array_values($url):[];
 				//Llamar con parametros array
-				call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
+				$response = call_user_func_array([$this->controladorActual,$this->metodoActual],$this->parametros);
 			}
 			else
 			{

@@ -33,7 +33,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<?php
 					if(isset($_SESSION['nombre']))
-						echo "<li><a href='#'>".$_SESSION['nombre']."</a></li>"
+						echo "<li><a href='".RUTA_URL."/Users/MiPerfil'>".$_SESSION['nombre']."</a></li>"
 					?>
 
 					<li><a href="<?php echo RUTA_URL?>/Login/signout"> Cerrar Sesión</a></li>

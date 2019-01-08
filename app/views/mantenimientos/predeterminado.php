@@ -210,16 +210,27 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
 				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(61);">Nuevo</button>
-			</div>
+			</div><?php if($bool){?>
 			<div class='col-xs-12'>	
 				<hr>
 			</div>				
 			<div id="filtro" class="col-xs-12" align="right">
 				<form method="post" action="<?=RUTA_URL.'/Mantenimiento/RecargarEducacion/'.$nNivel?>">
 					<div class="col-xs-1">
-						<label style="text-align: center; padding-top: 8px;">Desde:</label>
+						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
 					<div class="col-xs-3">
+						<select name="cbOrdenar" class="form-control" id="dates" >
+							<option value="">Realizados y Programados</option>
+							<option value="default">Predeterminado*</option>
+							<option value="Programada">Programados</option>
+							<option value="Realizada">Realizados</option>
+						</select>
+					</div>
+					<div class="col-xs-1">
+						<label style="text-align: center; padding-top: 8px;">Desde:</label>
+					</div>
+					<div class="col-xs-2">
 						<div class="form-group">
 						    <div class='input-group date' id='datetimepicker1'>
 						        <input type='text' class="form-control" name="fecha1" id="fecha1" />
@@ -232,7 +243,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
 					</div>
-					<div class="col-xs-3">
+					<div class="col-xs-2">
 						<div class="form-group">
 						    <div class='input-group date' id='datetimepicker2'>
 						        <input type='text' class="form-control" name="fecha2" id="fecha2" />
@@ -249,7 +260,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			</div>
 			<div class='col-xs-12'>					
 				<hr>
-			</div>
+			</div><?php }?>
 			<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/IngresoCharla/'.$nNivel?>">
 				<div class="container" align="center" id="hide">
 						<div class="col-xs-3"></div>
@@ -291,52 +302,17 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 						    	}?>
 					     	</div>
 					    <div class="col-xs-3"></div>
+					    <div class='col-xs-12'>					
+							<hr>
+						</div>
 					</div>
 			</form>
 			<?php
-				if(isset($data['education'])&&count($data['education'])>0)
+				if(isset($data['education']))
 				{
-					foreach ($data['education'] as $key) {
-			?>
-			<form action="<?php echo RUTA_URL.'/Mantenimiento/Ingreso/'.$nNivel?>" method="POST">
-				<div class='col-xs-12'>
-					<h4><?php echo $key->title;?></h4>
-					<div class="col-xs-11">
-						<p><?php echo $key->detalles;?></p>
-						<input type="text" name="idCharla" value="<?php echo $key->id;?>" hidden>
-					</div>
-					<div class="col-xs-1">
-						<button class="btn btn-primary navbar-right" type="submit">Modificar</button>
-					</div>
-				</div>
-			</form>
-			<div class="col-xs-1"><br></div>
-			<form class="form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarEducacion/'.$nNivel.'/'.$key->id?>">
-				<input class="admin" type="text" name="fecha" hidden>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<?php 
-						if($key->tipo=="Personal")
-							$datos=$data['listeners'][0];
-						else
-							$datos=$data['listeners'][1];
-						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
-					?>
-				</div >
-				<div class="col-xs-12" >
-					<div class="col-xs-12">
-						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-					</div>
-				</div>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<hr>
-				</div>
-			</form>
-			<?php
-					}
-				}
-				else
-				{
-					echo "<div class='col-xs-10'><br><br><p>No hay charlas programadas en este nivel</p></div>";
+					$extra=RUTA_URL.'/Mantenimiento/ActualizarDatos'; 
+					$datos=$data['education'];
+					include RUTA_APP.'\views\reportes\tablaShow.php'; 
 				}
 			?>
 		</div>
@@ -375,23 +351,27 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 	window.onload = function(){
 		Mostrar_Ocultar(<?php if(isset($data['cargado'])){echo $data['cargado'];}else echo 1;?>);
 		var val = new Date();
+		$('#hide').hide();
 		<?php if($bool){?>
 
-		$('.admin').val($("#adminFecha").val());<?php } ?>
-
-		$('#hide').hide();<?php
-		if(isset($data['tiempo']))
+		$('.admin').val($("#adminFecha").val());<?php
+		if(isset($_SESSION['fecha']))
 		{
-		$tempo =$data['tiempo'];?>
+			$tempo =$_SESSION['fecha'];
+			unset($_SESSION['fecha']);?>
 
-		$("#fecha1").val("<?php echo $tempo['fecha1']?>");
-		$("#fecha2").val("<?php echo $tempo['fecha2']?>");<?php
+		$("#dates").val("<?php echo $tempo['tipo'];?>");
+		$("#fecha1").val("<?php echo $tempo['fecha1'];?>");
+		$("#fecha2").val("<?php echo $tempo['fecha2'];?>");<?php
 		}
 		else{?>
 
+		$("#dates").val("default");
+    	$('#datetimepicker1').children().attr('disabled','disabled');
+    	$('#datetimepicker2').children().attr('disabled','disabled');
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
 		$("#fecha2").val("<?php echo date('Y/m/d')?>");<?php
-		}?>
+		}}?>
 	}
 	function Mostrar_Ocultar(num){
 
@@ -525,6 +505,17 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
             ignoreReadonly:true,
             defaultDate:new Date(),
         });
+
+        $("#dates").change(function(){
+		    if($(this).val()!="default"){
+		    	$('#datetimepicker1').children().attr('disabled',false);
+		    	$('#datetimepicker2').children().attr('disabled',false);
+		    }
+		    else{
+		    	$('#datetimepicker1').children().attr('disabled','disabled');
+		    	$('#datetimepicker2').children().attr('disabled','disabled');
+		    }
+		});
 
         $("#admin").on("dp.change", function (e) {
         $('.admin').val(e.date.format('YYYY/MM/DD'));

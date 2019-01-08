@@ -24,7 +24,8 @@ function Mostrar_Ocultar(){
 			<div class="col-xs-12">
 				<h1>Usuarios</h1>
 				<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-					<?php include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+					<?php $extra=RUTA_URL.'/Users/Actualizar'; 
+					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 				</div>
 				<div class="col-xs-2 navbar-right" align="center">
 					<button class="btn btn-lg btn-primary" type="submit" onclick="Mostrar_Ocultar();">Nuevo Usuario</button>
