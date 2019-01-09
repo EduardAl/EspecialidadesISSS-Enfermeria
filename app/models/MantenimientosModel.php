@@ -60,6 +60,14 @@
         return $this->execute();
       }
     }
+    public function configurarAusentismo($nivel,$params,$tiempo=0){
+      $sql = "INSERT into hours_data values (null, :dato1, :dato2, :dato3, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).",(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE employees=:dato1,working_hours_at_month=:dato2,working_hours_at_period=:dato3;";
+      $this->query($sql);
+      $this->bind(':dato1',$params[0]);
+      $this->bind(':dato2',$params[1]);
+      $this->bind(':dato3',$params[2]);
+      return $this->execute();
+    }
     public function insertarAdministrativo($nivel,$id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
@@ -76,6 +84,16 @@
       $this->bind(':dato',$params);
       $this->bind(':id',$id);
       return $this->execute();
+    }
+    public function insertarGoalCharla($id,$params,$tiempo=0){
+      if($params!=0){
+        $params=($params<0)?0:$params;
+        $sql = "INSERT into goals_health values(null,:dato,".(($tiempo==0)?"curdate()":("'".$tiempo."'")).",:id) ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
     }
     public function actualizarCharla($nivel,$params){
       $sql = "UPDATE health_education_data SET description =:descripcion,status=:estado,health_education_id=:he_id,updated_at=Now(),created_at=:date where id=:id;";
@@ -144,6 +162,21 @@
       ];
       return $formulario;
       }
+    public function absences_config(){
+      $valor = ['Empleados en Enfermería','Horas laborales del mes','Horas laborales del periodo'];
+
+      for ($i=0; $i < count($valor); $i++) { 
+        $aux = new stdClass();
+        $aux->title=$valor[$i];
+        $aux->id=$i;
+        $valores[]= $aux;
+      }
+      $formulario = [
+        'TítulosX' => ['Configurar','Cantidad'],
+        'TítulosY' => $valores,
+      ];
+      return $formulario;
+      }
     public function procedures($nivel,$specialties){
       $retornar=[];
       foreach ($specialties as $key) {
@@ -174,7 +207,11 @@
         $sql=$sql." where id <> 4 ";
 
       $this->query($sql);
-      return $this->registros();
+      $formulario = [
+        'TítulosX' => ['Tipo','Meta'],
+        'TítulosY' => $this->registros(),
+      ];
+      return $formulario;
       }
     public function health_education_data($nivel,$fecha=0){
       if(isset($_SESSION['fecha']))

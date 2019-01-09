@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; ?>
+<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; ?>
 <div>
 	<div class="col-xs-12" style="background: #050D42;">
 		<div class="container">
@@ -73,21 +73,22 @@
 			</div>
 		</div>
 		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
-			<div class="col-xs-8">
+			<div class="col-xs-6">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a class="mouseHover" onclick="find('#datosNivel');">Datos de Nivel</a></li>
+					<li><a class="mouseHover" onclick="find('#indicadoresEnfermeria');">Indicadores</a></li>
+					<li><a class="mouseHover" onclick="find('#consultas');">Consultas</a></li>
 					<li><a class="mouseHover" onclick="find('#ausentismo');">Ausentismo</a></li>
-					<li><a class="mouseHover" onclick="find('#admin');">Administración</a></li>
+					<li><a class="mouseHover" onclick="find('#graphics');">Gráficas</a></li>
 				</ul>
 			</div>
 			<div class="col-xs-12" style="display: inline-block; align-items: center">
 				<hr>
 			</div>
 			<div id="filtro" class="col-xs-12" align="right">
-				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/6">
+				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
@@ -98,8 +99,14 @@
 							<option value="Per">Personalizado</option>
 						</select>
 					</div>
+					<div class="col-xs-2">
+							<select name="cbSeparador" class="form-control" id="separador">
+								<option value="1" selected>Una sola Tabla</option>
+								<option value="2">Separar Meses</option>
+							</select>
+						</div>
 					<div class="col-xs-1">
-						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Desde:</label>
+						<label style="text-align: center; padding-top: 8px;">Entre:</label>
 					</div>
 					<div class="col-xs-2">
 						<div class="form-group">
@@ -110,9 +117,6 @@
 						        </span>
 						    </div>
 						</div>
-					</div>
-					<div class="col-xs-1">
-						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
 					</div>
 					<div class="col-xs-2">
 						<div class="form-group">
@@ -125,56 +129,58 @@
 						</div>
 					</div>
 					<div class="col-xs-2">
-						<button class="btn btn-primary btn-block" type="submit">Actualizar</button>
+						<button class="btn btn-info btn-block" type="submit">Actualizar</button>
 					</div>
 				</form>
 			</div>
-			<div id="datosNivel" class="col-xs-12" style="align-items: center">
+			<div id="indicadoresEnfermeria" class="col-xs-12" style="align-items: center">
 				<hr>
 			</div>
-
-			<div id="datosNivel" class="col-xs-12">
+			<div id="indicadoresEnfermeria" class="col-xs-12">
 				<div>
-					<h3>Datos de Nivel</h3>
+					<h3>Indicadores de Enfermería</h3>
 				</div>
-				<div class="col-xs-12" style="overflow: auto; max-height: 800px;">
-					<?php $data=$datos; $datos=$data['datos1']; $id=1;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
-				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
-						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
+				<div class="col-xs-12" style="overflow: auto;">
+					<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
+					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
 				</div>
 			</div>
-			<div id="ausentismo" class="col-xs-12" style="display: inline-block; align-items: center">
+			<div id="consultas" class="col-xs-12">
+				<hr>
+			</div>
+			<div id="consultas" class="col-xs-12">
+				<div>
+					<h3>Consultas</h3>
+				</div>
+				<div class="col-xs-12" style="overflow: auto;">
+					<?php $datos=$data['consultas'];
+					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+				</div>
+			</div>
+			<div id="ausentismo" class="col-xs-12">
 				<hr>
 			</div>
 			<div id="ausentismo" class="col-xs-12">
 				<div>
 					<h3>Ausentismo</h3>
 				</div>
-				<div class="col-xs-12" style="overflow: auto; max-height: 800px;">
-					<?php $datos=$data['datos2']; $id++;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
 				<div class="col-xs-12">
-					<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
-						<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
+					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
+					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
 				</div>
 			</div>
-			<div id="admin" class="col-xs-12" style="display: inline-block; align-items: center">
+			<div id="graphics" class="col-xs-12">
 				<hr>
 			</div>
-			<div id="admin" class="col-xs-12">
-				<div>
-					<h3>Administración</h3>
+			<div id="graphics">
+				<?php if(isset($data['graf'])){ 
+					foreach($data['graf'] as $key){ $id++;?>
+				<div class="col-xs-12">
+					<div class=thumbnail>
+					<?php $datos=$key; include RUTA_APP.'\views\reportes\pieChart.php'; ?>
+					</div>
 				</div>
-				<div class="col-xs-12" style="overflow: auto; max-height: 800px;">
-					<?php $datos=$data['datos3']; $id++;
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-				</div>
+				<?php }}?>
 			</div>
 		</div>
 	</div>
@@ -190,6 +196,7 @@
 		$("#dates").val("<?php echo $tempo['tipo']?>");
 		$("#fecha1").val("<?php echo $tempo['fecha1']?>");
 		$("#fecha2").val("<?php echo $tempo['fecha2']?>");
+		$("#separador").val("<?php echo $tempo['separador']?>");
 <?php
 		}
 		else{

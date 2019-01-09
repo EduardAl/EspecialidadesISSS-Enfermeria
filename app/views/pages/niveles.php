@@ -3,13 +3,8 @@
 	<div class="row">
 		<br>
 		<div id="ConseguirDatos" hidden>
-			<div class="col-xs-6" style="padding-top: 8px;">
-				<div class="col-xs-4 navbar-left" id="btn3">
-					<button class="btn btn-info btn-block" onclick="Mostrar_Ocultar(30)">Metas de Educación</button>
-				</div>
-			</div>
-			<div class="col-xs-6" style="padding-top: 8px;">
-				<div class="col-xs-4 navbar-right" hidden id="btn1">
+			<div class="col-xs-12" style="padding-top: 8px;">
+				<div class="col-xs-2 navbar-right" hidden id="btn1">
 					<button class="btn btn-info btn-block" onclick="Mostrar_Ocultar(41)">Ocultar</button>
 				</div>
 			</div>
@@ -145,7 +140,7 @@
 					<h3>Ausentismo por Nivel</h3>
 				</div>
 				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo']; $id++;
+					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo']['meta']; $id++;
 					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 				</div>
 				<div class="col-xs-12">

@@ -12,7 +12,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 		</ul>
 	</div>
 </div>
-<div class = "container" style="min-height: 500px;">
+<div class = "container" style="min-height: 400px;">
 	<div class = "row">
 		<div  class="col-xs-<?php echo ($bool)?3:12?>">
 			<h1 class=""><?php echo $lNivel?></h1>
@@ -177,8 +177,11 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			?>
 		</div>
 		<div class="col-xs-12" id="ausentismo">
-			<div>
+			<div class='col-xs-10'>					
 				<h2>Ausentismo del Nivel</h2>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(9);">Configuración</button>
 			</div>
 			<?php 
 				if(isset($data['absences'])){
@@ -204,12 +207,44 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				}
 			?>
 		</div>
-		<div class="col-xs-12" id="educacion">
+		<div class='col-xs-12' id="configAusentismo">
 			<div class='col-xs-10'>					
+				<h2>Configuración de Ausentismo</h2>
+			</div>
+			<?php
+			if(isset($data['absences_config']))
+			{?>
+			
+			<div class="col-xs-12" style="display: inline-block; align-items: center">
+				<br>
+			</div>
+			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/ConfigurarAusentismo/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+					<?php 
+					$datos=$data['absences_config'];
+					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+					?>
+				</div >
+				<div class="col-xs-12" >
+					<div class="col-xs-12">
+						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+					</div>
+				</div>
+			</form>
+				<?php
+			}
+			?>
+		</div>
+		<div class="col-xs-12" id="educacion">
+			<div class='col-xs-8'>					
 				<h2>Educación y Charlas</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
 				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(61);">Nuevo</button>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(8);">Metas</button>
 			</div><?php if($bool){?>
 			<div class='col-xs-12'>	
 				<hr>
@@ -290,8 +325,8 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 						        </div>
 						       <select name="tipo" class="form-control" required>
 						       		<?php
-						       			if(isset($data['health']))
-							       		foreach ($data['health'] as $key) {
+						       			if(isset($data['health']['TítulosY']))
+							       		foreach ($data['health']['TítulosY'] as $key) {
 							       			echo "<option value=".$key->id.">".$key->title."</option>";
 							       		}
 									?>
@@ -314,6 +349,38 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					$datos=$data['education'];
 					include RUTA_APP.'\views\reportes\tablaShow.php'; 
 				}
+			?>
+		</div>
+		<div class='col-xs-12' id="metasEducacion">
+			<div class='col-xs-10'>					
+				<h2>Metas de Educación y de Charlas Informativas</h2>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(62);">Educación</button>
+			</div>
+			<?php
+			if(isset($data['health']))
+			{?>
+			
+			<div class="col-xs-12" style="display: inline-block; align-items: center">
+				<br>
+			</div>
+			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoMetaCharla/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+					<?php 
+					$datos=$data['health'];
+					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+					?>
+				</div >
+				<div class="col-xs-12" >
+					<div class="col-xs-12">
+						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+					</div>
+				</div>
+			</form>
+				<?php
+			}
 			?>
 		</div>
 		<div class="col-xs-12" id="administrativa">
@@ -390,6 +457,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 
 		$("#"+num).css("background-color","#E8E8EC");
 		$("#"+num).css("color","black");
+
 		if(num==1)
 		{
 			$('#datosNivel').show('fast');
@@ -397,7 +465,9 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#procedimientosEspecialidades').hide();
 			$('#metasEspecialidades').hide();
 			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
 			$('#educacion').hide();
+			$('#metasEducacion').hide();
 			$('#administrativa').hide();
 		}
 		else if(num==2)
@@ -407,7 +477,9 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#procedimientosEspecialidades').hide();
 			$('#metasEspecialidades').hide();
 			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
 			$('#educacion').hide();
+			$('#metasEducacion').hide();
 			$('#administrativa').hide();
 		}
 		else if(num==3)
@@ -416,8 +488,10 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosEspecialidades').hide();
 			$('#metasEspecialidades').hide('slow');
 			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
 			$('#procedimientosEspecialidades').show('fast');
 			$('#educacion').hide();
+			$('#metasEducacion').hide();
 			$('#administrativa').hide();
 		}
 		else if(num==31)
@@ -426,37 +500,40 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$("#3").css("color","black");
 			$('#metasEspecialidades').hide('slow');
 			$('#procedimientosEspecialidades').show('slow');
-			$('#educacion').hide();
-			$('#administrativa').hide();
 		}
 		else if(num==4)
 		{
 			$("#3").css("background-color","#E8E8EC");
 			$("#3").css("color","black");
 			$('#procedimientosEspecialidades').hide('slow');
-			$('#datosNivel').hide('slow');
-			$('#datosEspecialidades').hide('slow');
-			$('#ausentismo').hide('slow');
-			$('#metasEspecialidades').show('fast');
-			$('#educacion').hide();
-			$('#administrativa').hide();
+			$('#metasEspecialidades').show('slow');
 		}
 		else if(num==5)
 		{
 			$('#ausentismo').show('fast');
+			$('#configAusentismo').hide();
 			$('#procedimientosEspecialidades').hide();
 			$('#datosNivel').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#educacion').hide();
+			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+		}
+		else if(num==51){
+			$("#5").css("background-color","#E8E8EC");
+			$("#5").css("color","black");
+			$('#configAusentismo').hide('slow');
+			$('#ausentismo').show('slow');
 		}
 		else if(num==6)
 		{
 			$('#educacion').show('fast');
+			$('#metasEducacion').hide();
 			$('#procedimientosEspecialidades').hide();
 			$('#datosNivel').hide();
 			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#administrativa').hide();
@@ -474,6 +551,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				hidden=true;
 			}
 		}
+		else if(num==62){
+			$("#6").css("background-color","#E8E8EC");
+			$("#6").css("color","black");
+			$('#metasEducacion').hide('slow');
+			$('#educacion').show('slow');
+		}
 		else if(num==7)
 		{
 			$('#administrativa').show('fast');
@@ -482,7 +565,23 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
 			$('#educacion').hide();
+			$('#metasEducacion').hide();
+		}
+		else if(num==8)
+		{
+			$("#6").css("background-color","#E8E8EC");
+			$("#6").css("color","black");
+			$('#educacion').hide('slow');
+			$('#metasEducacion').show('slow');
+		}
+		else if(num==9)
+		{
+			$("#5").css("background-color","#E8E8EC");
+			$("#5").css("color","black");
+			$('#ausentismo').hide('slow');
+			$('#configAusentismo').show('slow');
 		}
 	}
 	$(function () {

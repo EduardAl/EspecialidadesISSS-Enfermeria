@@ -53,11 +53,11 @@
                 backgroundColor: '#070719',
                 data: [
                 <?php
-                $i=0;
-                foreach ($datos['values'][0] as $key) {
-                    if($i>0&&$i<$aux)
-                        echo $key.", ";
-                      $i++;
+                foreach ($datos['titulosG'] as $tit) {
+                  foreach ($datos['values'][0] as $value => $key) {
+                    if($value==$tit)
+                      echo $key.", ";
+                  }
                 }
                 ?>
                 ]
@@ -67,11 +67,11 @@
                 backgroundColor: '#0B173B',
                 data: [
                 <?php
-                 $i=0;
-                foreach ($datos['values'][1] as $key) {
-                    if($i>0&&$i<$aux)
-                        echo $key.", ";
-                      $i++;
+                foreach ($datos['titulosG'] as $tit) {
+                  foreach ($datos['values'][1] as $value => $key) {
+                    if($value==$tit)
+                      echo $key.", ";
+                  }
                 }
                 ?>
                 ]
@@ -81,11 +81,11 @@
                 backgroundColor: '#0B2161',
                 data: [
                 <?php
-                 $i=0;
-                foreach ($datos['values'][2] as $key) {
-                    if($i>0&&$i<$aux)
-                        echo $key.", ";
-                      $i++;
+                foreach ($datos['titulosG'] as $tit) {
+                  foreach ($datos['values'][2] as $value => $key) {
+                    if($value==$tit)
+                      echo $key.", ";
+                  }
                 }
                 ?>
                 ]
@@ -95,11 +95,11 @@
                 backgroundColor: '#08298A',
                 data: [
                 <?php
-                 $i=0;
-                foreach ($datos['values'][3] as $key) {
-                    if($i>0&&$i<$aux)
-                        echo $key.", ";
-                      $i++;
+                foreach ($datos['titulosG'] as $tit) {
+                  foreach ($datos['values'][3] as $value => $key) {
+                    if($value==$tit)
+                      echo $key.", ";
+                  }
                 }
                 ?>
                 ]

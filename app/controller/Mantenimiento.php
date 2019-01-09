@@ -91,7 +91,7 @@
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
 			}
 
-		public function IngresoMeta($nivel='',$especialidad=''){			
+		public function IngresoMeta($nivel='',$especialidad=''){
 			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
 			unset($_POST['fecha']);
 			$datosRecibidos = count($_POST);
@@ -182,6 +182,18 @@
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
 			}
 
+		public function IngresoMetaCharla($nivel=''){
+			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
+			unset($_POST['fecha']);
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				$this->modelo('MantenimientosModel')->insertarGoalCharla($data[$i],$_POST[$data[$i]],$tiempo);
+			}
+			$_SESSION['cambiado']=6;
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+			}
+
 		public function ActualizarEducacion(){
 			if(isset($_POST['id'])){
 				$id=$_POST['id'];
@@ -250,6 +262,39 @@
 			}
 			}	
 
+		public function ConfigurarAusentismo($nivel=''){
+			$level = $nivel;
+			switch ($level) {
+				case 4:
+					$nivel = 'cuarto';
+					break;
+				case 5:
+					$nivel = 'quinto';
+					break;
+				case 6:
+					$nivel = 'sexto';
+					break;
+				case 7:
+					$nivel = 'septimo';
+					break;				
+			}
+			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
+			unset($_POST['fecha']);
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				if($_POST[$data[$i]]>0)
+					$data2[]=$_POST[$data[$i]];
+				else
+					$data2[]=0;
+			}
+			if(isset($data2)){
+				$this->modelo('MantenimientosModel')->configurarAusentismo($nivel,$data2,$fecha);
+				$_SESSION['cambiado']=5;
+				}
+				header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
+			}
+
 		/////////////////////////////////////////////////
 
 		public function RecargarEducacion($nivel=''){
@@ -283,7 +328,6 @@
 		/////////////////////////////////////////////////
 
 		private function mantenimientoRecarga($nivel=''){
-			$datos=null;
 			$level = $nivel;
 			switch ($level) {
 				case 4:
@@ -309,6 +353,7 @@
 				$specialty = $model->specialtyThings();
 				$procedures = $model->procedures($nivel,$especialidades);
 				$absences=$model->absences();
+				$absencesConfig=$model->absences_config();
 				$health=$model->health_Education($nivel);
 				$healthEducation=$model->health_Education_data($nivel);
 				$admin=$model->administrative_management();
@@ -321,6 +366,7 @@
 					'health' => $health,
 					'education' => $healthEducation,
 					'admin' => $admin,
+					'absences_config' =>$absencesConfig,
 				];
 
 				if(isset($_SESSION['cambiado']))
@@ -328,8 +374,9 @@
 					$datos['cargado']=$_SESSION['cambiado'];
 					unset($_SESSION['cambiado']);
 				}
+				$this->vista('mantenimientos/nivel'.$level,$datos);
 			}
-			$this->vista('mantenimientos/nivel'.$level,$datos);
+				$this->vista('mantenimientos/nivel/noDefinido');
 			}
 	}
 

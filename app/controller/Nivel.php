@@ -21,10 +21,12 @@
 			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
 			$fecha2 = (isset($_POST['fecha2']))?$_POST['fecha2']:date("Y/m/d");
 			$tipo = (isset($_POST['cbOrdenar'])?$_POST['cbOrdenar']:'Month');
+			$separador = (isset($_POST['cbSeparador'])?$_POST['cbSeparador']:'1');
 			$tiempo = [
 				'tipo'=>$tipo,
 				'fecha1'=>$fecha1,
 				'fecha2'=>$fecha2,
+				'separador'=>$separador,
 			];
 			unset($_SESSION['temp']);
       		$_SESSION['temp'] = $tiempo;
@@ -38,23 +40,20 @@
 					$fechaT="Año Actual";
 				}
 				else if($tiempo['tipo']=="Per"){
+					if($tiempo['separador']!=1){
+						$$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
+						$$tiempo['fecha2']=date("Y-m-t",strtotime($tiempo['fecha2']));
+					}
 					$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
 				}
-				$datos = [
-					'datos1'=>$this->cargarDatosNivel($num_registro,$tiempo),
-					'datos2'=>$this->cargarAusentismoNivel($num_registro,$tiempo),
-					'datos3'=>$this->cargarAdministracionNivel($num_registro,$tiempo),
-					'fechaT'=>$fechaT,
-					'tiempo'=>$tiempo,
-				];			
+				setlocale(LC_ALL, "es_ES");
+				$datos = $this->cargarDatosNivel($num_registro,$tiempo);
+				$datos['fechaT'] =$fechaT;
+				$datos['tiempo']=$tiempo;
 			}
 			else{
-				$datos = [
-					'datos1'=>$this->cargarDatosNivel($num_registro),
-					'datos2'=>$this->cargarAusentismoNivel($num_registro),
-					'datos3'=>$this->cargarAdministracionNivel($num_registro),
-					'fechaT'=>'Mes Actual',
-				];			
+				$datos = $this->cargarDatosNivel($num_registro);
+				$datos['fechaT'] ='Mes Actual';
 			}
 			unset($_SESSION['temp']);
 			$this->vista('levels/nivel'.$num_registro,$datos);
@@ -134,6 +133,7 @@
 			}
 
 		private function cargarNiveles($params){
+			setlocale(LC_ALL, "es_ES");
 			$fecha1=date('Y-m-1');
 			$fecha2=date('Y-m-t');
 			if(isset($params['cbFecha'])){
@@ -143,7 +143,7 @@
 					
 				}
 				else if ($params['cbFecha']=='Year'){
-					$fecha1=date("Y-m-d");
+					$fecha1=date("Y-01-01");
 					$fecha2=date("Y-12-31");
 					$datos['fecha']='Año Actual';
 				}
@@ -205,40 +205,9 @@
 		}
 		private function cargarDatosNivel($nivel,$tiempo=0){
 			if($nivel>=4&&$nivel<=7){
-				$level=($nivel==4)?'cuarto':(($nivel==5)?'quinto':(($nivel==6)?'sexto':'séptimo'));
-			//Modificar los títulos
-				$param = $this->modelo('ProceduresDataModel')->datosNivel($level,$tiempo);
-				$datos=[
-					'values' => $param,
-					'titulo' => ['Actividad','Cantidad'],
-				];
-				return $datos;
-			}
-			return null;
-		}
-		private function cargarAusentismoNivel($nivel,$tiempo=0){
-			if($nivel>=4&&$nivel<=7){
-				$level=($nivel==4)?'cuarto':(($nivel==5)?'quinto':(($nivel==6)?'sexto':'séptimo'));
-			//Modificar los títulos
-				$param = $this->modelo('ProceduresDataModel')->ausentismoNivel($level,$tiempo);
-				$datos=[
-					'values' => $param,
-					'titulo' => ['Tipo','Cantidad'],
-				];
-				return $datos;
-			}
-			return null;
-		}
-		private function cargarAdministracionNivel($nivel,$tiempo=0){
-			if($nivel>=4&&$nivel<=7){
-				$level=($nivel==4)?'cuarto':(($nivel==5)?'quinto':(($nivel==6)?'sexto':'séptimo'));
-			//Modificar los títulos
-				$param = $this->modelo('ProceduresDataModel')->administracionNivel($level,$tiempo);
-				$datos=[
-					'values' => $param,
-					'titulo' => ['Tipo','Cantidad'],
-				];
-				return $datos;
+				$level=($nivel==4)?'1':(($nivel==5)?'2':(($nivel==6)?'3':'4'));
+
+				return $this->modelo('ProceduresDataModel')->cargarDatosNivel($level,$tiempo);
 			}
 			return null;
 		}
