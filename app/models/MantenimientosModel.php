@@ -8,8 +8,7 @@
       parent::__construct();
     }
     //Procedimientos
-    public function insertarProcedimiento($dato,$nombre,$tiempo=0)
-    {
+    public function insertarProcedimiento($dato,$nombre,$tiempo=0){
       if($dato!=0){
         $dato=($dato<0)?0:$dato;
         echo $params;
@@ -85,6 +84,14 @@
       $this->bind(':id',$id);
       return $this->execute();
     }
+    public function insertarInvestigacion($nivel,$name,$desc,$status,$fecha){
+      $sql = "INSERT into investigations values (null, :dato,:desc,:status, '$fecha',(select id from levels where name like '%$nivel%'));";
+      $this->query($sql);
+      $this->bind(':dato',$name);
+      $this->bind(':desc',$desc);
+      $this->bind(':status',$status);
+      return $this->execute();
+    }
     public function insertarGoalCharla($id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
@@ -95,7 +102,7 @@
         return $this->execute();
       }
     }
-    public function actualizarCharla($nivel,$params){
+    public function actualizarCharla($params){
       $sql = "UPDATE health_education_data SET description =:descripcion,status=:estado,health_education_id=:he_id,updated_at=Now(),created_at=:date where id=:id;";
       $this->query($sql);
       $this->bind(':descripcion',$params['fname']);
@@ -124,7 +131,16 @@
       $this->bind(':id',$id);
       return $this->execute();
     }
-
+    public function actualizarInvestigacion($params){
+      $sql = "UPDATE investigations SET name=:name,description=:descripcion,status=:estado,date=:date where id=:id;";
+      $this->query($sql);
+      $this->bind(':descripcion',$params['description']);
+      $this->bind(':estado',$params['estado']);
+      $this->bind(':name',$params['fname']);
+      $this->bind(':date',$params['fechaC']);
+      $this->bind(':id',$params['id']);
+      return $this->execute();
+    }
     /*
       ************************
       * Carga de Formularios *
@@ -213,6 +229,7 @@
       ];
       return $formulario;
       }
+
     public function health_education_data($nivel,$fecha=0){
       if(isset($_SESSION['fecha']))
         $fecha=$_SESSION['fecha'];
@@ -235,6 +252,33 @@
       return $datos;
       }
 
+    public function investigations_data($nivel,$fecha=0){
+      if(isset($_SESSION['fecha']))
+        $fecha=$_SESSION['fecha'];
+
+      $sql="SELECT i.name,i.description,i.status,DATE_FORMAT(i.date,'%Y/%m/%d'),i.id as Extra from investigations i 
+       inner join levels l on l.id=i.level_id 
+       where l.name LIKE '%$nivel%'";
+        if($fecha==0||$fecha['tipo']=='default')
+          $sql=$sql." and i.status='Programada'";
+        else{
+          $sql=$sql." and i.status LIKE'%".$fecha['tipo']."%' and i.date between '".$fecha['fecha1']."' and '".$fecha['fecha2']."'";
+        }
+      $this->query($sql);
+      $datos=[
+        'values' => $this->registros(),
+        'titulo' => ['Nombre','Descripción','Estado','Programado para'],
+      ];
+      return $datos;
+      }
+
+    public function investigations($id){
+      
+      $sql="SELECT i.name as 'name',i.description as 'descripcion',i.status as 'estatus',DATE_FORMAT(i.date,'%Y/%m/%d')as 'fecha',l.name as 'nivel' from investigations i inner join levels l on l.id=i.level_id where i.id = $id LIMIT 1";
+        
+      $this->query($sql);
+      return $this->registro();
+      }
     public function education($id){
       
       $sql="SELECT hed.description as 'descripcion',hed.status as 'estatus',hed.health_education_id as 'tipo',DATE_FORMAT(hed.created_at,'%Y/%m/%d') as 'fecha',l.name as 'nivel',he.listeners as 'Oyentes' from health_education_data hed 

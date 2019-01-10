@@ -37,9 +37,11 @@
 	        </div>
 	       <select name="tipo" class="form-control" id="inputTipo" required>
 	       		<?php
-		       		foreach ($data['health'] as $key) {
+	       		if(isset($data['health'])){
+		       		foreach ($data['health']['TítulosY'] as $key) {
 		       			echo "<option value=".$key->id.">".$key->title."</option>";
 		       		}
+		       	}
 				?>
 			</select>
 	        <br>

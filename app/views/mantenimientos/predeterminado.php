@@ -8,6 +8,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<li><a id="2"class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
 			<li><a id="3"class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos de Especialidades</a></li>
 			<li><a id="6"class="mouseHover" onclick="Mostrar_Ocultar(6)">Educación y Charlas</a></li>
+			<li><a id="10"class="mouseHover" onclick="Mostrar_Ocultar(10)">Investigación</a></li>
 			<li><a id="7"class="mouseHover" onclick="Mostrar_Ocultar(7)">Gestión Administrativa</a></li>
 		</ul>
 	</div>
@@ -383,6 +384,116 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			}
 			?>
 		</div>
+		<div class="col-xs-12" id="investigacion">
+			<div class='col-xs-10'>					
+				<h2>Investigación Enfermería</h2>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(101);">Nuevo</button>
+			</div><?php if($bool){?>
+			<div class='col-xs-12'>	
+				<hr>
+			</div>				
+			<div id="filtro" class="col-xs-12" align="right">
+				<form method="post" action="<?=RUTA_URL.'/Mantenimiento/Recargarinvestigacion/'.$nNivel?>">
+					<div class="col-xs-1">
+						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
+					</div>
+					<div class="col-xs-3">
+						<select name="cbOrdenar" class="form-control" id="dates2" >
+							<option value="">Realizados y Programados</option>
+							<option value="default">Predeterminado*</option>
+							<option value="Programada">Programados</option>
+							<option value="Realizada">Realizados</option>
+						</select>
+					</div>
+					<div class="col-xs-1">
+						<label style="text-align: center; padding-top: 8px;">Desde:</label>
+					</div>
+					<div class="col-xs-2">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker3'>
+						        <input type='text' class="form-control" name="fecha1" id="fecha3" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-1">
+						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
+					</div>
+					<div class="col-xs-2">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker4'>
+						        <input type='text' class="form-control" name="fecha2" id="fecha4" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-2">
+						<button class="btn btn-primary btn-block" type="submit">Actualizar</button>
+					</div>
+				</form>
+			</div>
+			<div class='col-xs-12'>					
+				<hr>
+			</div><?php }?>
+			<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/IngresoInvestigacion/'.$nNivel?>">
+				<div class="container" align="center" id="hide2">
+						<div class="col-xs-3"></div>
+							<div class="col-xs-6" style="align: center;">
+						        <h2 class="text-center">Registro</h2>
+						        <div class="row text-center">
+						        	<label for="inputFName" class="text-center">Nombre:</label>
+						        </div>
+						        <input type="name" name="fname" id="inputFName" class="form-control" placeholder="Descripción" required>
+						        <br>
+						        <div class="row text-center">
+						        	<label for="inputFName" class="text-center">Descripción:</label>
+						        </div>
+						        <input type="name" name="description" id="inputDescription" class="form-control" placeholder="Descripción" required>
+						        <br>
+						        <div class="row text-center">
+						        	<label for="inputFDate" class="text-center">Fecha:</label>
+						        </div>
+								<div class="form-group">
+					                <div class='input-group date' id='fechaCh2'>
+					                    <input type='text' class="form-control" name="fechaC" id="fechaC2" required/>
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+					                </div>
+					            </div>
+						        <div class="row text-center">
+						        	<label for="estado" class="">Estado:</label>
+						        </div>
+						       <select name="estado" class="form-control" required>
+					       			<option value="Programada">Programada</option>;
+					       			<option value="Realizada">Realizada</option>;
+								</select>
+						        <br>
+						        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
+						        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
+						    	}?>
+					     	</div>
+					    <div class="col-xs-3"></div>
+					    <div class='col-xs-12'>					
+							<hr>
+						</div>
+					</div>
+			</form>
+			<?php
+				if(isset($data['investigacion']))
+				{
+					$extra=RUTA_URL.'/Mantenimiento/ActualizarInvestigacion'; 
+					$datos=$data['investigacion'];
+					include RUTA_APP.'\views\reportes\tablaShow.php'; 
+				}
+			?>
+		</div>
 		<div class="col-xs-12" id="administrativa">
 			<div>
 				<h2>Gestión Administrativa</h2>
@@ -415,10 +526,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 </div>
 <script type="text/javascript">
 	var hidden=true;
+	var hidden2=true;
 	window.onload = function(){
 		Mostrar_Ocultar(<?php if(isset($data['cargado'])){echo $data['cargado'];}else echo 1;?>);
 		var val = new Date();
 		$('#hide').hide();
+		$('#hide2').hide();
 		<?php if($bool){?>
 
 		$('.admin').val($("#adminFecha").val());<?php
@@ -438,6 +551,23 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
     	$('#datetimepicker2').children().attr('disabled','disabled');
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
 		$("#fecha2").val("<?php echo date('Y/m/d')?>");<?php
+		}
+		if(isset($_SESSION['fecha2']))
+		{
+			$tempo =$_SESSION['fecha2'];
+			unset($_SESSION['fecha2']);?>
+
+		$("#dates").val("<?php echo $tempo['tipo'];?>");
+		$("#fecha1").val("<?php echo $tempo['fecha1'];?>");
+		$("#fecha2").val("<?php echo $tempo['fecha2'];?>");<?php
+		}
+		else{?>
+
+		$("#dates2").val("default");
+    	$('#datetimepicker3').children().attr('disabled','disabled');
+    	$('#datetimepicker4').children().attr('disabled','disabled');
+		$("#fecha3").val("<?php echo date('Y/m/d')?>");
+		$("#fecha4").val("<?php echo date('Y/m/d')?>");<?php
 		}}?>
 	}
 	function Mostrar_Ocultar(num){
@@ -454,6 +584,8 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 		$("#6").css("color","white");
 		$("#7").css("background-color","transparent");
 		$("#7").css("color","white");
+		$("#10").css("background-color","transparent");
+		$("#10").css("color","white");
 
 		$("#"+num).css("background-color","#E8E8EC");
 		$("#"+num).css("color","black");
@@ -469,6 +601,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==2)
 		{
@@ -481,6 +614,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==3)
 		{
@@ -493,6 +627,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==31)
 		{
@@ -519,6 +654,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==51){
 			$("#5").css("background-color","#E8E8EC");
@@ -537,6 +673,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==61)
 		{
@@ -568,6 +705,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#configAusentismo').hide();
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
+			$('#investigacion').hide();
 		}
 		else if(num==8)
 		{
@@ -583,6 +721,32 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#ausentismo').hide('slow');
 			$('#configAusentismo').show('slow');
 		}
+		else if(num==10)
+		{
+			$('#investigacion').show('fast');
+			$('#metasEducacion').hide();
+			$('#procedimientosEspecialidades').hide();
+			$('#datosNivel').hide();
+			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
+			$('#metasEspecialidades').hide();
+			$('#datosEspecialidades').hide();
+			$('#educacion').hide();
+			$('#administrativa').hide();
+		}
+		else if(num==101)
+		{
+			$("#10").css("background-color","#E8E8EC");
+			$("#10").css("color","black");
+			if(hidden2){
+				$('#hide2').show('slow');
+				hidden2=false;
+			}
+			else{
+				$('#hide2').hide('slow');
+				hidden2=true;
+			}
+		}
 	}
 	$(function () {
         $('#datetimepicker1').datetimepicker({
@@ -593,9 +757,23 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
             locale:'es',
             format: 'YYYY/MM/DD',
         });
+        $('#datetimepicker3').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+        });
+        $('#datetimepicker4').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+        });
         $('#fechaCh').datetimepicker({
             locale:'es',
             format: 'YYYY/MM/DD',
+            defaultDate: new Date()
+        });
+        $('#fechaCh2').datetimepicker({
+            locale:'es',
+            format: 'YYYY/MM/DD',
+            defaultDate: new Date()
         });<?php if($bool) { ?>
 
 		$('#admin').datetimepicker({
@@ -615,7 +793,16 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 		    	$('#datetimepicker2').children().attr('disabled','disabled');
 		    }
 		});
-
+        $("#dates2").change(function(){
+		    if($(this).val()!="default"){
+		    	$('#datetimepicker3').children().attr('disabled',false);
+		    	$('#datetimepicker4').children().attr('disabled',false);
+		    }
+		    else{
+		    	$('#datetimepicker3').children().attr('disabled','disabled');
+		    	$('#datetimepicker4').children().attr('disabled','disabled');
+		    }
+		});
         $("#admin").on("dp.change", function (e) {
         $('.admin').val(e.date.format('YYYY/MM/DD'));
         });<?php
