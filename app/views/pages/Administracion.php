@@ -1,26 +1,58 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; ?>
+<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; $bool=false;?>
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
 			<h1>Administración</h1>
 		</div>
 		<br><br><br><br>
-		<div class="col-xs-4">
-			<div class=thumbnail>
-				<img src="<?php echo RUTA_URL?>/images/Administración.jpg">
-				<div class="caption">
-					<h3>Administración</h3>
-					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/4/Urologia"> Ingresar datos </a>
+		<div id="ocultar">
+			<div class="col-xs-4">
+				<div class=thumbnail>
+					<img src="<?php echo RUTA_URL?>/images/Administración.jpg">
+					<div class="caption">
+						<h3>Administración</h3>
+						<a  onclick="Mostrar_Ocultar(1)"> Ingresar datos </a>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class=thumbnail>
+					<img src="<?php echo RUTA_URL?>/images/administracion-empres-uw.jpg">
+					<div class="caption">
+						<h3>Gráficas</h3>
+						<a href="<?php echo RUTA_URL?>/Nivel/Graficas"> Ver tablas y estadísticas </a>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-4">
-			<div class=thumbnail>
-				<img src="<?php echo RUTA_URL?>/images/administracion-empres-uw.jpg">
-				<div class="caption">
-					<h3>Gráficas</h3>
-					<a onclick="Mostrar_Ocultar(1)"> Ver tablas y estadísticas </a>
-				</div>
+		<div id="management" hidden>
+			<div class="col-xs-12" id="datos">
+				<?php 
+					if(isset($data['admin'])){
+						$datos=$data['admin'];
+						if(count($datos['TítulosY'])>0){
+				?>
+				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Nivel/IngresoAdministrativo/'?>">
+					<input class="admin" type="text" name="fecha" hidden>
+					<div class="col-xs-12" style="display: inline-block; align-items: center">
+				<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					</div>
+					<div class="col-xs-12" >
+						<div class="col-xs-12">
+							<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+						</div>
+					</div>
+					<div class="col-xs-12" style="display: inline-block; align-items: center">
+						<hr>
+					</div>
+				</form>
+				<?php 
+						}
+					}
+				?>
+			</div>
+			<div class="col-xs-12" id="metas">
+				
 			</div>
 		</div>
 	</div>
@@ -30,7 +62,6 @@
 <script type="text/javascript">
 	var hidden=true;
 	window.onload = function(){
-		Mostrar_Ocultar(<?php if(isset($data['cargado'])){echo $data['cargado'];}else echo 1;?>);
 		var val = new Date();
 		$('#hide').hide();
 		<?php if($bool){?>
@@ -99,4 +130,10 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
+	function Mostrar_Ocultar(num){
+		if(num==1){
+			$('#ocultar').hide();
+			$('#management').show();
+		}
+	}
 </script>

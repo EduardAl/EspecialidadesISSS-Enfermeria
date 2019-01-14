@@ -77,6 +77,17 @@
         return $this->execute();
       }
     }
+    public function insertarAdministrativo2($id,$params,$tiempo=0){
+      if($params!=0){
+        $params=($params<0)?0:$params;
+        echo "Algo";
+        $sql = "INSERT into management_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id)ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
+    }
     public function insertarCharla($nivel,$params,$id,$fecha){
       $sql = "INSERT into health_education_data values (null, :dato,'Programada', :id,(select id from levels where name like '%".$nivel."%'),0, '".$fecha."',Now());";
       $this->query($sql);
@@ -217,6 +228,15 @@
 
     public function administrative_management(){
       $sql = "SELECT activities as 'title', id as 'id' from administrative_management;";
+      $this->query($sql);
+      $formulario = [
+        'TítulosX' => ['Descripción','Cantidad'],
+        'TítulosY' => $this->registros(),
+      ];
+      return $formulario;
+      }
+    public function management(){
+      $sql = "SELECT activities as 'title', id as 'id' from management;";
       $this->query($sql);
       $formulario = [
         'TítulosX' => ['Descripción','Cantidad'],

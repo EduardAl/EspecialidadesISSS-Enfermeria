@@ -12,15 +12,39 @@
 			$this->vista('pages/inicio');
 			}
 
-		public function Administracion(){
-			//$this->vista('Pages/Administracion');
-			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
-			$this->vista('Pages/Niveles',$datos);
+		public function Administracion(){		
+
+
+			if(isset($_SESSION['acceso'])&&
+					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
+			{
+				$model = $this->modelo('MantenimientosModel');
+				$admin=$model->management();
+				$datos=[
+					'admin' => $admin,
+				];
+				$this->vista('Pages/Administracion',$datos);
+			}
+			else
+				$this->vista('Pages/Administracion');
+
+			//$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
+			//$this->vista('Pages/Niveles',$datos);
 		}
 		public function Graficas(){
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
 			$this->vista('Pages/Niveles',$datos);
 		}
+		public function IngresoAdministrativo(){
+			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
+			unset($_POST['fecha']);
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				$this->modelo('MantenimientosModel')->insertarAdministrativo2($data[$i],$_POST[$data[$i]],$tiempo);
+			}
+			header('Location:'.RUTA_URL.'/Nivel/Administracion/');
+		} 
 		// Para cargar la vista de los niveles
 		public function level ($num_registro=''){
 			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
