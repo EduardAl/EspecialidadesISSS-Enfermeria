@@ -63,16 +63,8 @@
 			</div>
 		</div>
 		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
-			<div class="col-xs-6">
+			<div class="col-xs-12">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
-			</div>
-			<div class="col-xs-6">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a class="mouseHover" onclick="find('#indicadoresEnfermeria');">Indicadores</a></li>
-					<li><a class="mouseHover" onclick="find('#consultas');">Consultas</a></li>
-					<li><a class="mouseHover" onclick="find('#ausentismo');">Ausentismo</a></li>
-					<li><a class="mouseHover" onclick="find('#graphics');">Gráficas</a></li>
-				</ul>
 			</div>
 			<div class="col-xs-12" style="display: inline-block; align-items: center">
 				<hr>
@@ -143,8 +135,8 @@
 					<h3>Consultas</h3>
 				</div>
 				<div class="col-xs-12" style="overflow: auto;">
-					<?php $datos=$data['consultas'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+					<?php if(isset($data['consultas'])){$datos=$data['consultas'];
+					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
 				</div>
 			</div>
 			<div id="ausentismo" class="col-xs-12">
@@ -254,9 +246,5 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
-
-    function find(encontrar){
-    	$("html, body").animate({ scrollTop: $(encontrar).offset().top }, 500);
-    }
 </script>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

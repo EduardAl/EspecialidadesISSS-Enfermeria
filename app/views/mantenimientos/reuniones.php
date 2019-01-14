@@ -2,10 +2,10 @@
 <div class="container">
 	<div class="col-xs-3"></div>
 	<div class="col-xs-6" align="center">
-		<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarInv/';?>"><?php 
-			if(isset($data['investigations'])){
+		<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarReu/';?>"><?php 
+			if(isset($data['meetings'])){
 				echo '<input type="text" name="id" hidden value="'.$_POST['extra'].'">';
-				echo '<input type="text" name="level" hidden value="'.$data['investigations']->nivel.'">';
+				echo '<input type="text" name="level" hidden value="'.$data['meetings']->nivel.'">';
 				}
 			?>
 	        <h2 class="text-center">Actualizar</h2>
@@ -55,12 +55,12 @@
         });
     });
 	window.onload = function(){<?php
-		if(isset($data['investigations'])){?>
+		if(isset($data['meetings'])){?>
 
-		$('#inputFName').val("<?php echo $data['investigations']->name; ?>");
-		$('#inputDescription').val("<?php echo $data['investigations']->descripcion; ?>");
-		$('#inputEstado').val("<?php echo $data['investigations']->estatus; ?>");
-		$('#fechaC').val("<?php echo $data['investigations']->fecha; ?>");<?php }?>
+		$('#inputFName').val("<?php echo $data['meetings']->name; ?>");
+		$('#inputDescription').val("<?php echo $data['meetings']->descripcion; ?>");
+		$('#inputEstado').val("<?php echo $data['meetings']->estatus; ?>");
+		$('#fechaC').val("<?php echo $data['meetings']->fecha; ?>");<?php }?>
 
 	}
 </script>

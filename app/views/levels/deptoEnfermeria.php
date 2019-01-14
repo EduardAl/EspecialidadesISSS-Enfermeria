@@ -3,14 +3,14 @@
 	<div class="col-xs-12" style="background: #050D42;">
 		<div class="container">
 			<div class="col-xs-10">
-				<h1 style="color: white;">Sexto Nivel</h1>
+				<h1 style="color: white;">Departamento de Enfermería</h1>
 			</div>
 			<div class="col-xs-2" >
 				<br><?php
 				if((isset($_SESSION['acceso']))&&
 					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
 					echo '
-	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/6\'">Ingresar Datos</button>';?>
+	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/Enfermeria\'">Ingresar Datos</button>';?>
 
 	  		</div>
 		</div>
@@ -18,61 +18,14 @@
 	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
 		<div class="container">
 			<ul class="nav navbar-nav">
-				<li><a id="ep" class="mouseHover" onclick="Mostrar_Ocultar(1)">Especialidades del Nivel</a></li>
-				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Estadísticas del Nivel</a></li>
+				<li><a id="es" class="">Estadísticas del Nivel</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 <div class = "container">
 	<div class = "row">
-		<div <div id="especialidades" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
-			<div class="col-xs-12">
-				<h3>Especialidades del Nivel</h3>
-			</div>
-			<br> <br> <br>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/nefrologia.jpg">
-					<div class="caption">
-						<h3>Nefrología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Nefrologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/Endocrinologia.jpg">
-					<div class="caption">
-						<h3>Endocrinología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Endocrinologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/neurologia.jpg">
-					<div class="caption">
-						<h3>Neurología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Neurologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/neurocirugia.jpg">
-					<div class="caption">
-						<h3>Neurocirugía</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Neurocirugia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
+		<div id="graficos" style="min-height: 350px;">
 			<div class="col-xs-12">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>
@@ -80,7 +33,7 @@
 				<hr>
 			</div>
 			<div id="filtro" class="col-xs-12" align="right">
-				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
+				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/DeptoEnfermeria">
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
@@ -137,18 +90,6 @@
 					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
 				</div>
 			</div>
-			<div id="consultas" class="col-xs-12">
-				<hr>
-			</div>
-			<div id="consultas" class="col-xs-12">
-				<div>
-					<h3>Consultas</h3>
-				</div>
-				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['consultas'])){$datos=$data['consultas'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
-				</div>
-			</div>
 			<div id="ausentismo" class="col-xs-12">
 				<hr>
 			</div>
@@ -179,12 +120,13 @@
 </div>
 <script type="text/javascript">
 	window.onload = function (){
+		$("#es").css("background-color","#E8E8EC");
+		$("#es").css("color","black");
 <?php
 		if(isset($data['tiempo']))
 		{
 			$tempo =$data['tiempo'];
 ?>
-		Mostrar_Ocultar(2,1);
 		$("#dates").val("<?php echo $tempo['tipo']?>");
 		$("#fecha1").val("<?php echo $tempo['fecha1']?>");
 		$("#fecha2").val("<?php echo $tempo['fecha2']?>");
@@ -193,7 +135,6 @@
 		}
 		else{
 ?>
-		Mostrar_Ocultar(1);
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
 		$("#fecha2").val("<?php echo date('Y/m/d')?>");
 <?php
@@ -203,30 +144,6 @@
 	    	$('#datetimepicker1').children().prop('disabled',true);
 	    	$('#datetimepicker2').children().prop('disabled',true);
     	}
-	}
-	function Mostrar_Ocultar(num,ex=0){
-		if(num==1){
-			$("#ep").css("background-color","#E8E8EC");
-			$("#ep").css("color","black");
-			$("#es").css("background-color","transparent");
-			$("#es").css("color","white");
-			$('#especialidades').show('slow');
-			if(ex!=0)
-				$('#graficos').hide();
-			else
-				$('#graficos').hide('slow');
-		}
-		else{
-			$("#es").css("background-color","#E8E8EC");
-			$("#es").css("color","black");
-			$("#ep").css("background-color","transparent");
-			$("#ep").css("color","white");
-			if(ex!=0)
-				$('#especialidades').hide();
-			else
-				$('#especialidades').hide('slow');
-			$('#graficos').show('slow');
-		}
 	}
 
 	$("#dates").change(function(){

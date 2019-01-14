@@ -13,6 +13,11 @@
 			}
 
 		public function Administracion(){
+			//$this->vista('Pages/Administracion');
+			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
+			$this->vista('Pages/Niveles',$datos);
+		}
+		public function Graficas(){
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
 			$this->vista('Pages/Niveles',$datos);
 		}
@@ -33,6 +38,7 @@
 			header('Location:'.RUTA_URL."/Nivel/Niveles/$num_registro");
 		}
 		public function niveles($num_registro=''){
+
 			if(isset($_SESSION['temp'])){
 				$tiempo = $_SESSION['temp'];
 				$fechaT="Mes Actual";
@@ -40,9 +46,16 @@
 					$fechaT="Año Actual";
 				}
 				else if($tiempo['tipo']=="Per"){
+					$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
 					if($tiempo['separador']!=1){
-						$$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
-						$$tiempo['fecha2']=date("Y-m-t",strtotime($tiempo['fecha2']));
+						$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
+						$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
+						$meses = ( $diferencia->y * 12 ) + $diferencia->m;
+						if($meses>=12){
+							$aux->add(new DateInterval('P11M'));
+							$tiempo['fecha2']=$aux->format('Y-m-01');
+						}
+						$tiempo['fecha2']=date("Y-m-t",strtotime($tiempo['fecha2']));
 					}
 					$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
 				}
@@ -56,9 +69,12 @@
 				$datos['fechaT'] ='Mes Actual';
 			}
 			unset($_SESSION['temp']);
-			$this->vista('levels/nivel'.$num_registro,$datos);
+			if($num_registro=='DeptoEnfermeria'){
+				$this->vista('levels/deptoEnfermeria',$datos);
 			}
-
+			else
+				$this->vista('levels/nivel'.$num_registro,$datos);
+			}
 		//Para cargar las especialidades
 		public function especialidad($num_registro='',$especialidad=''){
 
@@ -87,12 +103,24 @@
 						$fechaT="Año Actual";
 					}
 					else if($tiempo['tipo']=="Per"){
+						$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
+						if($tiempo['separador']!=1){
+							$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
+							$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
+							$meses = ( $diferencia->y * 12 ) + $diferencia->m;
+							if($meses>=12){
+								$aux->add(new DateInterval('P11M'));
+								$tiempo['fecha2']=$aux->format('Y-m-01');
+							}
+							$tiempo['fecha2']=date("Y-m-t",strtotime($tiempo['fecha2']));
+						}
 						$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
 					}
 					else{
 						$fechaT="Mes Actual";
 						$tiempo['separador']='1';
 					}
+					setlocale(LC_ALL, "es_ES");
 					$datos = [
 						'datos1'=>$this->cargarProcedimientos($especialidad,$tiempo),
 						'datos2'=>$this->cargarDatosEspecialidades($especialidad,$tiempo),
@@ -139,8 +167,19 @@
 			if(isset($params['cbFecha'])){
 				if($params['cbFecha']=='Per'){
 					$fecha1=date("Y-m-d",strtotime($params['fecha1']));
+
+					if(isset($params['cbSeparador'])&&$params['cbSeparador']!=1){
+						$fecha1=date("Y-m-01",strtotime($params['fecha1']));
+						$params['fecha2']=date("Y-m-t",strtotime($params['fecha2']));
+						$aux = new DateTime(date("Y-m-1",strtotime($params['fecha1'])));
+						$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($params['fecha2']))));
+						$meses = ( $diferencia->y * 12 ) + $diferencia->m;
+						if($meses>=12){
+							$aux->add(new DateInterval('P11M'));
+							$params['fecha2']=$aux->format('Y-m-t');
+						}
+					}
 					$fecha2=date("Y-m-d",strtotime($params['fecha2']));
-					
 				}
 				else if ($params['cbFecha']=='Year'){
 					$fecha1=date("Y-01-01");
@@ -150,10 +189,7 @@
 			}
 			if(isset($params['cbSeparador'])){
 				$nuevo['separador']=$params['cbSeparador'];
-				if($params['cbSeparador']=="1")
-					$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
-				else
-					$datos['fecha']="Desde <em>".date("Y-m-01",strtotime($fecha1))."</em> hasta <em>".date("Y-m-t",strtotime($fecha2))."</em>";
+				$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
 			}
 			else
 				$nuevo['separador']=1;
@@ -197,6 +233,10 @@
 					$datos['administracion'] = $this->modelo('ProceduresDataModel')->administracion($nuevo);
 					$datos['cargado']=9;
 					break;
+				case 'reuniones':
+					$datos['reuniones'] = $this->modelo('ProceduresDataModel')->reuniones($nuevo);
+					$datos['cargado']=10;
+					break;
 				default:
 					$datos[]='';
 					break;
@@ -204,8 +244,8 @@
 			return $datos;
 		}
 		private function cargarDatosNivel($nivel,$tiempo=0){
-			if($nivel>=4&&$nivel<=7){
-				$level=($nivel==4)?'1':(($nivel==5)?'2':(($nivel==6)?'3':'4'));
+			if(($nivel>=4&&$nivel<=7)||$nivel='DeptoEnfermeria'){
+				$level=($nivel==4)?'1':(($nivel==5)?'2':(($nivel==6)?'3':(($nivel==7)?'4':'5')));
 
 				return $this->modelo('ProceduresDataModel')->cargarDatosNivel($level,$tiempo);
 			}

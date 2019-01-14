@@ -7,37 +7,13 @@
 			$this->vista('pages/inicio');
 			}
 
-		public function Ingreso($nivel=''){
-			if(isset($_POST['idCharla'])){
-				$level = $nivel;
-				switch ($level) {
-					case 4:
-						$nivel = 'cuarto';
-						break;
-					case 5:
-						$nivel = 'quinto';
-						break;
-					case 6:
-						$nivel = 'sexto';
-						break;
-					case 7:
-						$nivel = 'septimo';
-						break;				
-				}
-				$health=$this->modelo('MantenimientosModel')->health_Education($nivel);
-				$datos=[
-					'health' => $health
-				];
-				$this->vista('mantenimientos/charlas',$datos);
-			}
-			else{
-				header('Location:'.RUTA_URL.'/Pages/index');
-			}
-			}
-
 		public function Nivel($nivel=''){
 			//Cargamos todo lo que debe tener
-			$this->mantenimientoRecarga($nivel);
+
+			if(strtolower($nivel)=='enfermeria')
+				$this->mantenimientoDepto();
+			else
+				$this->mantenimientoRecarga($nivel);
 			}
 
 		public function IngresoNivel($nivel=''){
@@ -55,7 +31,10 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
-					break;				
+					break;	
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
 			}
 			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
 			unset($_POST['fecha']);
@@ -118,7 +97,10 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
-					break;				
+					break;			
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;		
 			}		
 			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
 			unset($_POST['fecha']);
@@ -146,7 +128,10 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
-					break;				
+					break;		
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
 			}			
 			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
 			unset($_POST['fecha']);
@@ -174,7 +159,10 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
-					break;				
+					break;		
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
 			}
 			if(isset($_POST['fname'])&&isset($_POST['tipo']))
 				$this->modelo('MantenimientosModel')->insertarCharla($nivel,$_POST['fname'],$_POST['tipo'],$_POST['fechaC']);
@@ -197,7 +185,10 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
-					break;				
+					break;		
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
 			}
 			if(isset($_POST['fname'])&&isset($_POST['description']))
 				$this->modelo('MantenimientosModel')->insertarInvestigacion($nivel,$_POST['fname'],$_POST['description'],$_POST['estado'],$_POST['fechaC']);
@@ -205,16 +196,30 @@
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
 			}
 
-		public function IngresoMetaCharla($nivel=''){
-			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
-			unset($_POST['fecha']);
-			$datosRecibidos = count($_POST);
-			$data = array_keys($_POST);
-			for ($i=0; $i < $datosRecibidos; $i++) { 
-				$this->modelo('MantenimientosModel')->insertarGoalCharla($data[$i],$_POST[$data[$i]],$tiempo);
+		public function IngresoReunion($nivel=''){
+			//Esto se divide entre la cantidad de columnas
+			$level = $nivel;
+			switch ($level) {
+				case 4:
+					$nivel = 'cuarto';
+					break;
+				case 5:
+					$nivel = 'quinto';
+					break;
+				case 6:
+					$nivel = 'sexto';
+					break;
+				case 7:
+					$nivel = 'septimo';
+					break;		
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
 			}
-			$_SESSION['cambiado']=6;
-			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+			if(isset($_POST['fname'])&&isset($_POST['description']))
+				$this->modelo('MantenimientosModel')->insertarReunion($nivel,$_POST['fname'],$_POST['description'],$_POST['estado'],$_POST['fechaC']);
+			$_SESSION['cambiado']=11;
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
 			}
 
 		public function ActualizarEducacion(){
@@ -249,6 +254,9 @@
 						break;
 					case 'Séptimo nivel':
 						$level=7;
+						break;	
+					default:
+						$level = 'enfermeria';
 						break;
 				}
 				header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
@@ -273,7 +281,10 @@
 					break;
 				case 'Séptimo nivel':
 					$nivel = 7;
-					break;				
+					break;	
+				default:
+					$nivel = 'enfermeria';
+					break;			
 			}
 			if(isset($_POST['fname'])&&isset($_POST['tipo'])){
 				$this->modelo('MantenimientosModel')->actualizarCharla($_POST);
@@ -301,6 +312,9 @@
 					break;
 				case 'Séptimo nivel':
 					$nivel = 7;
+					break;	
+				default:
+					$nivel = 'enfermeria';
 					break;				
 			}
 			if(isset($_POST['fname'])&&isset($_POST['estado'])){
@@ -313,6 +327,36 @@
 			}
 			}	
 
+		public function ActualizarReu(){
+			//Esto se divide entre la cantidad de columnas
+			$nivel=(isset($_POST['level']))?$_POST['level']:'Cuarto nivel';
+			$level = $nivel;
+			switch ($level) {
+				case 'Cuarto nivel':
+					$nivel = 4;
+					break;
+				case 'Quinto nivel':
+					$nivel = 5;
+					break;
+				case 'Sexto nivel':
+					$nivel = 6;
+					break;
+				case 'Séptimo nivel':
+					$nivel = 7;
+					break;	
+				default:
+					$nivel = 'enfermeria';
+					break;				
+			}
+			if(isset($_POST['fname'])&&isset($_POST['estado'])){
+				$this->modelo('MantenimientosModel')->actualizarReunion($_POST);
+					$_SESSION['cambiado']=11;
+					header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+			}
+			else{
+				header('Location:'.RUTA_URL.'/Pages/index/');
+			}
+			}	
 
 		public function ConfigurarAusentismo($nivel=''){
 			$level = $nivel;
@@ -328,6 +372,9 @@
 					break;
 				case 7:
 					$nivel = 'septimo';
+					break;	
+				default:
+					$nivel = 'enfermeria';
 					break;				
 			}
 			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
@@ -366,7 +413,18 @@
 				$fecha['fecha1']=$_POST['fecha1'];
 				$fecha['fecha2']=$_POST['fecha2'];
 				$fecha['tipo']=$_POST['cbOrdenar'];
-				$_SESSION['fecha']=$fecha;
+				$_SESSION['fecha2']=$fecha;
+			}
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+		}
+
+		public function RecargarReuniones($nivel=''){
+			$_SESSION['cambiado']=11;
+			if(isset($_POST['fecha1'])&&isset($_POST['fecha2'])){
+				$fecha['fecha1']=$_POST['fecha1'];
+				$fecha['fecha2']=$_POST['fecha2'];
+				$fecha['tipo']=$_POST['cbOrdenar'];
+				$_SESSION['fecha3']=$fecha;
 			}
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
 		}
@@ -390,6 +448,7 @@
 
 		public function ActualizarInvestigacion(){
 			if(isset($_POST['extra'])){
+				$_SESSION['cambiado']=10;
 				$datos['investigations']= $this->modelo('MantenimientosModel')->investigations($_POST['extra']);
 				$this->vista('mantenimientos/investigaciones',$datos);
 			}
@@ -397,6 +456,15 @@
 				header('Location:'.RUTA_URL.'/Pages/index/');
 		}
 
+		public function ActualizarReunion(){
+			if(isset($_POST['extra'])){
+				$_SESSION['cambiado']=11;
+				$datos['meetings']= $this->modelo('MantenimientosModel')->meetings($_POST['extra']);
+				$this->vista('mantenimientos/reuniones',$datos);
+			}
+			else
+				header('Location:'.RUTA_URL.'/Pages/index/');
+		}
 		/////////////////////////////////////////////////
 
 		private function mantenimientoRecarga($nivel=''){
@@ -429,6 +497,7 @@
 				$health=$model->health_Education($nivel);
 				$healthEducation=$model->health_Education_data($nivel);
 				$investigations=$model->investigations_data($nivel);
+				$meetings=$model->meetings_data($nivel);
 				$admin=$model->administrative_management();
 				$datos=[
 					'levelThings' => $levelThings,
@@ -441,6 +510,7 @@
 					'admin' => $admin,
 					'absences_config' => $absencesConfig,
 					'investigacion' => $investigations,
+					'reunion' => $meetings,
 				];
 
 				if(isset($_SESSION['cambiado']))
@@ -452,6 +522,42 @@
 			}
 			else
 				$this->vista('mantenimientos/nivel/'.$level);
+			}
+
+		private function mantenimientoDepto(){
+			$nivel = 'Enfermeria';
+			if(isset($_SESSION['acceso'])&&
+					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
+			{
+				$model = $this->modelo('MantenimientosModel');
+				$levelThings = $model->levelThings();
+				$absences=$model->absences();
+				$absencesConfig=$model->absences_config();
+				$health=$model->health_Education($nivel);
+				$healthEducation=$model->health_Education_data($nivel);
+				$investigations=$model->investigations_data($nivel);
+				$meetings=$model->meetings_data($nivel);
+				$admin=$model->administrative_management();
+				$datos=[
+					'levelThings' => $levelThings,
+					'absences' => $absences,
+					'health' => $health,
+					'education' => $healthEducation,
+					'admin' => $admin,
+					'absences_config' => $absencesConfig,
+					'investigacion' => $investigations,
+					'reunion' => $meetings,
+				];
+
+				if(isset($_SESSION['cambiado']))
+				{
+					$datos['cargado']=$_SESSION['cambiado'];
+					unset($_SESSION['cambiado']);
+				}
+				$this->vista('mantenimientos/enfermeria',$datos);
+			}
+			else
+				$this->vista('mantenimientos/enfermeria/');
 			}
 	}
 

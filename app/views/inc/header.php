@@ -24,7 +24,8 @@
 					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/4">Nivel 4</a></li>
 					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/5">Nivel 5</a></li>
 					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/6">Nivel 6</a></li>
-					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/7">Nivel 7</a></li><?php
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/7">Nivel 7</a></li>
+					<li><a href="<?php echo RUTA_URL?>/Nivel/Niveles/DeptoEnfermeria">Depto. Enfermería</a></li><?php
 					if(isset($_SESSION['acceso'])&&$_SESSION['acceso']==1)
 					echo   '
 					<li><a href="'.RUTA_URL.'/Users">Usuarios</a></li>';

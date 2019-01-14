@@ -3,7 +3,7 @@ if(isset($datos))
 {
 	//El form se coloca fuera de esto, para seleccionar la acción que desea
 ?>
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
 	<thead class="formulario">
 	    <tr>
 		<?php foreach ($datos['TítulosX'] as $key) {

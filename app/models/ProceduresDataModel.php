@@ -34,9 +34,9 @@
           $fecha4=$fecha2;
         }
       }
-      $sql="SELECT A.key as 'Actividad',ifnull(B.Meta,ifnull(C.Realizado,0)) as 'Meta',ifnull(C.Realizado,0) as 'Realizado',Concat(ROUND(ifnull((ifnull(C.Realizado,0)/ifnull(B.Meta,ifnull(C.Realizado,1))),0)*100,2),'%')as 'Porcentaje' from (Select p.name as 'key' from procedures p inner join specialties s on s.id=p.specialty_id where s.name LIKE '%".$nombre."%')A left join ("."
-      SELECT p.name as 'key',sum(g.number)as 'Meta' from goals g inner join procedures p on p.id=g.procedure_id where g.date between '".$fecha3."' and '".$fecha4."' group by p.name)B on  A.key=B.key left join (".
-      "SELECT p.name as 'key',sum(pd.number) as 'Realizado' from procedure_data pd inner join procedures p on p.id=pd.procedure_id where pd.date between '".$fecha1."' and '".$fecha2."' group by p.name)C on A.key=C.key order by Actividad";
+      $sql="SELECT A.key as 'Actividad',ifnull(B.Meta,ifnull(C.Realizado,0)) as 'Meta',ifnull(C.Realizado,0) as 'Realizado',Concat(ROUND(ifnull((ifnull(C.Realizado,0)/ifnull(B.Meta,ifnull(C.Realizado,1))),0)*100,2),'%')as 'Porcentaje' from (Select p.name as 'key' from procedures p inner join specialties s on s.id=p.specialty_id where s.name LIKE '$nombre%')A left join ("."
+      SELECT p.name as 'key',sum(g.number)as 'Meta' from goals g inner join procedures p on p.id=g.procedure_id where g.date between '$fecha3' and '$fecha4' group by p.name)B on  A.key=B.key left join (".
+      "SELECT p.name as 'key',sum(pd.number) as 'Realizado' from procedure_data pd inner join procedures p on p.id=pd.procedure_id where pd.date between '$fecha1' and '$fecha2' group by p.name)C on A.key=C.key order by Actividad";
       $this->query($sql);
       if($tiempo['separador']=="1"){
         $datos['meta']=[
@@ -53,7 +53,7 @@
 
         $param['tiempo']=$temp;
         $param['sql']="SELECT K.key as 'Actividad'";
-        $param['key']="SELECT p.name as 'key' from procedures p inner join specialties s on s.id=p.specialty_id where s.name LIKE '%".$nombre."%'";
+        $param['key']="SELECT p.name as 'key' from procedures p inner join specialties s on s.id=p.specialty_id where s.name LIKE '$nombre%'";
         $param['meta']="SELECT p.name as 'key',sum(g.number)as 'Meta' from goals g inner join procedures p on p.id=g.procedure_id where g.date %param% group by p.name";
         $param['realizado']="SELECT p.name as 'key',sum(pd.number) as 'Realizado' from procedure_data pd inner join procedures p on p.id=pd.procedure_id where pd.date %param% group by p.name";
         $result=$this->separador($param);
@@ -91,7 +91,7 @@
 
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select st.name as 'Título' from specialty_things st) A left join 
-          (SELECT st.name as 'tit', sum(std.number) as'Value' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on std.specialty_id=s.id  where s.name LIKE '%".$nombre."%' and std.date between '".$fecha1."' and '".$fecha2."' group by st.id) B on A.Título=B.tit
+          (SELECT st.name as 'tit', sum(std.number) as'Value' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on std.specialty_id=s.id  where s.name LIKE '$nombre%' and std.date between '$fecha1' and '$fecha2' group by st.id) B on A.Título=B.tit
        )F";
 
       $this->query($sql);
@@ -134,8 +134,8 @@
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
           (Select 'Horas Ausencias' as 'key') UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key' from absences a) UNION ALL 
-          (Select 'Desarrollo de Competencias Programada' as 'key') UNION ALL 
-          (Select 'Desarrollo de Competencias Realizada' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Programadas' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key') UNION ALL 
           (Select 'Educación en Salud Programada' as 'key') UNION ALL
           (Select 'Educación en Salud Realizada' as 'key') UNION ALL
           (Select 'Investigación en Enfermería Programada' as 'key') UNION ALL 
@@ -143,14 +143,17 @@
 
         $param['meta']="("."SELECT st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.id=$nivel and std.date %param% group by st.name) UNION ALL
           (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on ltd.level_id=$nivel and ltd.date %param% group by lt.name) UNION ALL
-          (Select 'Total de personal de Enfermería' as 'key',ROUND(AVG(hd.employees),0) as 'Meta' from hours_data hd where level_id=$nivel and date %param%) UNION ALL 
+          (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),P.v),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date %param% group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key where l.id=$nivel) UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date %param% and level_id=$nivel)E on l.id=E.key) UNION ALL
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_period*employees as 'this' from hours_data where date %param% and level_id=$nivel)E on l.id=E.key) UNION ALL
-          (Select 'Horas Ausencias' as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number)) from absences_data ad where ad.date %param% and ad.level_id=$nivel) UNION ALL 
+          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date %param% and ad.level_id=$nivel) UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date %param% and ad.level_id=$nivel group by a.type) UNION ALL 
-          (Select Concat('Desarrollo de Competencias ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at %param% and hed.level_id=$nivel group by hed.status) UNION ALL
-          (Select Concat('Educación en Salud ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at %param% and hed.level_id=$nivel group by hed.status) UNION ALL
-          (Select Concat('Investigación en Enfermería ',i.status) as 'key',count(i.status) as 'Meta' from investigations i where date %param% and i.level_id=$nivel group by i.status)";
+          (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal'and hed.level_id=$nivel and  hed.created_at %param%) UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal'and hed.level_id=$nivel and hed.status='Realizada' and hed.created_at %param%) UNION ALL 
+          (Select 'Educación en Salud Programada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes'and hed.level_id=$nivel and hed.created_at %param%) UNION ALL 
+          (Select 'Educación en Salud Realizada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes'and hed.level_id=$nivel and hed.status='Realizada' and hed.created_at %param%) UNION ALL 
+          (Select 'Investigación en Enfermería Programada' as 'key',count(i.id) as 'Meta' from investigations i where i.date %param% and i.level_id=$nivel) UNION ALL
+          (Select 'Investigación en Enfermería Realizada' as 'key',count(i.id) as 'Meta' from investigations i where i.status='Realizada' and i.date %param% and i.level_id=$nivel)";
 
         $result=$this->separador($param);
         $sql1=($result['sql']);
@@ -169,8 +172,8 @@
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
           (Select 'Horas Ausencias' as 'key') UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key' from absences a) UNION ALL 
-          (Select 'Desarrollo de Competencias Programada' as 'key') UNION ALL 
-          (Select 'Desarrollo de Competencias Realizada' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Programadas' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key') UNION ALL 
           (Select 'Educación en Salud Programada' as 'key') UNION ALL
           (Select 'Educación en Salud Realizada' as 'key') UNION ALL
           (Select 'Investigación en Enfermería Programada' as 'key') UNION ALL 
@@ -183,17 +186,22 @@
           (Select 'Total de personal de Enfermería' as 'key',ROUND(AVG(hd.employees),0) as 'Meta' from hours_data hd where level_id=$nivel and date between '$fecha3' and '$fecha4') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha3' and '$fecha4' and level_id=$nivel)E on l.id=E.key) UNION ALL
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha3' and '$fecha4' and level_id=$nivel)E on l.id=E.key) UNION ALL
-          (Select 'Horas Ausencias' as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number)) from absences_data ad where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel) UNION ALL 
+          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel) UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel group by a.type) UNION ALL 
-          (Select Concat('Desarrollo de Competencias ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at between '$fecha1' and '$fecha2' and hed.level_id=$nivel group by hed.status) UNION ALL
-          (Select Concat('Educación en Salud ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at between '$fecha1' and '$fecha2' and hed.level_id=$nivel group by hed.status) UNION ALL
-          (Select Concat('Investigación en Enfermería ',i.status) as 'key',count(i.status) as 'Meta' from investigations i where date between '$fecha1' and '$fecha2' and i.level_id=$nivel group by i.status)
+          (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.level_id=$nivel and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.level_id=$nivel and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Educación en Salud Programada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.level_id=$nivel  and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Educación en Salud Realizada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.level_id=$nivel and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Investigación en Enfermería Programada' as 'key',count(i.id) as 'Meta' from investigations i where i.date between '$fecha1' and '$fecha2' and i.level_id=$nivel) UNION ALL
+          (Select 'Investigación en Enfermería Realizada' as 'key',count(i.id) as 'Meta' from investigations i where i.status='Realizada' and i.date between '$fecha1' and '$fecha2' and i.level_id=$nivel)
+
+
          )B on A.key=B.key";
         $titulos = ['Indicadores','Total']; 
       }
       $sql2 = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select ab.type as 'Título' from absences ab) A left join 
-          (SELECT ab.type as 'tit', sum(abd.number) as'Value' from absences_data abd inner join absences ab on ab.id=abd.absences_id inner join levels l on l.id =abd.level_id  where l.name LIKE '%$nivel%' and abd.date between '$fecha1' and '$fecha2' group by ab.id) B on A.Título=B.tit
+          (SELECT ab.type as 'tit', sum(abd.number) as'Value' from absences_data abd inner join absences ab on ab.id=abd.absences_id where abd.level_id =$nivel and abd.date between '$fecha1' and '$fecha2' group by ab.id) B on A.Título=B.tit
        )F";
       $sql3 = "SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
         (Select st.id as 'key',st.name as 'Título' from specialty_things st) A left join 
@@ -210,19 +218,20 @@
         'values' => $this->registros(),
         'titulo' => ['Actividad','Cantidad'],
       ];
-
-      $this->query($sql3);
-      $this->bind(':nivel',$nivel);
-      $datos['consultas']=[
-        'values' => $this->registros(),
-        'titulo' => ['Actividad','Cantidad'],
-      ];
-      $datos['graf'][]=$datos['consultas'];
+      if($nivel!='5'){
+         $this->query($sql3);
+       $this->bind(':nivel',$nivel);
+        $datos['consultas']=[
+          'values' => $this->registros(),
+          'titulo' => ['Actividad','Cantidad'],
+        ];
+        $datos['graf'][]=$datos['consultas'];
+      }
       $datos['graf'][]=$datos['ausentismo'];
       return $datos;
-    }
+      }
 
-      //Administración
+      //Administración//Revisado
 
     public function indicadores($tiempo){
       if($tiempo['separador']=="1"){
@@ -237,8 +246,8 @@
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
           (Select 'Horas Ausencias' as 'key') UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key' from absences a) UNION ALL 
-          (Select 'Desarrollo de Competencias Programada' as 'key') UNION ALL 
-          (Select 'Desarrollo de Competencias Realizada' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Programadas' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key') UNION ALL 
           (Select 'Educación en Salud Programada' as 'key') UNION ALL
           (Select 'Educación en Salud Realizada' as 'key') UNION ALL
           (Select 'Investigación en Enfermería Programada' as 'key') UNION ALL 
@@ -248,14 +257,17 @@
 
           (Select st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id where st.name LIKE '%Total%' and std.date between '$fecha1' and '$fecha2' group by st.name) UNION ALL
           (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id and ltd.date between '$fecha1' and '$fecha2' group by lt.name) UNION ALL
-          (Select 'Total de personal de Enfermería' as 'key',ROUND(sum(E.e),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date between '$fecha1' and '$fecha2' group by level_id)E on l.id=E.key) UNION ALL 
-          (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL
-          (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL
-          (Select 'Horas Ausencias' as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number)) from absences_data ad where ad.date between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),sum(P.v)),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date between '$fecha1' and '$fecha2' group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key) UNION ALL           
+          (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL           
+          (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL           
+          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2') UNION ALL           
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date between '$fecha1' and '$fecha2' group by a.type) UNION ALL 
-          (Select Concat('Desarrollo de Competencias ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at between '$fecha1' and '$fecha2' group by hed.status) UNION ALL 
-          (Select Concat('Educación en Salud ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at between '$fecha1' and '$fecha2' group by hed.status) UNION ALL 
-          (Select Concat('Investigación en Enfermería ',i.status) as 'key',count(i.status) as 'Meta' from investigations i where date between '$fecha1' and '$fecha2' group by i.status)
+          (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Educación en Salud Programada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Educación en Salud Realizada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
+          (Select 'Investigación en Enfermería Programada' as 'key',count(i.id) as 'Meta' from investigations i where i.date between '$fecha1' and '$fecha2') UNION ALL
+          (Select 'Investigación en Enfermería Realizada' as 'key',count(i.id) as 'Meta' from investigations i where i.status='Realizada' and i.date between '$fecha1' and '$fecha2')
          )B on A.key=B.key";
         $this->query($sql);
         $titulos=['Actividad','Total'];
@@ -272,9 +284,9 @@
           (Select 'Horas laborales en el mes' as 'key') UNION ALL 
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
           (Select 'Horas Ausencias' as 'key') UNION ALL 
-          (Select Concat(Concat('<li>',a.type),'</li>') as 'key' from absences a) UNION ALL 
-          (Select 'Desarrollo de Competencias Programada' as 'key') UNION ALL 
-          (Select 'Desarrollo de Competencias Realizada' as 'key') UNION ALL 
+          (Select Concat(Concat('',a.type),'') as 'key' from absences a) UNION ALL 
+          (Select 'Desarrollo de Competencias Programadas' as 'key') UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key') UNION ALL 
           (Select 'Educación en Salud Programada' as 'key') UNION ALL
           (Select 'Educación en Salud Realizada' as 'key') UNION ALL
           (Select 'Investigación en Enfermería Programada' as 'key') UNION ALL 
@@ -282,14 +294,17 @@
 
         $param['meta']="("."SELECT st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id where st.name LIKE '%Total%' and std.date %param% group by st.name) UNION ALL
           (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id and ltd.date %param% group by lt.name) UNION ALL
-          (Select 'Total de personal de Enfermería' as 'key',ROUND(sum(E.e),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date %param% group by level_id)E on l.id=E.key) UNION ALL 
+          (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),sum(P.v)),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date %param% group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key) UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date %param%)E on l.id=E.key) UNION ALL
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_period*employees as 'this' from hours_data where date %param%)E on l.id=E.key) UNION ALL
-          (Select 'Horas Ausencias' as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number)) from absences_data ad where ad.date %param%) UNION ALL 
-          (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date %param% group by a.type) UNION ALL 
-          (Select Concat('Desarrollo de Competencias ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at %param% group by hed.status) UNION ALL 
-          (Select Concat('Educación en Salud ',hed.status) as 'key',count(hed.status) as 'Meta' from health_education_data hed inner join health_education he on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at %param% group by hed.status) UNION ALL 
-          (Select Concat('Investigación en Enfermería ',i.status) as 'key',count(i.status) as 'Meta' from investigations i where date %param% group by i.status)";
+          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date %param%) UNION ALL 
+          (Select Concat(Concat('',a.type),'') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date %param% group by a.type) UNION ALL 
+          (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at %param%) UNION ALL 
+          (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.status='Realizada' and hed.created_at %param%) UNION ALL 
+          (Select 'Educación en Salud Programada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.created_at %param%) UNION ALL 
+          (Select 'Educación en Salud Realizada' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Pacientes' and hed.status='Realizada' and hed.created_at %param%) UNION ALL 
+          (Select 'Investigación en Enfermería Programada' as 'key',count(i.id) as 'Meta' from investigations i where i.date %param%) UNION ALL
+          (Select 'Investigación en Enfermería Realizada' as 'key',count(i.id) as 'Meta' from investigations i where i.status='Realizada' and i.date %param%)";
 
         $result=$this->separador($param);
         $this->query($result['sql']);
@@ -306,12 +321,8 @@
       return $datos;
     }
     public function pPacientes($tiempo){
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=date('Y-m-1',strtotime($tiempo['fecha1']));
-        $tiempo['fecha2']=date('Y-m-1',strtotime($tiempo['fecha2']));
-      }
       $sql = "SELECT * from (SELECT A.Nivel,ifnull(B.Consulta,0) as 'Total Consulta',ifnull(C.Preparacion,0) as 'Preparación de Pacientes',CONCAT(ROUND(ifnull((C.Preparacion/ifnull(B.Consulta,C.Preparacion))*100,0),2),'%') as 'Porcentaje' from 
-        (Select l.name as 'Nivel' from levels l) A left join 
+        (Select l.name as 'Nivel' from levels l where l.name like '%nivel%') A left join 
         (SELECT l.name as 'niv', sum(std.number) as'Consulta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) B 
         on A.Nivel=B.niv left join (".
         "SELECT l.name as 'niv', sum(std.number) as'Preparacion' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=2 and std.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) C 
@@ -334,7 +345,7 @@
         $param['tiempo'][]=strtotime($tiempo['fecha2']);
 
         $param['sql']="SELECT K.key as 'Actividad'";
-        $param['key']="SELECT l.name as 'key' from levels l";
+        $param['key']="SELECT l.name as 'key' from levels l where l.name like '%nivel%'";
         $param['meta']="SELECT l.name as 'key', sum(std.number) as'Meta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date %param% group by l.id";
         $param['realizado']="SELECT l.name as 'key', sum(std.number) as'Realizado' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=2 and std.date %param% group by l.id ";
         $result=$this->separador($param);
@@ -364,14 +375,11 @@
       return $datos;
     }
     public function ausentismo($tiempo){
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=date('Y-m-1',strtotime($tiempo['fecha1']));
-        $tiempo['fecha2']=date('Y-m-1',strtotime($tiempo['fecha2']));
-      }
-      $sql = "SELECT l.name as 'Nivel',ifnull(A.empleados,0) as 'Personal',ifnull(A.Meta,1600) as 'Total de Horas Programadas',ifnull(B.Realizado,0) as 'Total de horas no laboradas', CONCAT(ROUND(ifnull((B.Realizado/ifnull(A.Meta,1600))*100,0),2),'%') '% Porcentaje' from levels l left join 
-      (Select level_id as 'key',Round(AVG(employees),0)as 'empleados',Round(AVG(employees)*sum(working_hours_at_month),0) as 'Meta' from hours_data where date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by level_id) A on l.id=A.key left join 
-      (Select ad.level_id as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number))as 'Realizado' from absences_data ad where ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by ad.level_id) B on l.id=B.key";
+      $sql = "SELECT l.name as 'Nivel',ifnull(A.empleados,0) as 'Personal',ifnull(A.Meta,0) as 'Total de Horas Programadas',ifnull(B.Realizado,0) as 'Total de horas no laboradas', CONCAT(ROUND(ifnull((B.Realizado/ifnull(A.Meta,0))*100,0),2),'%') '% Porcentaje' from levels l left join 
+      (Select l.id as 'key',ROUND(ifnull(AVG(hd.employees),ifnull(a.value,0)),0)as 'empleados',ROUND(AVG(hd.employees),0)*SUM(hd.working_hours_at_month) as 'Meta' from levels l left join hours_data hd on l.id=hd.level_id and hd.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' left join adminsettings a on l.id=a.id group by l.id) A on l.id=A.key left join 
+      (Select ad.level_id as 'key',sum(if(ad.absences_id=5,4,8)*ad.number)as 'Realizado' from absences_data ad where ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by ad.level_id) B on l.id=B.key";
       $this->query($sql);
+      //echo $sql;
       if($tiempo['separador']=="1"){
         $datos['meta']=[
           'values' => $this->registros(),
@@ -389,7 +397,7 @@
 
         $param['sql']="SELECT K.key as 'Actividad'";
         $param['key']="SELECT l.name as 'key' from levels l";
-        $param['meta']="SELECT l.name as 'key',ifnull(Round(AVG(hd.employees)*sum(hd.working_hours_at_month),0),1600) as'Meta' from levels l left join hours_data hd on l.id=hd.level_id where hd.date %param% group by l.id";
+        $param['meta']="SELECT l.name as 'key',ifnull(Round(AVG(hd.employees)*sum(hd.working_hours_at_month),0),0) as'Meta' from levels l left join hours_data hd on l.id=hd.level_id where hd.date %param% group by l.id";
         $param['realizado']="SELECT l.name as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number))as 'Realizado' from absences_data ad inner join levels l on l.id=ad.level_id where ad.date %param% group by l.id ";
         $result=$this->separador($param);
         $this->query($result['sql']);
@@ -454,23 +462,18 @@
         'titulo' => $titulos,
       ];
       return $datos;
-    }
+    }//¿Enfermería?
     public function salud($tiempo){
-      $fecha3=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha1'])), 1, date("Y",strtotime($tiempo['fecha1']))));
-      $fecha4=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha2'])), date("t",strtotime($tiempo['fecha2'])), date("Y",strtotime($tiempo['fecha2']))));
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
 
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=$fecha3;
-        $tiempo['fecha2']=$fecha4;
-      }
-      $sql = "SELECT A.Nivel as 'Actividad',ifnull(C.Meta,ifnull(B.Realizado,0)) as 'Meta',ifnull(B.Realizado,0) as 'Realizado', CONCAT(ROUND(ifnull((ifnull(B.Realizado,0)/ifnull(C.Meta,ifnull(B.Realizado,1)))*100,0),2),'%') as 'Porcentaje',ifnull(D.listeners,0) as 'Sumando' from 
-      (Select l.name as 'Nivel' from levels l) A left join 
-      (SELECT l.name as 'niv', count(hed.id) as'Realizado' from health_education_data hed inner join levels l on l.id=hed.level_id where hed.health_education_id=1 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) B 
-      on A.Nivel=B.niv left join (".
-      "SELECT l.name as 'niv', sum(gh.number) as'Meta' from health_education_data hed inner join goals_health gh on hed.health_education_id=gh.health_education_id inner join levels l on l.id=hed.level_id where hed.health_education_id=1 and gh.date between '".$fecha3."' and '".$fecha4."' group by l.id) C 
-      on A.Nivel=C.niv  left join (".
-      "SELECT l.name as 'niv',sum(hed.listeners) as listeners from health_education_data hed inner join levels l on l.id=hed.level_id where hed.health_education_id=1 and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) D on A.Nivel=D.niv
-      ";
+      $sql = "SELECT A.Nivel as 'Actividad',ifnull(C.Meta,0) as 'Meta',ifnull(B.Realizado,0) as 'Realizado', CONCAT(ROUND(ifnull((ifnull(B.Realizado,0)/ifnull(C.Meta,ifnull(B.Realizado,1)))*100,0),2),'%') as 'Porcentaje',ifnull(D.listeners,0) as 'Sumando' from 
+      (Select l.name as 'Nivel',l.id as 'key' from levels l) A left join 
+      (SELECT hed.level_id as 'niv', count(hed.id) as'Realizado' from health_education_data hed where hed.health_education_id=1 and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) B 
+      on A.key=B.niv left join (".
+      "SELECT hed.level_id as 'niv', count(hed.id) as'Meta' from health_education_data hed where hed.health_education_id=1 and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) C 
+      on A.key=C.niv  left join (".
+      "SELECT hed.level_id as 'niv',sum(hed.listeners) as listeners from health_education_data hed where hed.health_education_id=1 and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) D on A.key=D.niv";
       $this->query($sql);
 
       if($tiempo['separador']=="1"){
@@ -489,43 +492,32 @@
         $param['tiempo']=$temp;
         $param['sql']="SELECT K.titulo as 'Actividad'";
         $param['key']="SELECT l.name as titulo, l.id as 'key' from levels l";
-        $param['meta']="SELECT sum(gh.number) as 'Meta',hed.level_id as 'key' from health_education_data hed inner join goals_health gh on gh.health_education_id=hed.health_education_id where gh.health_education_id=1 and gh.date %param% group by hed.level_id";
-        $param['realizado']="SELECT count(hed.id) as 'Realizado',hed.level_id as 'key' from health_education_data hed where hed.health_education_id=1 and status='Realizada' and hed.created_at %param% group by hed.level_id";
+        $param['meta']="SELECT hed.level_id as 'key', count(hed.id) as'Meta' from health_education_data hed where hed.health_education_id=1 and hed.created %param% group by hed.level_id";
+        $param['realizado']="SELECT hed.level_id as 'key', count(hed.id) as'Realizado' from health_education_data hed where hed.health_education_id=1 and hed.status='Realizada' and hed.created %param% group by hed.level_id";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
        
-        if(isset($result['titulos'])){
-          foreach ($result['titulos'] as $key) {
-            $titulos[] = $key;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-            'tituloE'=>$result['meses']
-          ];
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
         }
-        else{
-          foreach ($result['meses'] as $k) {
-            $titulos[] = $k;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-          ];
-        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
       }
 
-      $sql="SELECT 'Educación en Salud' as Actividad,ifnull(B.Meta,ifnull(A.Realizado,0)) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(B.Meta,ifnull(A.Realizado,1)))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=2 and status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."')A on he.id=1
-        left join (SELECT sum(gh.number) as 'Meta' from goals_health gh where gh.health_education_id=1 and gh.date between '".$fecha3."' and '".$fecha4."')B on he.id=1 where he.id=1";
+      $sql="SELECT 'Educación en Salud' as Actividad,ifnull(E.Aux,0) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(E.Aux,1))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=1 and status='Realizada' and hed.created_at between '$fecha1' and '$fecha2')A on he.id=1 left join (SELECT count(hed.id) as 'Aux' from health_education_data hed where hed.health_education_id=1 and hed.created_at between '$fecha1' and '$fecha2')E on he.id=1 where he.id=1";
 
       $this->query($sql);
+
       $datos['total']=[
         'values' => $this->registros(),
         'titulo' => ['','Meta','Realizado','% Porcentaje'],
       ];
 
-      $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas', sum(hed.listeners) as 'Oyentes' from health_education_data hed where hed.health_education_id=1 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
+      $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas', sum(hed.listeners) as 'Oyentes' from health_education_data hed where hed.health_education_id=1 and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2' group by Actividad";
 
       $this->query($sql);
       $datos['oyentes']=[
@@ -536,21 +528,17 @@
       return $datos;
     }
     public function charlas($tiempo){
-      $fecha3=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha1'])), 1, date("Y",strtotime($tiempo['fecha1']))));
-      $fecha4=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha2'])), date("t",strtotime($tiempo['fecha2'])), date("Y",strtotime($tiempo['fecha2']))));
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=$fecha3;
-        $tiempo['fecha2']=$fecha4;
-      }
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
 
-      $sql = "SELECT A.Nivel as 'Actividad',ifnull(C.Meta,ifnull(B.Realizado,0)) as 'Meta',ifnull(B.Realizado,0) as 'Realizado', CONCAT(ROUND(ifnull((ifnull(B.Realizado,0)/ifnull(C.Meta,ifnull(B.Realizado,1)))*100,0),2),'%') as 'Porcentaje',ifnull(D.listeners,0) as 'Sumando' from 
-        (Select l.name as 'Nivel' from levels l) A left join 
-        (SELECT l.name as 'niv', count(hed.id) as'Realizado' from health_education_data hed inner join levels l on l.id=hed.level_id where hed.health_education_id=2 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) B 
-        on A.Nivel=B.niv left join (".
-        "SELECT l.name as 'niv', sum(gh.number) as'Meta' from health_education_data hed inner join goals_health gh on hed.health_education_id=gh.health_education_id inner join levels l on l.id=hed.level_id where hed.health_education_id=2 and gh.date between '".$fecha3."' and '".$fecha4."' group by l.id) C 
-        on A.Nivel=C.niv  left join (".
-        "SELECT l.name as 'niv',sum(hed.listeners) as listeners from health_education_data hed inner join levels l on l.id=hed.level_id where hed.health_education_id=2 and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) D on A.Nivel=D.niv ";
-        $this->query($sql);
+      $sql = "SELECT A.Nivel as 'Actividad',ifnull(C.Meta,0) as 'Meta',ifnull(B.Realizado,0) as 'Realizado', CONCAT(ROUND(ifnull((ifnull(B.Realizado,0)/ifnull(C.Meta,ifnull(B.Realizado,1)))*100,0),2),'%') as 'Porcentaje',ifnull(D.listeners,0) as 'Sumando' from 
+        (Select l.name as 'Nivel',l.id as 'key' from levels l) A left join 
+        (SELECT hed.level_id as 'niv', count(hed.id) as'Realizado' from health_education_data hed where hed.health_education_id=2 and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) B 
+        on A.key=B.niv left join (".
+        "SELECT hed.level_id as 'niv', count(hed.id) as'Meta' from health_education_data hed where hed.health_education_id=2 and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) C 
+        on A.key=C.niv  left join (".
+        "SELECT hed.level_id as 'niv',sum(hed.listeners) as listeners from health_education_data hed where hed.health_education_id=2 and hed.created_at between '$fecha1' and '$fecha2' group by hed.level_id) D on A.key=D.niv";
+      $this->query($sql);
 
       if($tiempo['separador']=="1"){
         $datos['meta']=[
@@ -568,35 +556,23 @@
         $param['tiempo']=$temp;
         $param['sql']="SELECT K.titulo as 'Actividad'";
         $param['key']="SELECT l.name as titulo, l.id as 'key' from levels l";
-        $param['meta']="SELECT sum(gh.number) as 'Meta',hed.level_id as 'key' from health_education_data hed inner join goals_health gh on gh.health_education_id=hed.health_education_id where gh.health_education_id=2 and gh.date %param% group by hed.level_id";
-        $param['realizado']="SELECT count(hed.id) as 'Realizado',hed.level_id as 'key' from health_education_data hed where hed.health_education_id=2 and status='Realizada' and hed.created_at %param% group by hed.level_id";
+        $param['meta']="SELECT hed.level_id as 'key', count(hed.id) as'Meta' from health_education_data hed where hed.health_education_id=2 and hed.created %param% group by hed.level_id";
+        $param['realizado']="SELECT hed.level_id as 'key', count(hed.id) as'Realizado' from health_education_data hed where hed.health_education_id=2 and hed.status='Realizada' and hed.created %param% group by hed.level_id";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
        
-        if(isset($result['titulos'])){
-          foreach ($result['titulos'] as $key) {
-            $titulos[] = $key;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-            'tituloE'=>$result['meses']
-          ];
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
         }
-        else{
-          foreach ($result['meses'] as $k) {
-            $titulos[] = $k;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-          ];
-        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
       }
 
-      $sql="SELECT 'Charlas Informativas' as 'Actividad',ifnull(B.Meta,ifnull(A.Realizado,0)) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(B.Meta,ifnull(A.Realizado,1)))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=2 and status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."')A on he.id=2
-        left join (SELECT sum(gh.number) as 'Meta' from goals_health gh where gh.health_education_id=2 and gh.date between '".$fecha3."' and '".$fecha4."')B on he.id=2 where he.id=2";
+      $sql="SELECT 'Charlas Informativas' as Actividad,ifnull(E.Aux,0) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(E.Aux,1))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=2 and status='Realizada' and hed.created_at between '$fecha1' and '$fecha2')A on he.id=2 left join (SELECT count(hed.id) as 'Aux' from health_education_data hed where hed.health_education_id=2 and hed.created_at between '$fecha1' and '$fecha2')E on he.id=2 where he.id=2";
 
       $this->query($sql);
 
@@ -605,7 +581,7 @@
         'titulo' => ['','Meta','Realizado','% Porcentaje'],
       ];
 
-      $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas', sum(hed.listeners) as 'Oyentes' from health_education_data hed where hed.health_education_id=2 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
+      $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas', sum(hed.listeners) as 'Oyentes' from health_education_data hed where hed.health_education_id=2 and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2' group by Actividad";
 
       $this->query($sql);
       $datos['oyentes']=[
@@ -616,16 +592,10 @@
       return $datos;
     }
     public function continua($tiempo){
-      $fecha3=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha1'])), 1, date("Y",strtotime($tiempo['fecha1']))));
-      $fecha4=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha2'])), date("t",strtotime($tiempo['fecha2'])), date("Y",strtotime($tiempo['fecha2']))));
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
 
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=$fecha3;
-        $tiempo['fecha2']=$fecha4;
-      }
-
-      $sql="SELECT 'Educación Continua' as Actividad,ifnull(B.Meta,ifnull(A.Realizado,0)) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(B.Meta,ifnull(A.Realizado,1)))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=3 and status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."')A on he.id=3 
-        left join (SELECT sum(gh.number) as 'Meta' from goals_health gh where gh.health_education_id=3 and gh.date between '".$fecha3."' and '".$fecha4."')B on he.id=3 where he.id=3";
+      $sql="SELECT 'Educación Continua' as Actividad,ifnull(E.Aux,0) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(E.Aux,1))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=3 and status='Realizada' and hed.created_at between '$fecha1' and '$fecha2')A on he.id=3 left join (SELECT count(hed.id) as 'Aux' from health_education_data hed where hed.health_education_id=3 and hed.created_at between '$fecha1' and '$fecha2')E on he.id=3 where he.id=3";
 
       $this->query($sql);
       if($tiempo['separador']=="1"){
@@ -644,31 +614,20 @@
         $param['tiempo']=$temp;
         $param['sql']="SELECT 'Educación Continua' as 'Actividad'";
         $param['key']="SELECT he.id as 'key' from health_education he where he.id=3";
-        $param['meta']="SELECT sum(gh.number) as 'Meta',gh.health_education_id as 'key' from goals_health gh where gh.health_education_id=3 and gh.date %param% ";
-        $param['realizado']="SELECT count(hed.id) as 'Realizado', hed.health_education_id as 'key' from health_education_data hed where hed.health_education_id=3 and status='Realizada' and hed.created_at %param% ";
+        $param['meta']="SELECT count(hed.id) as 'Meta',3 as 'key' from health_education_data hed where hed.health_education_id=3 and hed.created_at";
+        $param['realizado']="SELECT count(hed.id) as 'Realizado', 3 as 'key' from health_education_data hed where hed.health_education_id=3 and status='Realizada' and hed.created_at %param% ";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
        
-        if(isset($result['titulos'])){
-          foreach ($result['titulos'] as $key) {
-            $titulos[] = $key;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-            'tituloE'=>$result['meses']
-          ];
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
         }
-        else{
-          foreach ($result['meses'] as $k) {
-            $titulos[] = $k;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-          ];
-        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
       }
       $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas',Concat(Concat('<ul style=\'text-align:left;\'><li><b>',Concat(Concat(ifnull(A.l1,0),'</b> Enfermería</li><li><b>'),Concat(ifnull(A.l2,0),'</b> Colaboradores Clínicos</li><li><b>'))),Concat(Concat(Concat(ifnull(A.l3,0),'</b> Recepcionistas</li><li><b>'),Concat(ifnull(A.l4,0),'</b> Aux. de Servicio</li><li><b>')),Concat(Concat(ifnull(A.l5,0),'</b> Técnicos de Farmacia</li><li><b>'),Concat(ifnull(A.l6,0),'</b> Aux. de Servicio de la Empresa Premium</li></ul>')))) as 'Personal' from health_education_data hed left join (SELECT sum(l.ENFERMERIA) as l1,sum(l.`COLABORADORES CLINICOS`) as l2,sum(l.RECEPCIONISTAS) as l3,sum(l.`AUX. DE SERVICIO`) as l4,sum(l.`TECNICOS DE FARMACIA`) as l5,sum(l.`AUX. DE SERVICIO DE LA EMPRESA PREMIUM`) as l6,hed.description as id from listeners l inner join health_education_data hed on hed.id=l.health_education_data_id group by hed.description)A on hed.description=A.id 
        where hed.health_education_id=3 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
@@ -700,14 +659,10 @@
       return $datos;
     }
     public function continuaEpidemiologia($tiempo){
-      $fecha3=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha1'])), 1, date("Y",strtotime($tiempo['fecha1']))));
-      $fecha4=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha2'])), date("t",strtotime($tiempo['fecha2'])), date("Y",strtotime($tiempo['fecha2']))));
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=$fecha3;
-        $tiempo['fecha2']=$fecha4;
-      }
-      $sql="SELECT 'Educación Continua por Epidemiología' as Actividad,ifnull(B.Meta,ifnull(A.Realizado,0)) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(B.Meta,ifnull(A.Realizado,1)))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=5 and status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."')A on he.id=5 
-        left join (SELECT sum(gh.number) as 'Meta' from goals_health gh where gh.health_education_id=5 and gh.date between '".$fecha3."' and '".$fecha4."')B on he.id=5 where he.id=5";
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
+
+      $sql="SELECT 'Educación Continua por Epidemiología' as Actividad,ifnull(E.Aux,0) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(E.Aux,1))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=5 and status='Realizada' and hed.created_at between '$fecha1' and '$fecha2')A on he.id=5 left join (SELECT count(hed.id) as 'Aux' from health_education_data hed where hed.health_education_id=5 and hed.created_at between '$fecha1' and '$fecha2')E on he.id=5 where he.id=5";
 
       $this->query($sql);
 
@@ -725,33 +680,22 @@
         $temp[]=strtotime($tiempo['fecha2']);
 
         $param['tiempo']=$temp;
-        $param['sql']="SELECT 'Educación Continua por Epidemiología' as 'Actividad'";
+        $param['sql']="SELECT 'Educación Continua' as 'Actividad'";
         $param['key']="SELECT he.id as 'key' from health_education he where he.id=5";
-        $param['meta']="SELECT sum(gh.number) as 'Meta',gh.health_education_id as 'key' from goals_health gh where gh.health_education_id=5 and gh.date %param% ";
-        $param['realizado']="SELECT count(hed.id) as 'Realizado', hed.health_education_id as 'key' from health_education_data hed where hed.health_education_id=5 and status='Realizada' and hed.created_at %param% ";
+        $param['meta']="SELECT count(hed.id) as 'Meta',5 as 'key' from health_education_data hed where hed.health_education_id=5 and hed.created_at";
+        $param['realizado']="SELECT count(hed.id) as 'Realizado', 5 as 'key' from health_education_data hed where hed.health_education_id=5 and status='Realizada' and hed.created_at %param% ";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
        
-        if(isset($result['titulos'])){
-          foreach ($result['titulos'] as $key) {
-            $titulos[] = $key;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-            'tituloE'=>$result['meses']
-          ];
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
         }
-        else{
-          foreach ($result['meses'] as $k) {
-            $titulos[] = $k;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-          ];
-        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
       }
       $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas',Concat(Concat('<ul style=\'text-align:left;\'><li><b>',Concat(Concat(ifnull(A.l1,0),'</b> Enfermería</li><li><b>'),Concat(ifnull(A.l2,0),'</b> Colaboradores Clínicos</li><li><b>'))),Concat(Concat(Concat(ifnull(A.l3,0),'</b> Recepcionistas</li><li><b>'),Concat(ifnull(A.l4,0),'</b> Aux. de Servicio</li><li><b>')),Concat(Concat(ifnull(A.l5,0),'</b> Técnicos de Farmacia</li><li><b>'),Concat(ifnull(A.l6,0),'</b> Aux. de Servicio de la Empresa Premium</li></ul>')))) as 'Personal' from health_education_data hed left join (SELECT sum(l.ENFERMERIA) as l1,sum(l.`COLABORADORES CLINICOS`) as l2,sum(l.RECEPCIONISTAS) as l3,sum(l.`AUX. DE SERVICIO`) as l4,sum(l.`TECNICOS DE FARMACIA`) as l5,sum(l.`AUX. DE SERVICIO DE LA EMPRESA PREMIUM`) as l6,hed.description as id from listeners l inner join health_education_data hed on hed.id=l.health_education_data_id group by hed.description)A on hed.description=A.id 
        where hed.health_education_id=5 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
@@ -783,14 +727,11 @@
       return $datos;
     }
     public function continuaOftalmologia($tiempo){
-      $fecha3=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha1'])), 1, date("Y",strtotime($tiempo['fecha1']))));
-      $fecha4=date("Y-m-d",mktime(0, 0, 0, date("m",strtotime($tiempo['fecha2'])), date("t",strtotime($tiempo['fecha2'])), date("Y",strtotime($tiempo['fecha2']))));
-      if($tiempo['separador']!="1"){
-        $tiempo['fecha1']=$fecha3;
-        $tiempo['fecha2']=$fecha4;
-      }
-      $sql="SELECT 'Educación Continua por Oftalmología' as Actividad,ifnull(B.Meta,ifnull(A.Realizado,0)) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(B.Meta,ifnull(A.Realizado,1)))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=4 and status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."')A on he.id=4 
-        left join (SELECT sum(gh.number) as 'Meta' from goals_health gh where gh.health_education_id=4 and gh.date between '".$fecha3."' and '".$fecha4."')B on he.id=4 where he.id=4";
+     
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
+
+      $sql="SELECT 'Educación Continua por Oftalmología' as Actividad,ifnull(E.Aux,0) as 'Meta',ifnull(A.Realizado,0)as 'Realizado',CONCAT(ifnull(ROUND((ifnull(A.Realizado,0)/ifnull(E.Aux,1))*100,2),0),'%') as '% realización' from health_education he left join (SELECT count(hed.id) as 'Realizado' from health_education_data hed where hed.health_education_id=4 and status='Realizada' and hed.created_at between '$fecha1' and '$fecha2')A on he.id=4 left join (SELECT count(hed.id) as 'Aux' from health_education_data hed where hed.health_education_id=4 and hed.created_at between '$fecha1' and '$fecha2')E on he.id=4 where he.id=4";
 
       $this->query($sql);
 
@@ -808,36 +749,25 @@
         $temp[]=strtotime($tiempo['fecha2']);
 
         $param['tiempo']=$temp;
-        $param['sql']="SELECT 'Educación Continua por Oftalmología' as 'Actividad'";
+        $param['sql']="SELECT 'Educación Continua' as 'Actividad'";
         $param['key']="SELECT he.id as 'key' from health_education he where he.id=4";
-        $param['meta']="SELECT sum(gh.number) as 'Meta',gh.health_education_id as 'key' from goals_health gh where gh.health_education_id=4 and gh.date %param% ";
-        $param['realizado']="SELECT count(hed.id) as 'Realizado', hed.health_education_id as 'key' from health_education_data hed where hed.health_education_id=4 and status='Realizada' and hed.created_at %param% ";
+        $param['meta']="SELECT count(hed.id) as 'Meta',4 as 'key' from health_education_data hed where hed.health_education_id=4 and hed.created_at";
+        $param['realizado']="SELECT count(hed.id) as 'Realizado', 4 as 'key' from health_education_data hed where hed.health_education_id=4 and status='Realizada' and hed.created_at %param% ";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
        
-        if(isset($result['titulos'])){
-          foreach ($result['titulos'] as $key) {
-            $titulos[] = $key;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-            'tituloE'=>$result['meses']
-          ];
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
         }
-        else{
-          foreach ($result['meses'] as $k) {
-            $titulos[] = $k;
-          }
-          $datos['meta']=[
-            'values' => $this->registros(),
-            'titulo' => $titulos,
-          ];
-        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
       }
       $sql="SELECT hed.description as Actividad,count(hed.description) as 'Realizadas',Concat(Concat('<ul style=\'text-align:left;\'><li><b>',Concat(Concat(ifnull(A.l1,0),'</b> Enfermería</li><li><b>'),Concat(ifnull(A.l2,0),'</b> Colaboradores Clínicos</li><li><b>'))),Concat(Concat(Concat(ifnull(A.l3,0),'</b> Recepcionistas</li><li><b>'),Concat(ifnull(A.l4,0),'</b> Aux. de Servicio</li><li><b>')),Concat(Concat(ifnull(A.l5,0),'</b> Técnicos de Farmacia</li><li><b>'),Concat(ifnull(A.l6,0),'</b> Aux. de Servicio de la Empresa Premium</li></ul>')))) as 'Personal' from health_education_data hed left join (SELECT sum(l.ENFERMERIA) as l1,sum(l.`COLABORADORES CLINICOS`) as l2,sum(l.RECEPCIONISTAS) as l3,sum(l.`AUX. DE SERVICIO`) as l4,sum(l.`TECNICOS DE FARMACIA`) as l5,sum(l.`AUX. DE SERVICIO DE LA EMPRESA PREMIUM`) as l6,hed.description as id from listeners l inner join health_education_data hed on hed.id=l.health_education_data_id group by hed.description)A on hed.description=A.id 
-       where hed.health_education_id=5 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
+       where hed.health_education_id=4 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by Actividad";
 
       $this->query($sql);
       $datos['personal']=[
@@ -845,7 +775,7 @@
         'titulo' => ['Tema','Realizadas','Personal'],
       ];
       //Título y Value
-      $sql="SELECT ifnull(sum(ENFERMERIA),0),ifnull(sum(`COLABORADORES CLINICOS`),0),ifnull(sum(RECEPCIONISTAS),0),ifnull(sum(`AUX. DE SERVICIO`),0),ifnull(sum(`TECNICOS DE FARMACIA`),0),ifnull(sum(`AUX. DE SERVICIO DE LA EMPRESA PREMIUM`),0) from listeners l inner join health_education_data hed on hed.id=5 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."'";
+      $sql="SELECT ifnull(sum(ENFERMERIA),0),ifnull(sum(`COLABORADORES CLINICOS`),0),ifnull(sum(RECEPCIONISTAS),0),ifnull(sum(`AUX. DE SERVICIO`),0),ifnull(sum(`TECNICOS DE FARMACIA`),0),ifnull(sum(`AUX. DE SERVICIO DE LA EMPRESA PREMIUM`),0) from listeners l inner join health_education_data hed on hed.id=4 and hed.status='Realizada' and hed.created_at between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."'";
       $this->query($sql);
       $data = $this->registros();
       $valor = ['Enfermería','Colaboradores Clínicos','Recepcionistas','Auxiliares de Servicio','Técnicos de Farmacia','Aux. de Servicio de la Empresa Premium'];
@@ -865,6 +795,50 @@
       ];
       return $datos;
     }
+    public function reuniones($tiempo){
+      $sql = "SELECT * from (SELECT A.Titulo,ifnull(B.Meta,0) as 'Meta',ifnull(C.Realizado,0) as 'Realizado',CONCAT(ROUND(ifnull((C.Realizado/B.Meta)*100,0),2),'%') as 'Porcentaje' from 
+        (SELECT l.name as 'Titulo',l.id as 'Nivel' from levels l) A left join 
+        (SELECT am.level_id as 'niv', count(am.id) as'Meta' from administrative_meetings am where am.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by am.level_id) B 
+        on A.Nivel=B.niv left join (".
+        "SELECT am.level_id as 'niv', count(am.id) as'Realizado' from administrative_meetings am where am.status='Realizada' and am.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by am.level_id) C 
+        on A.Nivel=C.niv
+        )F ";
+      $this->query($sql);
+      if($tiempo['separador']=="1"){
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => ['Nivel','Meta','Realizado','% Realización'],
+          'titulosG' => ['Meta','Realizado'],
+        ];
+      }
+      else{
+        $datos['graf']=[
+          'values' => $this->registros(),
+          'titulosG' => ['Meta','Realizado'],
+        ];
+        $param['tiempo'][]=strtotime($tiempo['fecha1']);
+        $param['tiempo'][]=strtotime($tiempo['fecha2']);
+
+        $param['sql']="SELECT K.Titulo as 'Nivel'";
+        $param['key']="SELECT l.name as 'Titulo',l.id as 'key' from levels l";
+        $param['meta']="SELECT am.level_id as 'key', count(am.id) as'Meta' from administrative_meetings am where am.date %param% group by am.level_id";
+        $param['realizado']="SELECT am.level_id as 'key', count(am.id) as'Realizado' from administrative_meetings am where am.status='Realizada' and am.date %param% group by am.level_id ";
+        $result=$this->separador($param);
+        $this->query($result['sql']);
+        $titulos[] = ''; 
+       
+        foreach ($result['titulos'] as $key) {
+          $titulos[] = $key;
+        }
+        $datos['meta']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+          'tituloE'=>$result['meses']
+        ];
+      }
+      return $datos;
+    }//Verificada
+
       //Generador de Query
     private function separador($param){
       //Tiempo

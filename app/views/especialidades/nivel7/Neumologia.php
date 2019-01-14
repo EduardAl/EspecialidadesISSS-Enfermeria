@@ -1,18 +1,11 @@
 <?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;$id=0;?>
 <div class = "container">
 	<div class = "row">
-		<div class="col-xs-8">
+		<div class="col-xs-12">
 			<h1>Neumología</h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
-
-		<div class="col-xs-4">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a class="mouseHover" onclick="find('#procedimientos');">Procedimientos</a></li>
-				<li><a class="mouseHover" onclick="find('#pacientes');">Pacientes</a></li>
-			</ul>
-		</div>
-
+		
 		<br><br><br><br><br>
 		<div class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
@@ -70,36 +63,38 @@
 		<br><br>
 		<!-- Procedimientos Mes -->
 		<div  class="col-xs-12" id="procedimientos">
+			<?php if(isset($data['datos1']['meta'])&&isset($data['datos1']['meta']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Procedimientos</h3>
 			</div>
 			<div class="col-xs-12" style="overflow: auto;">
-				<?php if(isset($data['datos1'])){$datos=$data['datos1']['meta']; $id++;;
+				<?php $datos=$data['datos1']['meta']; $id++;;
 				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
 				<div class=thumbnail>
 					<?php if(isset($data['datos1']['graf']))$datos=$data['datos1']['graf']; 
 					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-				</div><?php }?>
+				</div>
 			</div>
-		</div>
-		<div id="pacientes" class="col-xs-12">
-			<hr>
+			<div class="col-xs-12">
+				<hr>
+			</div><?php }?>
 		</div>
 		<div  class="col-xs-12" id="pacientes">
+			<?php if(isset($data['datos2'])&&isset($data['datos2']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Pacientes</h3>
 			</div>
 			<div class="col-xs-12" style="overflow: auto;">
-				<?php if(isset($data['datos2'])){$datos=$data['datos2']; $id++;
+				<?php $datos=$data['datos2']; $id++;
 				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
 				<div class=thumbnail>
 					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-				</div><?php }?>
-			</div>
+				</div>
+			</div><?php }?>
 		</div>
 	</div>
 </div>
@@ -151,9 +146,5 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
-
-    function find(encontrar){
-    	$("html, body").animate({ scrollTop: $(encontrar).offset().top }, 500);
-    }
 </script>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

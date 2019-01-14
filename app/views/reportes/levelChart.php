@@ -103,7 +103,23 @@
                 }
                 ?>
                 ]
-            },
+            },<?php if(isset($datos['values'][4])){ ?>
+
+            {
+              label: "Departamento Enfermería",
+                backgroundColor: '#0431B4',
+                data: [
+                <?php
+                foreach ($datos['titulosG'] as $tit) {
+                  foreach ($datos['values'][4] as $value => $key) {
+                    if($value==$tit)
+                      echo $key.", ";
+                  }
+                }
+                ?>
+                ]
+            }
+            <?php }?>
             ]
             };
     var options<?php echo $id?> = {
@@ -119,7 +135,26 @@
                     autoSkip: false
                 }
             }]
-        }
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            this.data.datasets.forEach(function(dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index) {
+                var data = dataset.data[index];
+                ctx.fillText(data, bar._model.x, bar._model.y - 5);
+              });
+            });
+          }
+        },
         };
 
     //Inicializador del gráfico
@@ -218,6 +253,9 @@
     myChart<?php echo $id?>.data.datasets[1].backgroundColor=bColor[1];
     myChart<?php echo $id?>.data.datasets[2].backgroundColor=bColor[2];
     myChart<?php echo $id?>.data.datasets[3].backgroundColor=bColor[3];
+    <?php if(isset($datos['values'][4])){ ?>
+
+    myChart<?php echo $id?>.data.datasets[4].backgroundColor=bColor[4];<?php }?>
     myChart<?php echo $id?>.update();
   });
 

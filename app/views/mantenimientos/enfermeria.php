@@ -1,12 +1,10 @@
-<?php if(!isset($lNivel))$lNivel="Cuarto Nivel";if(!isset($nNivel))$nNivel="4";
+<?php require RUTA_APP.'\views\inc\header.php'; $nNivel='enfermeria';
 $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso']==2)); ?>
 <div id="navbar" class="navbar-collapse collapse" style="background: #050D42;">
 	<div class="container">
 		<ul class="nav navbar-nav barra">
 			<li><a id="1"class="mouseHover" onclick="Mostrar_Ocultar(1)">Datos del Nivel</a></li>
 			<li><a id="5"class="mouseHover" onclick="Mostrar_Ocultar(5)">Ausentismo</a></li>
-			<li><a id="2"class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
-			<li><a id="3"class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos Especialidades</a></li>
 			<li><a id="6"class="mouseHover" onclick="Mostrar_Ocultar(6)">Educación</a></li>
 			<li><a id="10"class="mouseHover" onclick="Mostrar_Ocultar(10)">Investigación</a></li>
 			<li><a id="7"class="mouseHover" onclick="Mostrar_Ocultar(7)">Gestión Administrativa</a></li>
@@ -16,12 +14,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 </div>
 <div class = "container" style="min-height: 400px;">
 	<div class = "row">
-		<div  class="col-xs-<?php echo ($bool)?3:12?>">
-			<h1 class=""><?php echo $lNivel?></h1>
+		<div  class="col-xs-<?php echo ($bool)?6:12?>">
+			<h1 class="">Departamento de Enfermería</h1>
 		</div><?php if($bool) { ?>
 			
-		<div class="col-xs-9">
-			<div class="col-xs-4">
+		<div class="col-xs-6">
+			<div class="col-xs-5">
 				<div class="form-group" style="padding-top: 22px;">
 				    <div class='input-group date' id='admin'>
 				        <input type='text' class="form-control" id="adminFecha" style="background: white;"readonly/>
@@ -63,127 +61,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				}
 			?>
 		</div>
-		<div class='col-xs-12' id="datosEspecialidades">
-			<div>					
-				<h2>Datos de las especialidades</h2>
-			</div>
-			<?php
-				if(isset($data['especialidades']))
-				{
-					if(count(($data['specialty'])['TítulosY'])>0){
-					foreach ($data['especialidades'] as $key) {
-					echo "<div class='col-xs-12'><h3>".$key->title."</h3></div>";
-			?>
-			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoEspecialidad/'.$nNivel.'/'.$key->id?>">
-				<input class="admin" type="text" name="fecha" hidden>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<?php 
-					$datos=$data['specialty'];
-					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
-					?>
-				</div>
-				<div class="col-xs-12">
-					<div class="col-xs-12">
-						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-					</div>
-				</div>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<hr>
-				</div>
-			</form>
-			<?php
-					}
-				}
-			}
-			?>
-		</div>
-		<div class='col-xs-12' id="procedimientosEspecialidades">
-			<div class='col-xs-10'>					
-				<h2>Procedimientos de las especialidades</h2>
-			</div>
-			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(4);">Metas</button>
-			</div>
-			<?php
-			if(isset($data['especialidades']))
-			{
-				$variable=0;
-				foreach ($data['especialidades'] as $key) {
-					if(count(($data['procedures'])[$variable]['TítulosY'])>0){
-						echo "<div class='col-xs-12'><h3>".$key->title."</h3></div>";
-			?>
-				<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoProcedimiento/'.$nNivel.'/'.$key->id?>">
-					<input class="admin" type="text" name="fecha" hidden>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-						<?php 
-						$datos=$data['procedures'];
-						$datos = $datos[$variable];
-						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
-						?>
-					</div >
-					<div class="col-xs-12" >
-						<div class="col-xs-12">
-							<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-						</div>
-					</div>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-						<hr>
-					</div>
-				</form>
-			<?php
-					}
-					$variable ++;
-				}
-			}
-			?>
-		</div>
-		<div class='col-xs-12' id="metasEspecialidades">
-			<div class='col-xs-10'>					
-				<h2>Metas de los procedimientos de las especialidades</h2>
-			</div>
-			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(31);">Procedimientos</button>
-			</div>
-			<?php
-			if(isset($data['especialidades']))
-			{
-				$variable=0;
-				foreach ($data['especialidades'] as $key) {
-					if(count(($data['procedures'])[$variable]['TítulosY'])>0){
-					echo "<div class='col-xs-12'><h3>".$key->title."</h3></div>";
-					?>
-			
-			<form class="form-formulario" method="POST" action="<?php echo  RUTA_URL . '/Mantenimiento/IngresoMeta/'.$nNivel.'/'.$key->id?>">
-				<input class="admin" type="text" name="fecha" hidden>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<?php 
-					$datos=$data['procedures'];
-					$datos = $datos[$variable];
-					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
-					?>
-				</div >
-				<div class="col-xs-12" >
-					<div class="col-xs-12">
-						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-					</div>
-				</div>
-				<div class="col-xs-12" style="display: inline-block; align-items: center">
-					<hr>
-				</div>
-			</form>
-				<?php
-					}
-					$variable ++;
-				}
-			}
-			?>
-		</div>
 		<div class="col-xs-12" id="ausentismo">
 			<div class='col-xs-10'>					
 				<h2>Ausentismo del Nivel</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(9);">Configuración</button>
+				<button class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(4);">Configuración</button>
 			</div>
 			<?php 
 				if(isset($data['absences'])){
@@ -243,7 +126,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				<h2>Educación y Charlas</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(61);">Nuevo</button>
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(31);">Nuevo</button>
 			</div><?php if($bool){?>
 			<div class='col-xs-12'>	
 				<hr>
@@ -255,11 +138,10 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					</div>
 					<div class="col-xs-3">
 						<select name="cbOrdenar" class="form-control" id="dates" >
-							<option value="">Todos</option>
+							<option value="">Realizados y Programados</option>
 							<option value="default">Predeterminado*</option>
 							<option value="Programada">Programados</option>
 							<option value="Realizada">Realizados</option>
-							<option value="Perdida">Perdidos</option>
 						</select>
 					</div>
 					<div class="col-xs-1">
@@ -356,7 +238,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				<h2>Investigación Enfermería</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(101);">Nuevo</button>
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(41);">Nuevo</button>
 			</div><?php if($bool){?>
 			<div class='col-xs-12'>	
 				<hr>
@@ -368,11 +250,10 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					</div>
 					<div class="col-xs-3">
 						<select name="cbOrdenar" class="form-control" id="dates2" >
-							<option value="">Todos</option>
+							<option value="">Realizados y Programados</option>
 							<option value="default">Predeterminado*</option>
 							<option value="Programada">Programados</option>
 							<option value="Realizada">Realizados</option>
-							<option value="Perdida">Perdidos</option>
 						</select>
 					</div>
 					<div class="col-xs-1">
@@ -441,7 +322,6 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 						       <select name="estado" class="form-control" required>
 					       			<option value="Programada">Programada</option>;
 					       			<option value="Realizada">Realizada</option>;
-					       			<option value="Perdida">Perdida</option>;
 								</select>
 						        <br>
 						        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
@@ -496,7 +376,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				<h2>Reuniones Administrativas</h2>
 			</div>
 			<div class='col-xs-2' style="padding-top: 20px;">					
-				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(111);">Nuevo</button>
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(61);">Nuevo</button>
 			</div><?php if($bool){?>
 			<div class='col-xs-12'>	
 				<hr>
@@ -668,17 +548,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
     	$('#datetimepicker6').children().attr('disabled','disabled');
 		$("#fecha5").val("<?php echo date('Y/m/d')?>");
 		$("#fecha6").val("<?php echo date('Y/m/d')?>");<?php
-		}
-		}?>
+		}}?>
 	}
 	function Mostrar_Ocultar(num){
 
 		$("#1").css("background-color","transparent");
 		$("#1").css("color","white");
-		$("#2").css("background-color","transparent");
-		$("#2").css("color","white");
-		$("#3").css("background-color","transparent");
-		$("#3").css("color","white");
 		$("#5").css("background-color","transparent");
 		$("#5").css("color","white");
 		$("#6").css("background-color","transparent");
@@ -707,48 +582,6 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
-		else if(num==2)
-		{
-			$('#datosEspecialidades').show('fast');
-			$('#datosNivel').hide();
-			$('#procedimientosEspecialidades').hide();
-			$('#metasEspecialidades').hide();
-			$('#ausentismo').hide();
-			$('#configAusentismo').hide();
-			$('#educacion').hide();
-			$('#metasEducacion').hide();
-			$('#administrativa').hide();
-			$('#investigacion').hide();
-			$('#reuniones').hide();
-		}
-		else if(num==3)
-		{
-			$('#datosNivel').hide();
-			$('#datosEspecialidades').hide();
-			$('#metasEspecialidades').hide('slow');
-			$('#ausentismo').hide();
-			$('#configAusentismo').hide();
-			$('#procedimientosEspecialidades').show('fast');
-			$('#educacion').hide();
-			$('#metasEducacion').hide();
-			$('#administrativa').hide();
-			$('#investigacion').hide();
-			$('#reuniones').hide();
-		}
-		else if(num==31)
-		{
-			$("#3").css("background-color","#E8E8EC");
-			$("#3").css("color","black");
-			$('#metasEspecialidades').hide('slow');
-			$('#procedimientosEspecialidades').show('slow');
-		}
-		else if(num==4)
-		{
-			$("#3").css("background-color","#E8E8EC");
-			$("#3").css("color","black");
-			$('#procedimientosEspecialidades').hide('slow');
-			$('#metasEspecialidades').show('slow');
-		}
 		else if(num==5)
 		{
 			$('#ausentismo').show('fast');
@@ -763,7 +596,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
-		else if(num==51){
+		else if(num==21){
 			$("#5").css("background-color","#E8E8EC");
 			$("#5").css("color","black");
 			$('#configAusentismo').hide('slow');
@@ -783,7 +616,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
-		else if(num==61)
+		else if(num==31)
 		{
 			$("#6").css("background-color","#E8E8EC");
 			$("#6").css("color","black");
@@ -794,6 +627,33 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			else{
 				$('#hide').hide('slow');
 				hidden=true;
+			}
+		}
+		else if(num==10)
+		{
+			$('#investigacion').show('fast');
+			$('#metasEducacion').hide();
+			$('#procedimientosEspecialidades').hide();
+			$('#datosNivel').hide();
+			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
+			$('#metasEspecialidades').hide();
+			$('#datosEspecialidades').hide();
+			$('#educacion').hide();
+			$('#administrativa').hide();
+			$('#reuniones').hide();
+		}
+		else if(num==41)
+		{
+			$("#10").css("background-color","#E8E8EC");
+			$("#10").css("color","black");
+			if(hidden2){
+				$('#hide2').show('slow');
+				hidden2=false;
+			}
+			else{
+				$('#hide2').hide('slow');
+				hidden2=true;
 			}
 		}
 		else if(num==7)
@@ -810,44 +670,9 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
-		else if(num==9)
-		{
-			$("#5").css("background-color","#E8E8EC");
-			$("#5").css("color","black");
-			$('#ausentismo').hide('slow');
-			$('#configAusentismo').show('slow');
-		}
-		else if(num==10)
-		{
-			$('#investigacion').show('fast');
-			$('#metasEducacion').hide();
-			$('#procedimientosEspecialidades').hide();
-			$('#datosNivel').hide();
-			$('#ausentismo').hide();
-			$('#configAusentismo').hide();
-			$('#metasEspecialidades').hide();
-			$('#datosEspecialidades').hide();
-			$('#educacion').hide();
-			$('#administrativa').hide();
-			$('#reuniones').hide();
-		}
-		else if(num==101)
-		{
-			$("#10").css("background-color","#E8E8EC");
-			$("#10").css("color","black");
-			if(hidden2){
-				$('#hide2').show('slow');
-				hidden2=false;
-			}
-			else{
-				$('#hide2').hide('slow');
-				hidden2=true;
-			}
-		}
 		else if(num==11)
 		{
 			$('#reuniones').show('fast');
-			$('#investigacion').hide();
 			$('#metasEducacion').hide();
 			$('#procedimientosEspecialidades').hide();
 			$('#datosNivel').hide();
@@ -857,8 +682,9 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosEspecialidades').hide();
 			$('#educacion').hide();
 			$('#administrativa').hide();
+			$('#investigacion').hide();
 		}
-		else if(num==111)
+		else if(num==61)
 		{
 			$("#11").css("background-color","#E8E8EC");
 			$("#11").css("color","black");
@@ -870,6 +696,13 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				$('#hide3').hide('slow');
 				hidden3=true;
 			}
+		}
+		else if(num==4)
+		{
+			$("#5").css("background-color","#E8E8EC");
+			$("#5").css("color","black");
+			$('#ausentismo').hide('slow');
+			$('#configAusentismo').show('slow');
 		}
 	}
 	$(function () {
@@ -976,3 +809,4 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
         });
     });
 </script>
+<?php require RUTA_APP.'\views\inc\footer.php'; ?>

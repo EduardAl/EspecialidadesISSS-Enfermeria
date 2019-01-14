@@ -33,6 +33,7 @@
 							<option value="eduEpidemiologia">Educación C. Epidemiología</option>
 							<option value="eduOftalmologia">Educación C. Oftalmología</option>
 							<option value="administracion">Gestión Administrativa</option>
+							<option value="reuniones">Reuniones Administrativas</option>
 						</select>
 					</div>
 					<div class="col-xs-1">
@@ -173,17 +174,18 @@
 				</div>
 				<div class="col-xs-12">
 					<div class=thumbnail>
-						<?php if(isset($data['eduSalud']['graf']))$datos=$data['eduSalud']['graf'];;
+						<?php if(isset($data['eduSalud']['graf']))$datos=$data['eduSalud']['graf'];
 						include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 					</div>
 				</div>
-				<div class="col-xs-12">
+				<div class="col-xs-12" style="overflow: auto;">
 					<?php $datos=$data['eduSalud']['total']; $id++;
 					include RUTA_APP.'\views\reportes\tablaShow.php';?>
 				</div>
 				<div class="col-xs-12">
 					<div class=thumbnail>
-						<?php include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+						<?php if(isset($data['eduSalud']['graf2']))$datos=$data['eduSalud']['graf2'];
+						include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 					</div>
 				</div>
 				<div class="col-xs-12">
@@ -327,6 +329,25 @@
 					</div><?php }?>
 				</div>
 			</div>
+			<div id="reunionesNivel" hidden>
+				<div class="col-xs-12">
+					<h3>Reuniones Administrativas</h3>
+				</div>
+				<div class="col-xs-12">
+					<h4>Metas</h4>
+				</div>
+				<div class="col-xs-12" style="overflow: auto;">
+					<?php if(isset($data['reuniones'])){
+						$datos=$data['reuniones']['meta']; $id++;
+					include RUTA_APP.'\views\reportes\tablaShow.php';?>
+				</div>
+				<div class="col-xs-12">
+					<div class=thumbnail>
+						<?php if(isset($data['reuniones']['graf']))$datos=$data['reuniones']['graf'];
+						include RUTA_APP.'\views\reportes\levelChart.php'; ?>
+					</div><?php }?>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -363,6 +384,9 @@
 			break;
 			case 9:
 				$('#gestionAdministrativaNivel').show();
+			break;
+			case 10:
+				$('#reunionesNivel').show();
 			break;
 			case 30:
 				$('#Metas').show();

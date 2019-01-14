@@ -1,15 +1,9 @@
-<?php require RUTA_APP.'\views\inc\header.php'; //Esto no lleva?>
+<?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;$id=0;?>
 <div class = "container">
 	<div class = "row">
-		<div class="col-xs-8">
-			<h1>Procedimientos de Hipertensión Arterial y Evaluaciones Cardiovasculares</h1>
+		<div class="col-xs-12">
+			<h1>Cirugía Periférica</h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
-		</div>
-
-		<div class="col-xs-4">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a class="mouseHover" onclick="find('#pacientes');">Pacientes</a></li>
-			</ul>
 		</div>
 
 		<br><br><br><br><br>
@@ -17,7 +11,7 @@
 			<hr>
 		</div>
 		<div id="filtro" class="col-xs-12" align="right">
-			<form method="post" action="<?php echo  RUTA_URL . '/Nivel/Especialidad/7/Cardiovascular'?>">
+			<form method="post" action="<?php echo  RUTA_URL . '/Nivel/Especialidad/7/Cirugia'?>">
 				<div class="col-xs-1">
 					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 				</div>
@@ -28,8 +22,14 @@
 						<option value="Per">Personalizado</option>
 					</select>
 				</div>
+				<div class="col-xs-2">
+						<select name="cbSeparador" class="form-control" id="separador">
+							<option value="1" selected>Una sola Tabla</option>
+							<option value="2">Separar Meses</option>
+						</select>
+					</div>
 				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Desde:</label>
+					<label style="text-align: center; padding-top: 8px;">Entre:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -40,9 +40,6 @@
 					        </span>
 					    </div>
 					</div>
-				</div>
-				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Hasta:</label>
 				</div>
 				<div class="col-xs-2">
 					<div class="form-group">
@@ -55,7 +52,7 @@
 					</div>
 				</div>
 				<div class="col-xs-2">
-					<button class="btn btn-primary btn-block" type="submit">Actualizar</button>
+					<button class="btn btn-info btn-block" type="submit">Actualizar</button>
 				</div>
 			</form>
 		</div>
@@ -65,19 +62,39 @@
 		</div>
 		<br><br>
 		<!-- Procedimientos Mes -->
-		<div  class="col-xs-12" id="pacientes">
+		<div  class="col-xs-12" id="procedimientos">
+			<?php if(isset($data['datos1']['meta'])&&isset($data['datos1']['meta']['values'][0])){ ?>
 			<div class="col-xs-12" >
-				<h3>Pacientes</h3>
+				<h3>Procedimientos</h3>
 			</div>
-			<div class="col-xs-12" style="overflow: auto; max-height: 400px;">
-				<?php $data=$datos;$datos=$data['datos2']; $id=1;
+			<div class="col-xs-12" style="overflow: auto;">
+				<?php $datos=$data['datos1']['meta']; $id++;;
 				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 			</div>
 			<div class="col-xs-12">
-				<div class=thumbnail style="align-items: center; overflow: auto; overflow-y: hidden; ">
-					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
+				<div class=thumbnail>
+					<?php if(isset($data['datos1']['graf']))$datos=$data['datos1']['graf']; 
+					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
 				</div>
 			</div>
+			<div class="col-xs-12">
+				<hr>
+			</div><?php }?>
+		</div>
+		<div  class="col-xs-12" id="pacientes">
+			<?php if(isset($data['datos2'])&&isset($data['datos2']['values'][0])){ ?>
+			<div class="col-xs-12" >
+				<h3>Pacientes</h3>
+			</div>
+			<div class="col-xs-12" style="overflow: auto;">
+				<?php $datos=$data['datos2']; $id++;
+				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+			</div>
+			<div class="col-xs-12">
+				<div class=thumbnail>
+					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
+				</div>
+			</div><?php }?>
 		</div>
 	</div>
 </div>
@@ -128,9 +145,5 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     });
-
-    function find(encontrar){
-    	$("html, body").animate({ scrollTop: $(encontrar).offset().top }, 500);
-    }
 </script>
 <?php require RUTA_APP.'\views\inc\footer.php'; ?>

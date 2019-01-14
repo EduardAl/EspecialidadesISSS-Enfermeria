@@ -19,6 +19,7 @@
 	       <select name="estado" class="form-control" id="inputEstado" required>
        			<option value="Programada">Programada</option>
        			<option value="Realizada">Realizada</option>
+				<option value="Perdida">Perdida</option>;
 			</select>
 	        <br>
 	        <div class="row text-center">
