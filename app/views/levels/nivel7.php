@@ -37,7 +37,7 @@
 					<div class="caption">
 						<h3>Neumología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Neumologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Neumologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 					<div class="caption">
 						<h3>Gastroenterología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Gastroenterologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Gastroenterologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 					<div class="caption">
 						<h3>Reumatología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Reumatologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Reumatologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -67,7 +67,7 @@
 					<div class="caption">
 						<h3>Cirugía Vascular Periférica</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Cirugia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cirugia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 					<div class="caption">
 						<h4>Programa de Hipertensión Arterial y Evaluaciones CardioVasculares</h4>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/7/Programa"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Programa"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>

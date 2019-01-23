@@ -13,38 +13,9 @@
 			}
 
 		public function Administracion(){		
-
-
-			if(isset($_SESSION['acceso'])&&
-					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
-			{
-				$model = $this->modelo('MantenimientosModel');
-				$admin=$model->management();
-				$datos=[
-					'admin' => $admin,
-				];
-				$this->vista('Pages/Administracion',$datos);
-			}
-			else
-				$this->vista('Pages/Administracion');
-
-			//$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
-			//$this->vista('Pages/Niveles',$datos);
-		}
-		public function Graficas(){
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
 			$this->vista('Pages/Niveles',$datos);
 		}
-		public function IngresoAdministrativo(){
-			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
-			unset($_POST['fecha']);
-			$datosRecibidos = count($_POST);
-			$data = array_keys($_POST);
-			for ($i=0; $i < $datosRecibidos; $i++) { 
-				$this->modelo('MantenimientosModel')->insertarAdministrativo2($data[$i],$_POST[$data[$i]],$tiempo);
-			}
-			header('Location:'.RUTA_URL.'/Nivel/Administracion/');
-		} 
 		// Para cargar la vista de los niveles
 		public function level ($num_registro=''){
 			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
@@ -70,7 +41,7 @@
 					$fechaT="Año Actual";
 				}
 				else if($tiempo['tipo']=="Per"){
-					$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
+					$tiempo['fecha1']=date("Y-m-d",strtotime($tiempo['fecha1']));
 					if($tiempo['separador']!=1){
 						$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
 						$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
@@ -93,14 +64,15 @@
 				$datos['fechaT'] ='Mes Actual';
 			}
 			unset($_SESSION['temp']);
-			if($num_registro=='DeptoEnfermeria'){
-				$this->vista('levels/deptoEnfermeria',$datos);
-			}
+			$num=(int)$num_registro;
+			if($num>0)
+				$num='nivel'.$num;
 			else
-				$this->vista('levels/nivel'.$num_registro,$datos);
+				$num=$num_registro;
+			$this->vista('levels/'.$num,$datos);
 			}
 		//Para cargar las especialidades
-		public function especialidad($num_registro='',$especialidad=''){
+		public function especialidad($especialidad=''){
 
 			$fecha1 = (isset($_POST['fecha1']))?$_POST['fecha1']:date("Y/m/d");
 			$fecha2 = (isset($_POST['fecha2']))?$_POST['fecha2']:date("Y/m/d");
@@ -112,13 +84,15 @@
 				'fecha2'=>$fecha2,
 				'separador'=>$separador
 			];
+      		$_SESSION['tiempo'] = $tiempo;
 			unset($_SESSION['tiempo']);
       		$_SESSION['tiempo'] = $tiempo;
-			header('Location:'.RUTA_URL."/Nivel/Especialidades/$num_registro/$especialidad");
+			header('Location:'.RUTA_URL."/Nivel/Especialidades/$especialidad");
 			}
-		public function especialidades($num_registro='',$especialidad=''){
+		public function especialidades($especialidad=''){
 			//Buscar un modo de conseguir la especialidad
 			$datos=null;
+			$bool = false;
 			if($especialidad!='')
 			{
 				if(isset($_SESSION['tiempo'])){
@@ -127,7 +101,7 @@
 						$fechaT="Año Actual";
 					}
 					else if($tiempo['tipo']=="Per"){
-						$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
+						$tiempo['fecha1']=date("Y-m-d",strtotime($tiempo['fecha1']));
 						if($tiempo['separador']!=1){
 							$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
 							$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
@@ -145,23 +119,42 @@
 						$tiempo['separador']='1';
 					}
 					setlocale(LC_ALL, "es_ES");
-					$datos = [
-						'datos1'=>$this->cargarProcedimientos($especialidad,$tiempo),
-						'datos2'=>$this->cargarDatosEspecialidades($especialidad,$tiempo),
-						'fechaT'=>$fechaT,
-						'tiempo'=>$tiempo,
-					];			
+					$special=$this->modelo('ProceduresDataModel')->nombreEspecialidad($especialidad);
+					if(isset($special->name)){
+						$special=$special->name;
+						$datos = [
+							'datos1'=>$this->cargarProcedimientos($special,$tiempo),
+							'datos2'=>$this->cargarDatosEspecialidades($special,$tiempo),
+							'fechaT'=>$fechaT,
+							'tiempo'=>$tiempo,
+							'name'=>$especialidad,
+							'especialidad'=>$special
+						];
+						$bool=true;
+					}
 				}
 				else{
 					unset($_SESSION['tiempo']);
-					$datos = [
-						'datos1'=>$this->cargarProcedimientos($especialidad),
-						'datos2'=>$this->cargarDatosEspecialidades($especialidad),
-						'fechaT'=>'Mes Actual',
-					];			
+					$special=$this->modelo('ProceduresDataModel')->nombreEspecialidad($especialidad);
+					if(isset($special->name)){
+						$special=$special->name;
+						$datos = [
+							'datos1'=>$this->cargarProcedimientos($special),
+							'datos2'=>$this->cargarDatosEspecialidades($special),
+							'fechaT'=>'Mes Actual',
+							'name'=>$especialidad,
+							'especialidad'=>$special
+						];
+						$bool=true;
+					}		
 				}
 			}
-			$this->vista('especialidades/nivel'.$num_registro.'/'.$especialidad,$datos);
+			if($bool){
+				$this->vista('especialidades/especialidades',$datos);
+			}
+			else{
+				header('Location:'.RUTA_URL."/Nivel/");
+			}
 		}
 			
 		/*
@@ -268,10 +261,19 @@
 			return $datos;
 		}
 		private function cargarDatosNivel($nivel,$tiempo=0){
-			if(($nivel>=4&&$nivel<=7)||$nivel='DeptoEnfermeria'){
+			if(($nivel>=4&&$nivel<=7)||strtolower($nivel)=='deptoenfermeria'){
 				$level=($nivel==4)?'1':(($nivel==5)?'2':(($nivel==6)?'3':(($nivel==7)?'4':'5')));
 
 				return $this->modelo('ProceduresDataModel')->cargarDatosNivel($level,$tiempo);
+			}
+			else if(strtolower($nivel)=='epidemiologia'){
+				if(isset($_SESSION['acceso'])&&
+						($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
+				{
+					$model = $this->modelo('MantenimientosModel');
+					$datos['admin']=$model->management();
+				}
+				return $datos;
 			}
 			return null;
 		}

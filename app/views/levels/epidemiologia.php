@@ -3,14 +3,14 @@
 	<div class="col-xs-12" style="background: #050D42;">
 		<div class="container">
 			<div class="col-xs-10">
-				<h1 style="color: white;">Sexto Nivel</h1>
+				<h1 style="color: white;">Epidemiología</h1>
 			</div>
 			<div class="col-xs-2" >
 				<br><?php
 				if((isset($_SESSION['acceso']))&&
 					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
 					echo '
-	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/6\'">Ingresar Datos</button>';?>
+	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/4\'">Ingresar Datos</button>';?>
 
 	  		</div>
 		</div>
@@ -18,61 +18,15 @@
 	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
 		<div class="container">
 			<ul class="nav navbar-nav">
-				<li><a id="ep" class="mouseHover" onclick="Mostrar_Ocultar(1)">Especialidades del Nivel</a></li>
-				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Estadísticas del Nivel</a></li>
+				<li><a id="ep" class="mouseHover" onclick="Mostrar_Ocultar(1)">Estadísticas</a></li>
+				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Ingreso de Datos</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 <div class = "container">
 	<div class = "row">
-		<div <div id="especialidades" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
-			<div class="col-xs-12">
-				<h3>Especialidades del Nivel</h3>
-			</div>
-			<br> <br> <br>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/nefrologia.jpg">
-					<div class="caption">
-						<h3>Nefrología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Nefrologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/Endocrinologia.jpg">
-					<div class="caption">
-						<h3>Endocrinología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Endocrinologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/neurologia.jpg">
-					<div class="caption">
-						<h3>Neurología</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Neurologia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/neurocirugia.jpg">
-					<div class="caption">
-						<h3>Neurocirugía</h3>
-						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Neurocirugia"> Ver tablas y estadísticas </a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
+		<div id="graficos" style="min-height: 350px;">
 			<div class="col-xs-12">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>
@@ -80,7 +34,7 @@
 				<hr>
 			</div>
 			<div id="filtro" class="col-xs-12" align="right">
-				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
+				<form method="post" >
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
@@ -125,44 +79,17 @@
 					</div>
 				</form>
 			</div>
-			<div id="indicadoresEnfermeria" class="col-xs-12" style="align-items: center">
+			<div class="col-xs-12">
 				<hr>
 			</div>
-			<div id="indicadoresEnfermeria" class="col-xs-12">
-				<div>
-					<h3>Indicadores de Enfermería</h3>
-				</div>
-				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
-				</div>
-			</div>
-			<div id="consultas" class="col-xs-12">
-				<hr>
-			</div>
-			<div id="consultas" class="col-xs-12">
-				<div>
-					<h3>Consultas</h3>
-				</div>
-				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['consultas'])){$datos=$data['consultas'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
-				</div>
-			</div>
-			<div id="ausentismo" class="col-xs-12">
-				<hr>
-			</div>
-			<div id="ausentismo" class="col-xs-12">
-				<div>
-					<h3>Ausentismo</h3>
-				</div>
+			<div id="epidemiologia" class="col-xs-12">
 				<div class="col-xs-12">
 					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 				</div>
-			</div>
-			<div id="graphics" class="col-xs-12">
-				<hr>
+				<div id="graphics" class="col-xs-12">
+					<hr><?php } ?>
+				</div>
 			</div>
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
@@ -173,6 +100,33 @@
 					</div>
 				</div>
 				<?php }}?>
+			</div>
+		</div>
+		<div id="ingreso" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
+			<div class="col-xs-12">
+				<br><br>
+			</div>
+			<div class="col-xs-12">
+				<?php 
+					if(isset($data['epidemiology'])){
+						$datos=$data['epidemiology'];
+						if(count($datos['TítulosY'])>0){
+				?>
+				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoEpidemiologia/'?>">
+					<input class="admin" type="text" name="fecha" hidden>
+					<div class="col-xs-12" style="display: inline-block; align-items: center">
+				<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					</div>
+					<div class="col-xs-12" >
+						<div class="col-xs-12">
+							<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+						</div>
+					</div>
+				</form>
+				<?php 
+						}
+					}
+				?>
 			</div>
 		</div>
 	</div>
@@ -193,7 +147,7 @@
 		}
 		else{
 ?>
-		Mostrar_Ocultar(1);
+		Mostrar_Ocultar(1,1);
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
 		$("#fecha2").val("<?php echo date('Y/m/d')?>");
 <?php
@@ -210,11 +164,11 @@
 			$("#ep").css("color","black");
 			$("#es").css("background-color","transparent");
 			$("#es").css("color","white");
-			$('#especialidades').show('slow');
+			$('#graficos').show('slow');
 			if(ex!=0)
-				$('#graficos').hide();
+				$('#ingreso').hide();
 			else
-				$('#graficos').hide('slow');
+				$('#ingreso').hide('slow');
 		}
 		else{
 			$("#es").css("background-color","#E8E8EC");
@@ -222,10 +176,10 @@
 			$("#ep").css("background-color","transparent");
 			$("#ep").css("color","white");
 			if(ex!=0)
-				$('#especialidades').hide();
+				$('#graficos').hide();
 			else
-				$('#especialidades').hide('slow');
-			$('#graficos').show('slow');
+				$('#graficos').hide('slow');
+			$('#ingreso').show('slow');
 		}
 	}
 

@@ -38,7 +38,7 @@
 					<div class="caption">
 						<h3>Oftalmología</h3>
 	 						<p> </p>
-	 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/5/Oftalmologia"> Ver tablas y estadísticas </a>
+	 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Oftalmologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>

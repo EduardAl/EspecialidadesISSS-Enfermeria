@@ -77,11 +77,11 @@
         return $this->execute();
       }
     }
-    public function insertarAdministrativo2($id,$params,$tiempo=0){
+    public function insertarAdministrativo2($nivel,$id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
         echo "Algo";
-        $sql = "INSERT into management_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id)ON DUPLICATE KEY UPDATE number=:dato;";
+        $sql = "INSERT into management_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
         $this->bind(':id',$id);
@@ -160,11 +160,44 @@
       $this->bind(':id',$params['id']);
       return $this->execute();
     }
+    public function insertarEpidemiologico($id,$params,$tiempo=0){
+      if($params!=0){
+        $params=($params<0)?0:$params;
+        echo "Algo";
+        $sql = "INSERT into epidemiology_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id)ON DUPLICATE KEY UPDATE number=:dato;";
+        $this->query($sql);
+        $this->bind(':dato',$params);
+        $this->bind(':id',$id);
+        return $this->execute();
+      }
+    }
+    public function insertarReferencia($value,$especialidad,$lugar,$fecha){
+      $sql = "INSERT into reference values(null, :dato,".(($tiempo==0)?"curdate()":("'$tiempo'")).",:esp,:lugar)ON DUPLICATE KEY UPDATE number=:dato;";
+      $this->query($sql);
+      $this->bind(':dato',$value);
+      $this->bind(':esp',$especialidad);
+      $this->bind(':lugar',$lugar);
+      return $this->execute();
+    }
+    public function insertarLugar($value){
+      //id
+      //cantidad
+      $sql = "INSERT into place values(null, :dato);";
+      $this->query($sql);
+      $this->bind(':dato',$value);
+      return $this->execute();
+    }
     /*
       ************************
       * Carga de Formularios *
       ************************
     */
+
+    public function places(){
+      $sql = "SELECT p.name as 'title', p.id as 'id' from place p";
+      $this->query($sql);
+      return $this->registros();
+     }
     public function specialities($level){
       $sql = "SELECT s.name as 'title', s.id as 'id' from specialties s inner join levels l on s.level_id = l.id where l.name like '%".$level."%'";
       $this->query($sql);

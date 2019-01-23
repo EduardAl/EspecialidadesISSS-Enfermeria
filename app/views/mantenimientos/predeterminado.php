@@ -5,12 +5,14 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 		<ul class="nav navbar-nav barra">
 			<li><a id="1"class="mouseHover" onclick="Mostrar_Ocultar(1)">Datos del Nivel</a></li>
 			<li><a id="5"class="mouseHover" onclick="Mostrar_Ocultar(5)">Ausentismo</a></li>
-			<li><a id="2"class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Especialidades</a></li>
-			<li><a id="3"class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos Especialidades</a></li>
+			<li><a id="2"class="mouseHover" onclick="Mostrar_Ocultar(2)">Datos Esp.</a></li>
+			<li><a id="3"class="mouseHover" onclick="Mostrar_Ocultar(3)">Procedimientos Esp.</a></li>
+			<li><a id="13"class="mouseHover" onclick="Mostrar_Ocultar(13)">Referencias</a></li>
 			<li><a id="6"class="mouseHover" onclick="Mostrar_Ocultar(6)">Educación</a></li>
 			<li><a id="10"class="mouseHover" onclick="Mostrar_Ocultar(10)">Investigación</a></li>
-			<li><a id="7"class="mouseHover" onclick="Mostrar_Ocultar(7)">Gestión Administrativa</a></li>
 			<li><a id="11"class="mouseHover" onclick="Mostrar_Ocultar(11)">Reuniones</a></li>
+			<li><a id="7"class="mouseHover" onclick="Mostrar_Ocultar(7)">Gestión Adm.</a></li>
+			<li><a id="12"class="mouseHover" onclick="Mostrar_Ocultar(12)">Administración</a></li>
 		</ul>
 	</div>
 </div>
@@ -603,6 +605,113 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				}
 			?>
 		</div>
+		<div class="col-xs-12" id="administrativa2">
+			<div>
+				<h2>Administración</h2>
+			</div>
+			<?php 
+				if(isset($data['admin2'])){
+					$datos=$data['admin2'];
+					if(count($datos['TítulosY'])>0){
+			?>
+			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAdministracion/'.$nNivel?>">
+				<input class="admin" type="text" name="fecha" hidden>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+			<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+				</div>
+				<div class="col-xs-12" >
+					<div class="col-xs-12">
+						<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
+					</div>
+				</div>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+					<hr>
+				</div>
+			</form>
+			<?php 
+					}
+				}
+			?>
+		</div>
+		<div class="col-xs-12" id="referencias">
+			<div class='col-xs-10'>					
+				<h2>Referencias</h2>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(132);">Nuevo Lugar</button>
+			</div>
+			<div class='col-xs-12'>					
+				<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/IngresoReferencia/'.$nNivel?>">
+					<div class="container" align="center">
+							<div class="col-xs-3"></div>
+							<input class="admin" type="text" name="fecha" hidden>
+							<div class="col-xs-6" style="align: center;">
+						        <h2 class="text-center">Referencia</h2>
+						        <div class="row text-center">
+						        	<label class="text-center">Cantidad:</label>
+						        </div>
+						        <input type="number" name="fnumber" id="inputFNumber" height="30px" class="form-control" placeholder="Cantidad" min="0" required>
+						        <br>
+						        <div class="row text-center">
+						        	<label class="">Especialidad:</label>
+						        </div>
+						       <select name="especialidad" class="form-control" required>
+						       		<?php
+						       			if(isset($data['especialidades']))
+							       		foreach ($data['especialidades'] as $key) {
+							       			echo "<option value=".$key->id.">".$key->title."</option>";
+							       		}
+									?>
+								</select>
+						        <br>
+						        <div class="row text-center">
+						        	<label class="">Lugar:</label>
+						        </div>
+						       <select name="lugar" class="form-control" required>
+						       		<?php
+						       			if(isset($data['lugar']))
+							       		foreach ($data['lugar'] as $key) {
+							       			echo "<option value=".$key->id.">".$key->title."</option>";
+							       		}
+									?>
+								</select>
+						        <br>
+						        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
+						        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
+						    	}?>
+					     	</div>
+						    <div class="col-xs-3"></div>
+						</div>
+				</form>
+			</div>
+		</div>
+		<div class='col-xs-12' id="lugares">
+			<div class='col-xs-10'>					
+				<h2>Lugares</h2>
+			</div>
+			<div class='col-xs-2' style="padding-top: 20px;">					
+				<button id="newE" class="btn btn-primary btn-block" onclick="Mostrar_Ocultar(131);">Referencias</button>
+			</div>
+			<div class="col-xs-12">
+				<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/IngresoLugar/'.$nNivel?>">
+					<div class="container" align="center">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-6" style="align: center;">
+					        <h2 class="text-center">Lugar</h2>
+					        <div class="row text-center">
+					        	<label class="text-center">Nombre:</label>
+					        </div>
+					        <input type="text" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Descripción" required>
+					        <br>
+					        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
+					        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
+					    	}?>
+				     	</div>
+					    <div class="col-xs-3"></div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -689,6 +798,10 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 		$("#10").css("color","white");
 		$("#11").css("background-color","transparent");
 		$("#11").css("color","white");
+		$("#12").css("background-color","transparent");
+		$("#12").css("color","white");
+		$("#13").css("background-color","transparent");
+		$("#13").css("color","white");
 
 		$("#"+num).css("background-color","#E8E8EC");
 		$("#"+num).css("color","black");
@@ -701,9 +814,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#metasEspecialidades').hide();
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -715,9 +831,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#metasEspecialidades').hide();
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -728,10 +847,13 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#metasEspecialidades').hide('slow');
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#procedimientosEspecialidades').show('fast');
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -757,9 +879,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosNivel').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -777,9 +902,12 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosNivel').hide();
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -805,8 +933,11 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosEspecialidades').hide();
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#educacion').hide();
 			$('#metasEducacion').hide();
+			$('#administrativa2').hide();
 			$('#investigacion').hide();
 			$('#reuniones').hide();
 		}
@@ -825,10 +956,13 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#datosNivel').hide();
 			$('#ausentismo').hide();
 			$('#configAusentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#educacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 			$('#reuniones').hide();
 		}
 		else if(num==101)
@@ -852,11 +986,14 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			$('#procedimientosEspecialidades').hide();
 			$('#datosNivel').hide();
 			$('#ausentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
 			$('#configAusentismo').hide();
 			$('#metasEspecialidades').hide();
 			$('#datosEspecialidades').hide();
 			$('#educacion').hide();
 			$('#administrativa').hide();
+			$('#administrativa2').hide();
 		}
 		else if(num==111)
 		{
@@ -870,6 +1007,54 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				$('#hide3').hide('slow');
 				hidden3=true;
 			}
+		}
+		else if(num==12)
+		{
+			$('#administrativa2').show('fast');
+			$('#investigacion').hide();
+			$('#metasEducacion').hide();
+			$('#procedimientosEspecialidades').hide();
+			$('#datosNivel').hide();
+			$('#ausentismo').hide();
+			$('#referencias').hide();
+			$('#lugares').hide();
+			$('#configAusentismo').hide();
+			$('#metasEspecialidades').hide();
+			$('#datosEspecialidades').hide();
+			$('#educacion').hide();
+			$('#administrativa').hide();
+			$('#reuniones').hide();
+		}
+		else if(num==13)
+		{
+			$('#referencias').show('fast');
+			$('#lugares').hide();
+			$('#investigacion').hide();
+			$('#metasEducacion').hide();
+			$('#procedimientosEspecialidades').hide();
+			$('#datosNivel').hide();
+			$('#ausentismo').hide();
+			$('#configAusentismo').hide();
+			$('#metasEspecialidades').hide();
+			$('#datosEspecialidades').hide();
+			$('#educacion').hide();
+			$('#administrativa').hide();
+			$('#administrativa2').hide();
+			$('#reuniones').hide();
+		}
+		else if(num==131)
+		{
+			$("#13").css("background-color","#E8E8EC");
+			$("#13").css("color","black");
+			$('#lugares').hide('slow');
+			$('#referencias').show('slow');
+		}
+		else if(num==132)
+		{
+			$("#13").css("background-color","#E8E8EC");
+			$("#13").css("color","black");
+			$('#referencias').hide('slow');
+			$('#lugares').show('slow');
 		}
 	}
 	$(function () {

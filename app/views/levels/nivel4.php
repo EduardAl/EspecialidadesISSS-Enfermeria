@@ -37,7 +37,7 @@
 					<div class="caption">
 						<h3>Urología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/4/Urologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Urologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 					<div class="caption">
 						<h3>Cardiología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/4/Cardiologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cardiologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 					<div class="caption">
 						<h3>Otorrinolaringología</h3>
 						<p> </p>
-						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/4/Otorrinolaringologia"> Ver tablas y estadísticas </a>
+						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Otorrinolaringologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>

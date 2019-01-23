@@ -2,7 +2,7 @@
 <div class = "container">
 	<div class = "row">
 		<div class="col-xs-12">
-			<h1>Neurología</h1>
+			<h1><?php if(isset($datos['especialidad']))echo$datos['especialidad'];else echo"Sin Datos";?></h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
 
@@ -11,7 +11,8 @@
 			<hr>
 		</div>
 		<div id="filtro" class="col-xs-12" align="right">
-			<form method="post" action="<?php echo  RUTA_URL . '/Nivel/Especialidad/6/Neurologia'?>">
+			<form method="post" 
+			<?php if(isset($datos['nivel'])) echo 'action="'.RUTA_URL.'/Nivel/Especialidad/'.$datos['nivel'].'/'.$datos['name'].'"'?>>
 				<div class="col-xs-1">
 					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 				</div>
@@ -57,7 +58,7 @@
 			</form>
 		</div>
 		<br><br>
-		<div id="pacientes" class="col-xs-12" style="display: inline-block; align-items: center">
+		<div id="procedimientos" class="col-xs-12" style="display: inline-block; align-items: center">
 			<hr>
 		</div>
 		<br><br>
@@ -110,7 +111,13 @@
 			$("#dates").val("<?php echo $tempo['tipo']?>");
 			$("#fecha1").val("<?php echo $tempo['fecha1']?>");
 			$("#fecha2").val("<?php echo $tempo['fecha2']?>");
+			$("#separador").val("<?php echo $tempo['separador']?>");
 			<?php
+			}
+			else
+			{
+				echo '$("#fecha1").val("'.date('Y/m/d').'");';
+				echo '$("#fecha2").val("'.date('Y/m/d').'");';
 			}
 			?>
 			if($("#dates").val()!="Per"){

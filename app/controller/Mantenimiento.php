@@ -144,6 +144,35 @@
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
 			}
 
+		public function IngresoAdministracion($nivel=''){
+			$level = $nivel;
+			switch ($level) {
+				case 4:
+					$nivel = 'cuarto';
+					break;
+				case 5:
+					$nivel = 'quinto';
+					break;
+				case 6:
+					$nivel = 'sexto';
+					break;
+				case 7:
+					$nivel = 'septimo';
+					break;		
+				case 'enfermeria':
+					$nivel = 'enfermeria';
+					break;			
+			}
+			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
+			unset($_POST['fecha']);
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				$this->modelo('MantenimientosModel')->insertarAdministrativo2($nivel,$data[$i],$_POST[$data[$i]],$tiempo);
+			}
+			$_SESSION['cambiado']=12;
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
+		} 
 		public function IngresoCharla($nivel=''){
 			//Esto se divide entre la cantidad de columnas
 			$level = $nivel;
@@ -394,6 +423,33 @@
 				header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
 			}
 
+		public function IngresoReferencia($nivel=''){
+			//Esto se divide entre la cantidad de columnas
+			if(isset($_POST['fnumber']))
+				$this->modelo('MantenimientosModel')->insertarReferencia($_POST['fnumber'],$_POST['especialidad'],$_POST['lugar'],$_POST['fecha']);
+			$_SESSION['cambiado']=13;
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+			}
+
+		public function IngresoLugar($nivel=''){
+			//Esto se divide entre la cantidad de columnas
+			if(isset($_POST['fname']))
+				$this->modelo('MantenimientosModel')->insertarLugar($_POST['fname']);
+			$_SESSION['cambiado']=13;
+			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$nivel);
+			}
+
+		public function IngresoEpidemiologia(){
+			$tiempo=(isset($_POST['fecha']))?$_POST['fecha']:0;
+			unset($_POST['fecha']);
+			$datosRecibidos = count($_POST);
+			$data = array_keys($_POST);
+			for ($i=0; $i < $datosRecibidos; $i++) { 
+				$this->modelo('MantenimientosModel')->insertarEpidemiologico($data[$i],$_POST[$data[$i]],$tiempo);
+			}
+			header('Location:'.RUTA_URL.'/Nivel/Niveles/Epidemiologia');
+		} 
+
 		/////////////////////////////////////////////////
 
 		public function RecargarEducacion($nivel=''){
@@ -490,6 +546,7 @@
 				$model = $this->modelo('MantenimientosModel');
 				$levelThings = $model->levelThings();
 				$especialidades = $model->specialities($nivel);
+				$place = $model->places();
 				$specialty = $model->specialtyThings();
 				$procedures = $model->procedures($nivel,$especialidades);
 				$absences=$model->absences();
@@ -499,15 +556,18 @@
 				$investigations=$model->investigations_data($nivel);
 				$meetings=$model->meetings_data($nivel);
 				$admin=$model->administrative_management();
+				$admin2=$model->management();
 				$datos=[
 					'levelThings' => $levelThings,
 					'especialidades' => $especialidades,
 					'specialty' => $specialty,
+					'lugar' => $place,
 					'procedures' => $procedures,
 					'absences' => $absences,
 					'health' => $health,
 					'education' => $healthEducation,
 					'admin' => $admin,
+					'admin2' => $admin2,
 					'absences_config' => $absencesConfig,
 					'investigacion' => $investigations,
 					'reunion' => $meetings,

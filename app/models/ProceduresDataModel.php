@@ -891,4 +891,9 @@
       
       return $retorno;
     }
+    public function nombreEspecialidad($Especialidad){
+      $sql="Select name from specialties where name LIKE '$Especialidad%' LIMIT 1";
+      $this->query($sql);
+      return $this->registro();
+    }
 }
