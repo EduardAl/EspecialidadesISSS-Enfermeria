@@ -463,6 +463,47 @@
       ];
       return $datos;
     }//¿Enfermería?
+    public function epidemiologia($tiempo){
+      $fecha1=date('Y-m-1');
+      $fecha2=date('Y-m-t');
+      if(isset($tiempo['tipo'])){
+        if($tiempo['tipo']=='Per'){
+          $fecha1=$tiempo['fecha1'];
+          $fecha2=$tiempo['fecha2'];
+        }
+        else if ($tiempo['tipo']=='Year'){
+          $fecha1=date("Y-01-01");
+          $fecha2=date("Y-12-31");
+        }
+      }
+      $separador=(isset($tiempo['separador']))?$tiempo['separador']:"1";
+      if($separador=="1"){
+        $sql = "SELECT e.activities as 'title',ifnull(ed.number,0) as 'value' from epidemiology e left join epidemiology_data ed on e.id=ed.epidemiology_id and ed.date between '$fecha1' and '$fecha2'";
+        $this->query($sql);
+        $titulos=['Actividad','Total'];
+      }
+      else{
+        $temp[]=strtotime($fecha1);
+        $temp[]=strtotime($fecha2);
+
+        $param['tiempo']=$temp;
+        $param['sql']="SELECT K.Actividades as 'Actividad'";
+        $param['key']="SELECT e.id as 'key',e.activities as 'Actividades' from epidemiology e";
+        $param['meta']="SELECT ed.epidemiology_id as 'key', sum(ed.number) as'Meta' from epidemiology_data ed where ed.date %param% group by ed.epidemiology_id";
+        $result=$this->separador($param);
+        $this->query($result['sql']);
+        $titulos[] = 'Actividad'; 
+       
+        foreach ($result['meses'] as $k) {
+          $titulos[] = $k;
+        }
+      }
+      $datos=[
+        'values' => $this->registros(),
+        'titulo' => $titulos,
+      ];
+      return $datos;
+    }
     public function salud($tiempo){
       $fecha1=$tiempo['fecha1'];
       $fecha2=$tiempo['fecha2'];

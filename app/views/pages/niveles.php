@@ -27,13 +27,15 @@
 							<option value="indicadores" selected>Indicadores de Enfermería</option>
 							<option value="pPacientes">Preparación de Pacientes</option>
 							<option value="ausentismo">Ausentismo</option>
+							<option value="referencias">Referencias</option>
 							<option value="eduSalud">Educación en Salud</option>
 							<option value="eduCharlas">Charlas Informativas</option>
 							<option value="eduContinua">Educación Continua</option>
 							<option value="eduEpidemiologia">Educación C. Epidemiología</option>
 							<option value="eduOftalmologia">Educación C. Oftalmología</option>
-							<option value="administracion">Gestión Administrativa</option>
 							<option value="reuniones">Reuniones Administrativas</option>
+							<option value="administracion">Gestión Administrativa</option>
+							<option value="administracion2">Administración</option>
 						</select>
 					</div>
 					<div class="col-xs-1">
@@ -51,7 +53,7 @@
 					</div>
 					<div class="col-xs-3">
 						<select name="cbSeparador" class="form-control" id="separador" disabled>
-							<option value="1" selected>Una sola Tabla</option>
+							<option value="1" selected>Una sola columna</option>
 							<option value="2">Separar Meses</option>
 						</select>
 					</div>
@@ -104,11 +106,11 @@
 			</div>
 		</div>
 		<div id="tablas" hidden>
-			<div class="col-xs-6" style="padding-top: 8px;">
+			<div class="col-xs-10" style="padding-top: 8px;">
 				<h2><?php echo (isset($data['fecha']))?$data['fecha']:'Mes Actual';?></h2>
 			</div>
-			<div class="col-xs-6" style="padding-top: 8px;">
-				<div class="col-xs-4 navbar-right" id="btn2">
+			<div class="col-xs-2" style="padding-top: 8px;">
+				<div class="col-xs-4 navbar-right navbar-collapse collapse" id="btn2">
 					<button class="btn btn-info btn-block" onclick="Mostrar_Ocultar(40)">Generar otro</button>
 				</div>
 			</div>
@@ -400,10 +402,8 @@
 			case 40:
 				$('#ConseguirDatos').show('slow');
 				$('#btn1').show();
-				$('#btn2').hide('slow');
 			break;
 			case 41:
-				$('#btn2').show();
 				$('#ConseguirDatos').hide('slow');
 			break;
 			default:

@@ -1,17 +1,17 @@
-<div class="col-xs-1" >
-  <label style="color: white; position: center; padding-top:  6px;">Tipo de Gráfica:</label>
+<div class="col-xs-1 navbar-collapse collapse" >
+  <label style="color: white; position: center; padding-top:  14px;">Tipo de Gráfica:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
     <option value="bar">Barra</option>
     <option value="doughnut" selected>Dona</option>
     <option value="pie">Pastel</option>
   </select>
 </div>
-<div class="col-xs-1" >
+<div class="col-xs-1 navbar-collapse collapse" >
   <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
     <option value="#0B0B61">Azul</option>
     <option value="#0489B1">Celeste</option>
@@ -54,7 +54,10 @@
     <option value="1">Rosas</option>
   </select>
 </div>
-<br><br><br><canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
+<div class="navbar-collapse collapse">
+    <br><br><br>
+</div>
+<canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
 <script>
 
   //Variables controladoras

@@ -701,9 +701,9 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					        <div class="row text-center">
 					        	<label class="text-center">Nombre:</label>
 					        </div>
-					        <input type="text" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Descripción" required>
+					        <input type="text" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Nombre" required>
 					        <br>
-					        <button class="btn btn-lg btn-primary" type="submit">Entrar</button><br>
+					        <button class="btn btn-lg btn-primary" type="submit">Ingresar</button><br>
 					        <?php if(isset($datos['error_message'])) { echo "<span class=estiloError; style='color:red;'>".$datos['error_message']."</span>";
 					    	}?>
 				     	</div>

@@ -18,7 +18,7 @@
 	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
 		<div class="container">
 			<ul class="nav navbar-nav">
-				<li><a id="es" class="">Estadísticas del Nivel</a></li>
+				<li><a id="es" class="">Estadísticas del Departamento</a></li>
 			</ul>
 		</div>
 	</div>

@@ -2,24 +2,19 @@
 <div>
 	<div class="col-xs-12" style="background: #050D42;">
 		<div class="container">
-			<div class="col-xs-10">
+			<div class="col-xs-12">
 				<h1 style="color: white;">Epidemiología</h1>
 			</div>
-			<div class="col-xs-2" >
-				<br><?php
-				if((isset($_SESSION['acceso']))&&
-					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
-					echo '
-	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/4\'">Ingresar Datos</button>';?>
-
-	  		</div>
 		</div>
 	</div>
 	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
 		<div class="container">
 			<ul class="nav navbar-nav">
 				<li><a id="ep" class="mouseHover" onclick="Mostrar_Ocultar(1)">Estadísticas</a></li>
-				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Ingreso de Datos</a></li>
+				<?php
+				if((isset($_SESSION['acceso']))&&
+					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3)){ 
+					?><li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Ingreso de Datos</a></li><?php }?>
 			</ul>
 		</div>
 	</div>
@@ -34,7 +29,7 @@
 				<hr>
 			</div>
 			<div id="filtro" class="col-xs-12" align="right">
-				<form method="post" >
+				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/epidemiologia">
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
@@ -84,7 +79,7 @@
 			</div>
 			<div id="epidemiologia" class="col-xs-12">
 				<div class="col-xs-12">
-					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
+					<?php if(isset($data['epidemiologia'])){$datos=$data['epidemiologia'];
 					include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
 				</div>
 				<div id="graphics" class="col-xs-12">
@@ -102,7 +97,7 @@
 				<?php }}?>
 			</div>
 		</div>
-		<div id="ingreso" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
+		<div id="ingreso" style="min-height: 350px;" hidden>
 			<div class="col-xs-12">
 				<br><br>
 			</div>
@@ -133,26 +128,22 @@
 </div>
 <script type="text/javascript">
 	window.onload = function (){
-<?php
+		Mostrar_Ocultar(1,1);<?php
 		if(isset($data['tiempo']))
 		{
-			$tempo =$data['tiempo'];
-?>
-		Mostrar_Ocultar(2,1);
+			$tempo =$data['tiempo'];?>
+
 		$("#dates").val("<?php echo $tempo['tipo']?>");
 		$("#fecha1").val("<?php echo $tempo['fecha1']?>");
 		$("#fecha2").val("<?php echo $tempo['fecha2']?>");
-		$("#separador").val("<?php echo $tempo['separador']?>");
-<?php
+		$("#separador").val("<?php echo $tempo['separador']?>");<?php
 		}
-		else{
-?>
-		Mostrar_Ocultar(1,1);
+		else{?>
+
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
-		$("#fecha2").val("<?php echo date('Y/m/d')?>");
-<?php
-		}
-?>
+		$("#fecha2").val("<?php echo date('Y/m/d')?>");<?php
+		}?>
+		
 		if($("#dates").val()!="Per"){
 	    	$('#datetimepicker1').children().prop('disabled',true);
 	    	$('#datetimepicker2').children().prop('disabled',true);

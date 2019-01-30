@@ -1,17 +1,17 @@
-<div class="col-xs-1" >
-  <label style="color: white; position: center; padding-top:  6px;">Tipo de Gráfica:</label>
+<div class="col-xs-1 navbar-collapse collapse" >
+  <label style="color: white; position: center; padding-top:  14px;">Tipo de Gráfica:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
     <option value="bar" selected>Barra</option>
     <option value="line">Línea</option>
     <option value="radar">Radar</option>
   </select>
 </div>
-<div class="col-xs-1" >
+<div class="col-xs-1 navbar-collapse collapse" >
   <label style="color: white; position: center; padding-top:  14px;">Meta:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors1<?php echo $id?>" >
     <option value="rgba(255,215,0,0.6)">Amarillo</option>
     <option value="rgba(0,0,139,0.6)">Azul</option>
@@ -29,10 +29,10 @@
     <option value="rgba(0,100,0,0.6)">Verde Oscuro</option>
   </select>
 </div>
-<div class="col-xs-1" >
+<div class="col-xs-1 navbar-collapse collapse" >
   <label style="color: white; position: center; padding-top:  14px;">Realizado:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors2<?php echo $id?>" >
     <option value="rgb(255,215,0)">Amarillo</option>
     <option value="rgb(0,0,139)" selected>Azul</option>
@@ -50,7 +50,9 @@
     <option value="rgb(0,100,0)">Verde Oscuro</option>
   </select>
 </div>
-<br><br>
+<div class="navbar-collapse collapse">
+    <br><br><br>
+</div>
 <canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>
 <script>
     //Variables controladoras

@@ -8,10 +8,10 @@
 		<div id="ocultar">
 			<div class="col-xs-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/Administración.jpg">
+					<img src="<?php echo RUTA_URL?>/images/excel.jpg">
 					<div class="caption">
-						<h3>Administración</h3>
-						<a  onclick="Mostrar_Ocultar(1)"> Ingresar datos </a>
+						<h3>Archivos</h3>
+						<a  onclick="Mostrar_Ocultar(1)"> Ver archivos </a>
 					</div>
 				</div>
 			</div>

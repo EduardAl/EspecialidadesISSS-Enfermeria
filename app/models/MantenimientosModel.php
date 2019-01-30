@@ -11,7 +11,6 @@
     public function insertarProcedimiento($dato,$nombre,$tiempo=0){
       if($dato!=0){
         $dato=($dato<0)?0:$dato;
-        echo $params;
       	$sql = "INSERT into procedure_data values (null, :dato,".(($tiempo==0)?"curdate()":("'".$tiempo."'")).",".$nombre.")ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$dato);
@@ -21,7 +20,6 @@
     public function insertarLevelThings($nivel,$id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
-        echo $params;
         $sql = "INSERT into level_things_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
@@ -80,7 +78,6 @@
     public function insertarAdministrativo2($nivel,$id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
-        echo "Algo";
         $sql = "INSERT into management_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
@@ -163,7 +160,6 @@
     public function insertarEpidemiologico($id,$params,$tiempo=0){
       if($params!=0){
         $params=($params<0)?0:$params;
-        echo "Algo";
         $sql = "INSERT into epidemiology_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id)ON DUPLICATE KEY UPDATE number=:dato;";
         $this->query($sql);
         $this->bind(':dato',$params);
@@ -270,6 +266,15 @@
       }
     public function management(){
       $sql = "SELECT activities as 'title', id as 'id' from management;";
+      $this->query($sql);
+      $formulario = [
+        'TítulosX' => ['Descripción','Cantidad'],
+        'TítulosY' => $this->registros(),
+      ];
+      return $formulario;
+      }
+    public function epidemiology(){
+      $sql = "SELECT activities as 'title', id as 'id' from epidemiology;";
       $this->query($sql);
       $formulario = [
         'TítulosX' => ['Descripción','Cantidad'],

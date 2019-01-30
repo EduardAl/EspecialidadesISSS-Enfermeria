@@ -1,7 +1,7 @@
-<div class="col-xs-1" >
+<div class="col-xs-2 navbar-collapse collapse" >
   <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
 </div>
-<div class="col-xs-2" style="padding-top:  10px;">
+<div class="col-xs-4 navbar-collapse collapse" style="padding-top:  10px;">
   <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
     
     <option value="D1" selected>Degradado Azul</option>
@@ -32,7 +32,9 @@
     <option value="1">Rosas</option>
   </select>
 </div>
-<br><br><br>
+<div class="navbar-collapse collapse">
+    <br><br><br>
+</div>
 <canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>
 <script>
     //Variables controladoras

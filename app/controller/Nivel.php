@@ -11,8 +11,11 @@
 		public function index(){
 			$this->vista('pages/inicio');
 			}
-
 		public function Administracion(){		
+			//$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
+			$this->vista('Pages/Administracion');
+		}
+		public function Graficas(){		
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
 			$this->vista('Pages/Niveles',$datos);
 		}
@@ -33,7 +36,6 @@
 			header('Location:'.RUTA_URL."/Nivel/Niveles/$num_registro");
 		}
 		public function niveles($num_registro=''){
-
 			if(isset($_SESSION['temp'])){
 				$tiempo = $_SESSION['temp'];
 				$fechaT="Mes Actual";
@@ -44,6 +46,7 @@
 					$tiempo['fecha1']=date("Y-m-d",strtotime($tiempo['fecha1']));
 					if($tiempo['separador']!=1){
 						$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
+						$tiempo['fecha1']=date("Y-m-01",strtotime($tiempo['fecha1']));
 						$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
 						$meses = ( $diferencia->y * 12 ) + $diferencia->m;
 						if($meses>=12){
@@ -267,12 +270,15 @@
 				return $this->modelo('ProceduresDataModel')->cargarDatosNivel($level,$tiempo);
 			}
 			else if(strtolower($nivel)=='epidemiologia'){
+				setlocale(LC_ALL, "es_ES");
 				if(isset($_SESSION['acceso'])&&
 						($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
 				{
 					$model = $this->modelo('MantenimientosModel');
-					$datos['admin']=$model->management();
+					$datos['epidemiology']=$model->epidemiology();
 				}
+				$model = $this->modelo('ProceduresDataModel');
+				$datos['epidemiologia']=$model->epidemiologia($tiempo);
 				return $datos;
 			}
 			return null;
