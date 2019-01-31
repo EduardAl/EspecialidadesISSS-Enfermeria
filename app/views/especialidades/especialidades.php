@@ -11,8 +11,8 @@
 			<hr>
 		</div>
 		<div id="filtro" class="col-xs-12" align="right">
-			<form method="post" 
-			<?php if(isset($datos['nivel'])) echo 'action="'.RUTA_URL.'/Nivel/Especialidad/'.$datos['nivel'].'/'.$datos['name'].'"'?>>
+			<form method="post" <?php
+			 if(isset($datos['recarga'])) echo 'action="'.RUTA_URL.'/Nivel/Especialidad/'.$datos['recarga'].'"'?>>
 				<div class="col-xs-1">
 					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 				</div>

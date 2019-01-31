@@ -1,6 +1,6 @@
 <?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; ?>
 <div>
-	<div class="col-xs-12" style="background: #050D42;">
+	<div style="background: #050D42;">
 		<div class="container">
 			<div class="col-xs-10">
 				<h1 style="color: white;">Cuarto Nivel</h1>
@@ -11,7 +11,6 @@
 					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
 					echo '
 	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/4\'">Ingresar Datos</button>';?>
-
 	  		</div>
 		</div>
 	</div>
@@ -62,15 +61,15 @@
 				</div>
 			</div>
 		</div>
-		<div id="graficos" style="min-height: 350px;" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
+		<div id="graficos" class="col-xs-12" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
 			<div class="col-xs-12">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>
-			<div class="col-xs-12" style="display: inline-block; align-items: center">
-				<hr>
-			</div>
-			<div id="filtro" class="col-xs-12" align="right">
-				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
+			<div id="filtro" class="navbar-collapse collapse" align="right">
+				<div class="col-xs-12">
+					<hr>
+				</div>
+				<form class="col-xs-12" method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
 					<div class="col-xs-1">
 						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
 					</div>
@@ -114,9 +113,9 @@
 						<button class="btn btn-info btn-block" type="submit">Actualizar</button>
 					</div>
 				</form>
-			</div>
-			<div id="indicadoresEnfermeria" class="col-xs-12" style="align-items: center">
-				<hr>
+				<div class="col-xs-12" style="align-items: center">
+					<hr>
+				</div>
 			</div>
 			<div id="indicadoresEnfermeria" class="col-xs-12">
 				<div>

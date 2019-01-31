@@ -142,7 +142,7 @@
           (Select 'Investigación en Enfermería Realizada' as 'key')";
 
         $param['meta']="("."SELECT st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.id=$nivel and std.date %param% group by st.name) UNION ALL
-          (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on ltd.level_id=$nivel and ltd.date %param% group by lt.name) UNION ALL
+          (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id where ltd.level_id=$nivel and ltd.date %param% group by lt.name) UNION ALL
           (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),P.v),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date %param% group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key where l.id=$nivel) UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date %param% and level_id=$nivel)E on l.id=E.key) UNION ALL
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_period*employees as 'this' from hours_data where date %param% and level_id=$nivel)E on l.id=E.key) UNION ALL
@@ -182,11 +182,13 @@
          )A left join (
 
           (Select st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.id=$nivel and std.date between '$fecha1' and '$fecha2' group by st.name) UNION ALL
-          (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on ltd.level_id=$nivel and ltd.date between '$fecha1' and '$fecha2' group by lt.name) UNION ALL
+
+          (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id where ltd.level_id=$nivel and ltd.date between '$fecha1' and '$fecha2' group by lt.name) UNION ALL
+
           (Select 'Total de personal de Enfermería' as 'key',ROUND(AVG(hd.employees),0) as 'Meta' from hours_data hd where level_id=$nivel and date between '$fecha3' and '$fecha4') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha3' and '$fecha4' and level_id=$nivel)E on l.id=E.key) UNION ALL
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha3' and '$fecha4' and level_id=$nivel)E on l.id=E.key) UNION ALL
-          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel) UNION ALL 
+          (Select 'Horas Ausencias' as 'key',sum(ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel) UNION ALL 
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date between '$fecha1' and '$fecha2' and ad.level_id=$nivel group by a.type) UNION ALL 
           (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.level_id=$nivel and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
           (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.level_id=$nivel and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
@@ -260,7 +262,7 @@
           (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),sum(P.v)),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date between '$fecha1' and '$fecha2' group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key) UNION ALL           
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL           
           (Select 'Horas laborales en el periodo' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date between '$fecha1' and '$fecha2')E on l.id=E.key) UNION ALL           
-          (Select 'Horas Ausencias' as 'key',sum(if(ad.absences_id=5,4,8)*ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2') UNION ALL           
+          (Select 'Horas Ausencias' as 'key',sum(ad.number) from absences_data ad where ad.date between '$fecha1' and '$fecha2') UNION ALL           
           (Select Concat(Concat('<li>',a.type),'</li>') as 'key',sum(ad.number) as 'Meta' from absences a inner join absences_data ad on a.id=absences_id where ad.date between '$fecha1' and '$fecha2' group by a.type) UNION ALL 
           (Select 'Desarrollo de Competencias Programadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
           (Select 'Desarrollo de Competencias Realizadas' as 'key',count(hed.id) as 'Meta' from health_education he inner join health_education_data hed on he.id=hed.health_education_id where he.listeners='Personal' and hed.status='Realizada' and hed.created_at between '$fecha1' and '$fecha2') UNION ALL 
@@ -377,7 +379,7 @@
     public function ausentismo($tiempo){
       $sql = "SELECT l.name as 'Nivel',ifnull(A.empleados,0) as 'Personal',ifnull(A.Meta,0) as 'Total de Horas Programadas',ifnull(B.Realizado,0) as 'Total de horas no laboradas', CONCAT(ROUND(ifnull((B.Realizado/ifnull(A.Meta,0))*100,0),2),'%') '% Porcentaje' from levels l left join 
       (Select l.id as 'key',ROUND(ifnull(AVG(hd.employees),ifnull(a.value,0)),0)as 'empleados',ROUND(AVG(hd.employees),0)*SUM(hd.working_hours_at_month) as 'Meta' from levels l left join hours_data hd on l.id=hd.level_id and hd.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' left join adminsettings a on l.id=a.id group by l.id) A on l.id=A.key left join 
-      (Select ad.level_id as 'key',sum(if(ad.absences_id=5,4,8)*ad.number)as 'Realizado' from absences_data ad where ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by ad.level_id) B on l.id=B.key";
+      (Select ad.level_id as 'key',sum(ad.number)as 'Realizado' from absences_data ad where ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by ad.level_id) B on l.id=B.key";
       $this->query($sql);
       //echo $sql;
       if($tiempo['separador']=="1"){
@@ -398,7 +400,7 @@
         $param['sql']="SELECT K.key as 'Actividad'";
         $param['key']="SELECT l.name as 'key' from levels l";
         $param['meta']="SELECT l.name as 'key',ifnull(Round(AVG(hd.employees)*sum(hd.working_hours_at_month),0),0) as'Meta' from levels l left join hours_data hd on l.id=hd.level_id where hd.date %param% group by l.id";
-        $param['realizado']="SELECT l.name as 'key',(if(ad.absences_id=5,4,8)*sum(ad.number))as 'Realizado' from absences_data ad inner join levels l on l.id=ad.level_id where ad.date %param% group by l.id ";
+        $param['realizado']="SELECT l.name as 'key',(sum(ad.number))as 'Realizado' from absences_data ad inner join levels l on l.id=ad.level_id where ad.date %param% group by l.id ";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 

@@ -131,7 +131,8 @@
 							'fechaT'=>$fechaT,
 							'tiempo'=>$tiempo,
 							'name'=>$especialidad,
-							'especialidad'=>$special
+							'especialidad'=>$special,
+							'recarga'=>$especialidad,
 						];
 						$bool=true;
 					}

@@ -319,8 +319,9 @@
       }
 
     public function investigations_data($nivel,$fecha=0){
-      if(isset($_SESSION['fecha']))
-        $fecha=$_SESSION['fecha'];
+      if(isset($_SESSION['fecha2'])){
+        $fecha=$_SESSION['fecha2'];
+      }
 
       $sql="SELECT i.name,i.description,i.status,DATE_FORMAT(i.date,'%Y/%m/%d'),i.id as Extra from investigations i 
        inner join levels l on l.id=i.level_id 
@@ -339,8 +340,8 @@
       }
 
     public function meetings_data($nivel,$fecha=0){
-      if(isset($_SESSION['fecha']))
-        $fecha=$_SESSION['fecha'];
+      if(isset($_SESSION['fecha3']))
+        $fecha=$_SESSION['fecha3'];
 
       $sql="SELECT i.name,i.description,i.status,DATE_FORMAT(i.date,'%Y/%m/%d'),i.id as Extra from administrative_meetings i 
        inner join levels l on l.id=i.level_id 
