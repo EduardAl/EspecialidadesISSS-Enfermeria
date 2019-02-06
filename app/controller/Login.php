@@ -29,7 +29,7 @@ class Login extends Controller
   {
     if(!isset($_SESSION))
       session_start();
-    if(!isset($_SESSION['email']))
+    if(!isset($_SESSION['email'])&&isset($_POST['email']))
     {
       //Primero requeriremos los parametros
       $request_params=[

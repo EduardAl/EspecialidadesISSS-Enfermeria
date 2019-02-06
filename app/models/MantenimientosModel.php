@@ -199,8 +199,12 @@
       $this->query($sql);
       return $this->registros();
      }
-    public function levelThings(){
-      $sql = "SELECT name as 'title', id as 'id' from level_things;";
+    public function levelThings($id='',$limit=0){
+      $sql = "SELECT name as 'title', id as 'id' from level_things";
+      if($id!='')
+        $sql=$sql." where id = ".$id;
+      if($limit!=0)
+        $sql=$sql.' LIMIT '.$limit;
       $this->query($sql);
       $formulario = [
         'TítulosX' => ['Indicador','Cantidad'],

@@ -1,6 +1,6 @@
 <?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;?>
 <div class="container">
-	<div class="col-xs-6" align="center">
+	<div class="col-xs-12 col-md-6" align="center">
 		<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarCharla/';?>"><?php 
 			if(isset($data['Charla'])){
 				echo '<input type="text" name="id" hidden value="'.$_POST['extra'].'">';
@@ -51,10 +51,11 @@
 	    	}?>
 		</form>
 	</div>
-	<div class="col-xs-6" align="center">
+	<div class="col-xs-12 col-md-6" align="center">
+			<br>				
 		<?php 
 			if(isset($data['Charla'])){
-			echo '<form method="POST" style="padding-top: 20px;" action="'.RUTA_URL.'/Mantenimiento/ActualizarEducacion/">';
+			echo '<form method="POST" action="'.RUTA_URL.'/Mantenimiento/ActualizarEducacion/">';
 
 				if($data['Charla']->Oyentes=="Personal"){
 					$datos=$data['Listeners'][0];

@@ -5,104 +5,106 @@
 			<h1><?php if(isset($datos['especialidad']))echo$datos['especialidad'];else echo"Sin Datos";?></h1>
 			<h4><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h4>
 		</div>
-
-		<br><br><br><br><br>
-		<div class="col-xs-12" style="display: inline-block; align-items: center">
-			<hr>
-		</div>
-		<div id="filtro" class="col-xs-12" align="right">
+		<div id="filtro" class="col-xs-12 impre" align="right">
+			<div class="col-xs-12">
+				<hr>
+			</div>
 			<form method="post" <?php
-			 if(isset($datos['recarga'])) echo 'action="'.RUTA_URL.'/Nivel/Especialidad/'.$datos['recarga'].'"'?>>
-				<div class="col-xs-1">
-					<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
-				</div>
-				<div class="col-xs-2">
-					<select name="cbOrdenar" class="form-control" id="dates" >
-						<option value="Month">Mes</option>
-						<option value="Year">Año</option>
-						<option value="Per">Personalizado</option>
-					</select>
-				</div>
-				<div class="col-xs-2">
-						<select name="cbSeparador" class="form-control" id="separador">
-							<option value="1" selected>Una sola Tabla</option>
-							<option value="2">Separar Meses</option>
-						</select>
+			if(isset($datos['recarga'])) echo 'action="'.RUTA_URL.'/Nivel/Especialidad/'.$datos['recarga'].'"'?>>
+				<div class="col-xs-3 col-md-1" align="left">
+						<div class="form-group" align="right" style="padding-top: 7px;">
+							<label for="cbOrdenar">Ver por:</label>
+						</div>
 					</div>
-				<div class="col-xs-1">
-					<label style="text-align: center; padding-top: 8px;">Entre:</label>
-				</div>
-				<div class="col-xs-2">
-					<div class="form-group">
-					    <div class='input-group date' id='datetimepicker1'>
-					        <input type='text' class="form-control" name="fecha1" id="fecha1" />
-					        <span class="input-group-addon">
-					            <span class="glyphicon glyphicon-calendar"></span>
-					        </span>
-					    </div>
+					<div class="col-xs-4 col-md-2">
+						<div class="form-group">
+							<select name="cbOrdenar" class="form-control" id="dates" >
+								<option value="Month">Mes</option>
+								<option value="Year">Año</option>
+								<option value="Per">Personalizado</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="col-xs-2">
-					<div class="form-group">
-					    <div class='input-group date' id='datetimepicker2'>
-					        <input type='text' class="form-control" name="fecha2" id="fecha2" />
-					        <span class="input-group-addon">
-					            <span class="glyphicon glyphicon-calendar"></span>
-					        </span>
-					    </div>
+					<div class="col-xs-5 col-md-2">
+						<div class="form-group">
+							<select name="cbSeparador" class="form-control" id="separador">
+								<option value="1" selected>Una sola Tabla</option>
+								<option value="2">Separar Meses</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="col-xs-2">
-					<button class="btn btn-info btn-block" type="submit">Actualizar</button>
-				</div>
+					<div class="col-xs-2 col-md-1">
+						<div class="form-group">
+							<label style="text-align: center; padding-top: 7px;">Entre:</label>
+						</div>
+					</div>
+					<div class="col-xs-5 col-md-2">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker1'>
+						        <input type='text' class="form-control" name="fecha1" id="fecha1" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-5 col-md-2">
+						<div class="form-group">
+						    <div class='input-group date' id='datetimepicker2'>
+						        <input type='text' class="form-control" name="fecha2" id="fecha2" />
+						        <span class="input-group-addon">
+						            <span class="glyphicon glyphicon-calendar"></span>
+						        </span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-2" align="center">
+							<button class="btn btn-info"type="submit" >
+								<span class="glyphicon glyphicon-refresh"></span> Actualizar
+							</button>
+					</div>
 			</form>
+			<div class="col-xs-12">
+				<hr>
+			</div>
 		</div>
-		<br><br>
-		<div id="procedimientos" class="col-xs-12" style="display: inline-block; align-items: center">
-			<hr>
-		</div>
-		<br><br>
-		<!-- Procedimientos Mes -->
-		<div  class="col-xs-12" id="procedimientos">
+	<!-- Procedimientos -->
+		<div id="procedimientos">
 			<?php if(isset($data['datos1']['meta'])&&isset($data['datos1']['meta']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Procedimientos</h3>
 			</div>
-			<div class="col-xs-12" style="overflow: auto;">
-				<?php $datos=$data['datos1']['meta']; $id++;;
-				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
-			</div>
-			<div class="col-xs-12">
-				<div class=thumbnail>
-					<?php if(isset($data['datos1']['graf']))$datos=$data['datos1']['graf']; 
+			<?php $datos=$data['datos1']['meta'];
+				include RUTA_APP.'\views\reportes\tablaShow.php';
+				if(isset($data['datos1']['graf']))$datos=$data['datos1']['graf']; 
 					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<hr>
-			</div><?php }?>
+			<?php }?>
 		</div>
-		<div  class="col-xs-12" id="pacientes">
+	<!-- Pacientes -->
+		<div id="pacientes">
 			<?php if(isset($data['datos2'])&&isset($data['datos2']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Pacientes</h3>
 			</div>
-			<div class="col-xs-12" style="overflow: auto;">
-				<?php $datos=$data['datos2']; $id++;
-				include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+			<?php $datos=$data['datos2'];
+				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'\views\reportes\pieChart.php';
+			}?>
+		</div>
+	<!-- Referencias -->
+		<div id="referencias">
+			<?php if(isset($data['datos3'])&&isset($data['datos3']['values'][0])){ ?>
+			<div class="col-xs-12" >
+				<h3>Referencias</h3>
 			</div>
-			<div class="col-xs-12">
-				<div class=thumbnail>
-					<?php include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-				</div>
-			</div><?php }?>
+			<?php $datos=$data['datos3'];
+				include RUTA_APP.'\views\reportes\tablaShow.php';
+			}?>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 	window.onload = function(){
-			$('#datosEspecialidades').hide();
-			$('#procedimientosEspecialidades').hide();
 			<?php
 			if(isset($data['tiempo']))
 			{

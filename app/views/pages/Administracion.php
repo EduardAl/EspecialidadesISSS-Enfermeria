@@ -4,9 +4,11 @@
 		<div class="col-xs-12">
 			<h1>Administración</h1>
 		</div>
-		<br><br><br><br>
+	</div>
+	<br>
+	<div class="row">
 		<div id="ocultar">
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<img src="<?php echo RUTA_URL?>/images/excel.jpg">
 					<div class="caption">
@@ -15,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<img src="<?php echo RUTA_URL?>/images/administracion-empres-uw.jpg">
 					<div class="caption">
@@ -26,34 +28,7 @@
 			</div>
 		</div>
 		<div id="management" hidden>
-			<div class="col-xs-12" id="datos">
-				<?php 
-					if(isset($data['admin'])){
-						$datos=$data['admin'];
-						if(count($datos['TítulosY'])>0){
-				?>
-				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Nivel/IngresoAdministrativo/'?>">
-					<input class="admin" type="text" name="fecha" hidden>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-				<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
-					</div>
-					<div class="col-xs-12" >
-						<div class="col-xs-12">
-							<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-						</div>
-					</div>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-						<hr>
-					</div>
-				</form>
-				<?php 
-						}
-					}
-				?>
-			</div>
-			<div class="col-xs-12" id="metas">
-				
-			</div>
+			<?php require RUTA_APP.'\views\pages\Excel.php';?>
 		</div>
 	</div>
 </div>

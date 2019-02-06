@@ -1,63 +1,94 @@
-<div class="col-xs-1 navbar-collapse collapse" >
-  <label style="color: white; position: center; padding-top:  14px;">Tipo de Gráfica:</label>
-</div>
-<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
-  <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
-    <option value="bar">Barra</option>
-    <option value="doughnut" selected>Dona</option>
-    <option value="pie">Pastel</option>
-  </select>
-</div>
-<div class="col-xs-1 navbar-collapse collapse" >
-  <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
-</div>
-<div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
-  <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
-    <option value="#0B0B61">Azul</option>
-    <option value="#0489B1">Celeste</option>
-    <option value="#8A0808">Rojo</option>
-    <option value="#B45F04">Naranja</option>
-    <option value="#DBA901">Amarillo</option>
-    <option value="#0B610B">Verde</option>
-    <option value="#04B404">Verde Claro</option>
-    <option value="#3B240B">Café</option>
-    <option value="#8A2908">Café Claro</option>
-    <option value="#848484">Gris</option>
+<?php if(isset($id))$id++;else$id=1 ?>
+<div>
+  <div class="col-xs-12 col-md-12">
+    <div class=thumbnail>
+      <div class="col-xs-1 navbar-collapse collapse" >
+        <label style="color: white; position: center; padding-top:  14px;">Tipo de Gráfica:</label>
+      </div>
+      <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+        <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
+          <option value="bar">Barra</option>
+          <option value="doughnut" selected>Dona</option>
+          <option value="pie">Pastel</option>
+        </select>
+      </div>
+      <div class="col-xs-1 navbar-collapse collapse" >
+        <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
+      </div>
+      <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+        <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
+          <option value="#0B0B61">Azul</option>
+          <option value="#0489B1">Celeste</option>
+          <option value="#8A0808">Rojo</option>
+          <option value="#B45F04">Naranja</option>
+          <option value="#DBA901">Amarillo</option>
+          <option value="#0B610B">Verde</option>
+          <option value="#04B404">Verde Claro</option>
+          <option value="#3B240B">Café</option>
+          <option value="#8A2908">Café Claro</option>
+          <option value="#848484">Gris</option>
 
-    <option disabled="disabled">----------</option>
-    
-    <option value="D1" selected>Degradado Azul</option>
-    <option value="D2">Degradado Rojo</option>
-    <option value="D3">Degradado Verde</option>
-    <option value="D4">Degradado Café</option>
+          <option disabled="disabled">----------</option>
+          
+          <option value="D1" selected>Degradado Azul</option>
+          <option value="D2">Degradado Rojo</option>
+          <option value="D3">Degradado Verde</option>
+          <option value="D4">Degradado Café</option>
 
-    <option disabled="disabled">----------</option>
+          <option disabled="disabled">----------</option>
 
-    <option value="4">Tierra</option>
-    <option value="15">Otoño</option>
-    <option value="21">Canela</option>
-    <option value="13">Tierra en Anochecer</option>
-    <option value="11">Retro</option>
-    <option value="5">Montaña</option>
-    <option value="8">Frescura</option>
-    <option value="9">Pradera</option>
-    <option value="18">Elegante</option>
-    <option value="6">Ártico</option>
-    <option value="10">Noche</option>
-    <option value="16">Fresas</option>
-    <option value="24">Cereza</option>
-    <option value="20">Naranjada</option>
-    <option value="2">Playa</option>
-    <option value="3">Pascua</option>
-    <option value="17">Intenso</option>
-    <option value="23">Neón</option>
-    <option value="1">Rosas</option>
-  </select>
+          <option value="4">Tierra</option>
+          <option value="15">Otoño</option>
+          <option value="21">Canela</option>
+          <option value="13">Tierra en Anochecer</option>
+          <option value="11">Retro</option>
+          <option value="5">Montaña</option>
+          <option value="8">Frescura</option>
+          <option value="9">Pradera</option>
+          <option value="18">Elegante</option>
+          <option value="6">Ártico</option>
+          <option value="10">Noche</option>
+          <option value="16">Fresas</option>
+          <option value="24">Cereza</option>
+          <option value="20">Naranjada</option>
+          <option value="2">Playa</option>
+          <option value="3">Pascua</option>
+          <option value="17">Intenso</option>
+          <option value="23">Neón</option>
+          <option value="1">Rosas</option>
+        </select>
+      </div>
+            <div class="col-xs-2 navbar-collapse collapse navbar-right" style="padding-top:  10px;">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal<?php echo $id?>">
+                Open Modal
+            </button>
+            </div>
+      <div class="navbar-collapse collapse">
+          <br><br><br>
+      </div>
+      <canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
+    </div>
+  </div>
 </div>
-<div class="navbar-collapse collapse">
-    <br><br><br>
-</div>
-<canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
+<!-- Modal -->
+<div id="myModal<?php echo $id?>" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal contentido-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Gráfico</h4>
+      </div>
+      <div class="modal-body">
+        <p>Texto.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+    </div>
 <script>
 
   //Variables controladoras

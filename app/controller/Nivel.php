@@ -128,6 +128,7 @@
 						$datos = [
 							'datos1'=>$this->cargarProcedimientos($special,$tiempo),
 							'datos2'=>$this->cargarDatosEspecialidades($special,$tiempo),
+							'datos3'=>$this->cargarDatosReferencias($special,$tiempo),
 							'fechaT'=>$fechaT,
 							'tiempo'=>$tiempo,
 							'name'=>$especialidad,
@@ -145,9 +146,11 @@
 						$datos = [
 							'datos1'=>$this->cargarProcedimientos($special),
 							'datos2'=>$this->cargarDatosEspecialidades($special),
+							'datos3'=>$this->cargarDatosReferencias($special),
 							'fechaT'=>'Mes Actual',
 							'name'=>$especialidad,
-							'especialidad'=>$special
+							'especialidad'=>$special,
+							'recarga'=>$especialidad,
 						];
 						$bool=true;
 					}		
@@ -181,6 +184,16 @@
 			return $datos;
 			}
 
+		private function cargarDatosReferencias($nombre,$tiempo=0){
+			//Modificar los títulos
+			$param = $this->modelo('ProceduresDataModel')->referenciasEspecialidades($nombre,$tiempo);
+			$datos=[
+				'values' => $param,
+				'titulo' => ['Lugar','Cantidad'],
+			];
+			return $datos;
+			}
+
 		private function cargarNiveles($params){
 			setlocale(LC_ALL, "es_ES");
 			$fecha1=date('Y-m-1');
@@ -210,7 +223,8 @@
 			}
 			if(isset($params['cbSeparador'])){
 				$nuevo['separador']=$params['cbSeparador'];
-				$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
+				if($params['cbFecha']=='Per')
+					$datos['fecha']="Desde <em>".$fecha1."</em> hasta <em>".$fecha2."</em>";
 			}
 			else
 				$nuevo['separador']=1;
@@ -250,13 +264,21 @@
 					$datos['eduOftalmologia']=$this->modelo('ProceduresDataModel')->continuaOftalmologia($nuevo);
 					$datos['cargado']=8;
 					break;
-				case 'administracion':
-					$datos['administracion'] = $this->modelo('ProceduresDataModel')->administracion($nuevo);
-					$datos['cargado']=9;
-					break;
 				case 'reuniones':
 					$datos['reuniones'] = $this->modelo('ProceduresDataModel')->reuniones($nuevo);
+					$datos['cargado']=9;
+					break;
+				case 'administracion':
+					$datos['administracion'] = $this->modelo('ProceduresDataModel')->administracion($nuevo);
 					$datos['cargado']=10;
+					break;
+				case 'administracion2':
+					$datos['administracion2'] = $this->modelo('ProceduresDataModel')->administracion2($nuevo);
+					$datos['cargado']=11;
+					break;
+				case 'referencias':
+					$datos['referencias'] = $this->modelo('ProceduresDataModel')->referencias($nuevo);
+					$datos['cargado']=12;
 					break;
 				default:
 					$datos[]='';

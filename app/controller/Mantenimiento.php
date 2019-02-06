@@ -172,7 +172,8 @@
 			}
 			$_SESSION['cambiado']=12;
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
-		} 
+			} 
+
 		public function IngresoCharla($nivel=''){
 			//Esto se divide entre la cantidad de columnas
 			$level = $nivel;
@@ -448,7 +449,7 @@
 				$this->modelo('MantenimientosModel')->insertarEpidemiologico($data[$i],$_POST[$data[$i]],$tiempo);
 			}
 			header('Location:'.RUTA_URL.'/Nivel/Niveles/Epidemiologia');
-		} 
+			} 
 
 		/////////////////////////////////////////////////
 
@@ -545,6 +546,7 @@
 			{
 				$model = $this->modelo('MantenimientosModel');
 				$levelThings = $model->levelThings();
+				$preparacion = $model->levelThings('10',1);
 				$especialidades = $model->specialities($nivel);
 				$place = $model->places();
 				$specialty = $model->specialtyThings();
@@ -559,6 +561,7 @@
 				$admin2=$model->management();
 				$datos=[
 					'levelThings' => $levelThings,
+					'pacientes' => $preparacion,
 					'especialidades' => $especialidades,
 					'specialty' => $specialty,
 					'lugar' => $place,

@@ -102,6 +102,33 @@
       //Nivel
 
       //General
+    public function referenciasEspecialidades($nombre,$tiempo){
+      $fecha1=date('Y-m-1');
+      $fecha2=date('Y-m-t');
+      if(isset($tiempo['tipo'])){
+        $tipo=$tiempo['tipo'];
+        if($tipo=='Per'){
+          $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
+          $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
+          if($tiempo['separador']!="1"){
+              $fecha1=date("Y-m-1",strtotime($tiempo['fecha1']));
+              $fecha2=date("Y-m-t",strtotime($tiempo['fecha2']));
+          }
+        }
+        else if ($tipo=='Year'){
+          $fecha1=date("Y-01-01");
+          $fecha2=date("Y-12-31");
+        }
+      }
+      //Modificar el query
+
+      $sql = "SELECT p.name as 'Título',ifnull(A.dato,0) as 'Value' from place p left join(SELECT sum(r.number) as 'dato',r.place_id as 'key' from reference r inner join specialties s on s.id=r.specialty_id where s.name LIKE '%$nombre%' and r.date between '$fecha1' and '$fecha2' group by r.place_id)A on p.id=A.key UNION ALL
+        SELECT '<b>Total</b>',ifnull(B.dato,0) from (SELECT sum(r.number) as 'dato',r.place_id as 'key' from reference r inner join specialties s on s.id=r.specialty_id where s.name LIKE '%$nombre%' and r.date between '$fecha1' and '$fecha2')B ;";
+
+      $this->query($sql);
+      return $this->registros();
+      }
+
     public function cargarDatosNivel($nivel,$tiempo=0){
       $fecha1=date('Y-m-1');
       $fecha2=date('Y-m-t');
@@ -128,7 +155,7 @@
         $param['tiempo']=$temp;
         $param['sql']="SELECT K.key as 'Indicadores'";
         $param['key']="("."SELECT st.name as 'key' from specialty_things st where st.name LIKE '%Total%')UNION ALL 
-          (Select lt.name as 'key' from level_things lt order by lt.id) UNION ALL 
+          (Select lt.name as 'key' from level_things lt where description='Indicador') UNION ALL 
           (Select 'Total de personal de Enfermería' as 'key') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key') UNION ALL 
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
@@ -141,7 +168,7 @@
           (Select 'Investigación en Enfermería Programada' as 'key') UNION ALL 
           (Select 'Investigación en Enfermería Realizada' as 'key')";
 
-        $param['meta']="("."SELECT st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.id=$nivel and std.date %param% group by st.name) UNION ALL
+        $param['meta']="("."SELECT st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.level_id=$nivel and std.date %param% group by st.name) UNION ALL
           (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id where ltd.level_id=$nivel and ltd.date %param% group by lt.name) UNION ALL
           (Select 'Total de personal de Enfermería' as 'key',ROUND(ifnull(sum(E.e),P.v),0) as 'Meta' from levels l left join (Select level_id as 'key', AVG(employees) as e from hours_data where date %param% group by level_id)E on l.id=E.key left join (Select id as 'key', value as v from adminsettings)P on l.id=P.key where l.id=$nivel) UNION ALL 
           (Select 'Horas laborales en el mes' as 'key',sum(E.this) as 'Meta' from levels l left join (Select level_id as 'key', working_hours_at_month*employees as 'this' from hours_data where date %param% and level_id=$nivel)E on l.id=E.key) UNION ALL
@@ -166,7 +193,7 @@
       else{
         $sql1 = "SELECT A.key as 'Indicadores',ifnull(B.Meta,0) as 'Total' from (
           (Select st.name as 'key' from specialty_things st where st.name LIKE '%Total%')UNION ALL 
-          (Select lt.name as 'key' from level_things lt order by lt.id) UNION ALL 
+          (Select lt.name as 'key' from level_things lt where description='Indicador') UNION ALL 
           (Select 'Total de personal de Enfermería' as 'key') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key') UNION ALL 
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
@@ -181,7 +208,7 @@
 
          )A left join (
 
-          (Select st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.id=$nivel and std.date between '$fecha1' and '$fecha2' group by st.name) UNION ALL
+          (Select st.name as 'key',sum(std.number) as 'Meta' from specialty_things st inner join specialty_things_data std on st.id=std.specialty_things_id inner join specialties s on s.id =std.specialty_id where st.name LIKE '%Total%' and s.level_id=$nivel and std.date between '$fecha1' and '$fecha2' group by st.name) UNION ALL
 
           (Select lt.name as 'key',sum(ltd.number) as 'Meta' from level_things lt inner join level_things_data ltd on lt.id=ltd.level_things_id where ltd.level_id=$nivel and ltd.date between '$fecha1' and '$fecha2' group by lt.name) UNION ALL
 
@@ -242,7 +269,7 @@
         $fecha2=$tiempo['fecha2'];
         $sql = "SELECT A.key as 'Indicadores',ifnull(B.Meta,0) as 'Total' from (
           (Select st.name as 'key' from specialty_things st where st.name LIKE '%Total%')UNION ALL 
-          (Select lt.name as 'key' from level_things lt) UNION ALL 
+          (Select lt.name as 'key' from level_things lt where description='Indicador') UNION ALL 
           (Select 'Total de personal de Enfermería' as 'key') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key') UNION ALL 
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
@@ -281,7 +308,7 @@
         $param['tiempo']=$temp;
         $param['sql']="SELECT K.key as 'Indicadores'";
         $param['key']="("."SELECT st.name as 'key' from specialty_things st where st.name LIKE '%Total%')UNION ALL 
-          (Select lt.name as 'key' from level_things lt) UNION ALL 
+          (Select lt.name as 'key' from level_things lt where description='Indicador') UNION ALL 
           (Select 'Total de personal de Enfermería' as 'key') UNION ALL 
           (Select 'Horas laborales en el mes' as 'key') UNION ALL 
           (Select 'Horas laborales en el periodo' as 'key') UNION ALL 
@@ -327,7 +354,7 @@
         (Select l.name as 'Nivel' from levels l where l.name like '%nivel%') A left join 
         (SELECT l.name as 'niv', sum(std.number) as'Consulta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) B 
         on A.Nivel=B.niv left join (".
-        "SELECT l.name as 'niv', sum(std.number) as'Preparacion' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=2 and std.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) C 
+        "SELECT l.name as 'niv', sum(ltd.number) as'Preparacion' from level_things_data ltd inner join levels l on l.id=ltd.level_id where ltd.level_things_id=10 and ltd.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by l.id) C 
         on A.Nivel=C.niv
         )F ";
       $this->query($sql);
@@ -349,7 +376,7 @@
         $param['sql']="SELECT K.key as 'Actividad'";
         $param['key']="SELECT l.name as 'key' from levels l where l.name like '%nivel%'";
         $param['meta']="SELECT l.name as 'key', sum(std.number) as'Meta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=1 and std.date %param% group by l.id";
-        $param['realizado']="SELECT l.name as 'key', sum(std.number) as'Realizado' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on s.id=std.specialty_id inner join levels l on l.id=s.level_id where st.id=2 and std.date %param% group by l.id ";
+        $param['realizado']="SELECT l.name as 'key',sum(ltd.number) as'Realizado' from level_things_data ltd inner join levels l on l.id=ltd.level_id where ltd.level_things_id=10 and ltd.date %param% group by l.id";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = ''; 
@@ -427,6 +454,73 @@
       }
       return $datos;
     }
+    public function referencias($tiempo){
+      $fecha1=$tiempo['fecha1'];
+      $fecha2=$tiempo['fecha2'];
+
+      $sql = "SELECT l.name as 'Nivel',ifnull(A.referencias,0) as 'Referencias' from levels l left join 
+      (Select s.level_id as 'key', sum(r.number) as 'referencias' from reference r inner join specialties s on s.id=r.specialty_id where r.date between '$fecha1' and '$fecha2' group by s.level_id) A on l.id=A.key where l.id<>5";
+      $this->query($sql);
+      if($tiempo['separador']=="1"){
+        $datos['nivel']=[
+          'values' => $this->registros(),
+          'titulo' => ['Nivel','Total de Referencias'],
+          'titulosG' => ['Referencias'],
+        ];
+        $sql="SELECT p.name as 'Título',ifnull(A.dato,0) as 'Value' from place p left join(SELECT sum(r.number) as 'dato',r.place_id as 'key' from reference r where r.date between '$fecha1' and '$fecha2' group by r.place_id)A on p.id=A.key UNION ALL
+          SELECT '<b>Total</b>',ifnull(B.dato,0) from (SELECT sum(r.number) as 'dato',r.place_id as 'key' from reference r where r.date between '$fecha1' and '$fecha2')B ;";
+
+        $this->query($sql);
+        
+        $datos['hospital']=[
+          'values' => $this->registros(),
+          'titulo' => ['Lugar','Cantidad'],
+        ];
+      }
+      else{
+        $datos['graf']=[
+          'values' => $this->registros(),
+          'titulosG' => ['Referencias'],
+        ];
+        $temp[]=strtotime($tiempo['fecha1']);
+        $temp[]=strtotime($tiempo['fecha2']);
+
+        $param['tiempo']=$temp;
+        $param['sql']="SELECT K.titulo as 'Nivel'";
+        $param['key']="SELECT l.name as titulo, l.id as 'key' from levels l where l.id<>5 UNION ALL 
+          select '<b>Total</b>' as 'Título', -1 as 'key'";
+        $param['meta']="SELECT s.level_id as 'key', sum(r.number)as 'Meta' from reference r inner join specialties s on s.id=r.specialty_id where r.date %param% group by s.level_id UNION ALL
+          SELECT -1 as 'key',sum(r.number) as 'Meta' from reference r where r.date %param%";
+        $result=$this->separador($param);
+        $this->query($result['sql']);
+        $titulos=[];
+        $titulos[] = 'Nivel';
+        foreach ($result['meses'] as $k) {
+          $titulos[] = $k;
+        }
+        $datos['nivel']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+        ];
+
+        //Por Hospital
+
+        $param['sql']="SELECT K.Título as 'Lugar'";
+        $param['key']="SELECT p.name as 'Título',p.id as 'key' from place p UNION ALL 
+          select '<b>Total</b>' as 'Título', -1 as 'key'";
+        $param['meta']="SELECT sum(r.number) as 'Meta',r.place_id as 'key' from reference r where r.date %param% group by r.place_id UNION ALL
+          SELECT sum(r.number) as 'Meta',-1 as 'key' from reference r where r.date %param%";
+        $result=$this->separador($param);
+        $this->query($result['sql']);
+        $titulos[0] = 'Lugar';
+        $datos['hospital']=[
+          'values' => $this->registros(),
+          'titulo' => $titulos,
+        ];
+      }
+
+      return $datos;
+    }
     public function administracion($tiempo){
       if($tiempo['separador']=="1"){
         $sql = "SELECT * from (SELECT A.Actividades,ifnull(B.N4,0) as 'Nivel4',ifnull(C.N5,0) as 'Nivel5',ifnull(D.N6,0)as 'Nivel6',ifnull(E.N7,0)as 'Nivel7',(ifnull(B.N4,0)+ifnull(C.N5,0)+ifnull(D.N6,0)+ifnull(E.N7,0)) as 'Total' from 
@@ -465,6 +559,44 @@
       ];
       return $datos;
     }//¿Enfermería?
+    public function administracion2($tiempo){
+      if($tiempo['separador']=="1"){
+        $sql = "SELECT * from (SELECT A.Actividades,ifnull(B.N4,0) as 'Nivel4',ifnull(C.N5,0) as 'Nivel5',ifnull(D.N6,0)as 'Nivel6',ifnull(E.N7,0)as 'Nivel7',(ifnull(B.N4,0)+ifnull(C.N5,0)+ifnull(D.N6,0)+ifnull(E.N7,0)) as 'Total' from 
+        (Select a.id as 'Nivel',a.activities as 'Actividades' from management a) A left join 
+        (SELECT ad.management_id as 'niv', sum(ad.number) as'N4' from management_data  ad where ad.level_id=1 and ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by niv) B 
+        on A.Nivel=B.niv left join (".
+        "SELECT ad.management_id as 'niv', sum(ad.number) as'N5' from management_data ad where ad.level_id=2 and ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by niv) C 
+        on A.Nivel=C.niv left join (".
+        "SELECT ad.management_id as 'niv', sum(ad.number) as'N6' from management_data ad where ad.level_id=3 and ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by niv) D 
+        on A.Nivel=D.niv left join (".
+        "SELECT ad.management_id as 'niv', sum(ad.number) as'N7' from management_data  ad where ad.level_id=4 and ad.date between '".$tiempo['fecha1']."' and '".$tiempo['fecha2']."' group by niv) E 
+        on A.Nivel=E.niv 
+        )F ;";
+        $this->query($sql);
+        $titulos=['Actividad','Nivel 4','Nivel 5','Nivel 6','Nivel 7','Total'];
+      }
+      else{
+        $temp[]=strtotime($tiempo['fecha1']);
+        $temp[]=strtotime($tiempo['fecha2']);
+
+        $param['tiempo']=$temp;
+        $param['sql']="SELECT K.Actividades as 'Actividad'";
+        $param['key']="SELECT a.id as 'key',a.activities as 'Actividades' from management a";
+        $param['meta']="SELECT ad.management_id as 'key', sum(ad.number) as'Meta' from management_data ad where ad.date %param% group by ad.management_id";
+        $result=$this->separador($param);
+        $this->query($result['sql']);
+        $titulos[] = 'Actividad'; 
+       
+        foreach ($result['meses'] as $k) {
+          $titulos[] = $k;
+        }
+      }
+      $datos=[
+        'values' => $this->registros(),
+        'titulo' => $titulos,
+      ];
+      return $datos;
+    }
     public function epidemiologia($tiempo){
       $fecha1=date('Y-m-1');
       $fecha2=date('Y-m-t');
@@ -880,7 +1012,7 @@
         ];
       }
       return $datos;
-    }//Verificada
+    }
 
       //Generador de Query
     private function separador($param){
@@ -935,7 +1067,7 @@
       return $retorno;
     }
     public function nombreEspecialidad($Especialidad){
-      $sql="Select name from specialties where name LIKE '$Especialidad%' LIMIT 1";
+      $sql="SELECT name from specialties where name LIKE '$Especialidad%' LIMIT 1";
       $this->query($sql);
       return $this->registro();
     }

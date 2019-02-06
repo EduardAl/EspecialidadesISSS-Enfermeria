@@ -5,7 +5,7 @@
  	<br>
  	<div class = "container">
  		<div class = "row">
- 			<div class="col-xs-4">
+ 			<div class="col-xs-12 col-md-4">
  				<div class=thumbnail>
  					<img src="<?php echo RUTA_URL?>/images/especialidades_3.jpg">
  					<div class="caption">
@@ -16,7 +16,7 @@
  					</div>
  				</div>
  			</div>
- 			<div class="col-xs-4">
+ 			<div class="col-xs-12 col-md-4">
  				<div class=thumbnail>
  					<img src="<?php echo RUTA_URL?>/images/especialidades_1.jpg">
  					<div class="caption">
@@ -30,7 +30,7 @@
  					</div>
  				</div>
  			</div>
- 			<div class="col-xs-4">
+ 			<div class="col-xs-12 col-md-4">
  				<div class=thumbnail>
  					<img src="<?php echo RUTA_URL?>/images/especialidades_2.jpg">
  					<div class="caption">

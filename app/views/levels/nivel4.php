@@ -1,95 +1,113 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; ?>
+<?php require RUTA_APP.'\views\inc\header.php';$data=$datos;?>
 <div>
 	<div style="background: #050D42;">
 		<div class="container">
-			<div class="col-xs-10">
+			<div class="col-xs-10 col-md-10">
 				<h1 style="color: white;">Cuarto Nivel</h1>
 			</div>
-			<div class="col-xs-2" >
-				<br><?php
+			<div class="col-xs-2 col-md-2 impre" align="right">
+				<?php
 				if((isset($_SESSION['acceso']))&&
-					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3))
-					echo '
-	  			<button class="btn btn-primary btn-block" onclick="window.location=\''. RUTA_URL.'/Mantenimiento/Nivel/4\'">Ingresar Datos</button>';?>
+					($_SESSION['acceso']==1||$_SESSION['acceso']==2||$_SESSION['acceso']==3)){?>
+				<div class="navbar-toggle collapsed">
+					<button class="btn btn-primary" onclick="window.location='<?php echo RUTA_URL?>/Mantenimiento/Nivel/4'">
+		  				<span class="glyphicon glyphicon-edit"></span>
+					</button>
+				</div>
+				<div class="navbar-collapse collapse">
+					<br>
+		  			<button id="hide" class="btn btn-primary" onclick="window.location='<?php echo RUTA_URL?>/Mantenimiento/Nivel/4'">
+		  				<span class="glyphicon glyphicon-edit"></span> Ingresar Datos
+	  				</button>
+	  			</div>
+	  		<?php }?>
 	  		</div>
 		</div>
 	</div>
-	<div id="navbar" class="navbar-collapse collapse" style="background: #18299A;">
+	<div id="navbar" class="extra impre">
 		<div class="container">
-			<ul class="nav navbar-nav">
+			<ul>
 				<li><a id="ep" class="mouseHover" onclick="Mostrar_Ocultar(1)">Especialidades del Nivel</a></li>
-				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Estadísticas del Nivel</a></li>
+				<li><a id="es" class="mouseHover" onclick="Mostrar_Ocultar(2)">Estadísticas</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 <div class = "container">
-	<div class = "row">
-		<div id="especialidades" style="min-height: 350px;" <?php if(isset($datos['tiempo'])) echo "hidden";?>>
+	<div id="especialidades"<?php if(isset($datos['tiempo'])) echo "hidden";?>>
+		<div class = "row">
 			<div class="col-xs-12">
 				<h3>Especialidades del Nivel</h3>
 			</div>
-			<br> <br> <br>
-			<div class="col-xs-4">
+		</div>
+		<div class = "row">
+			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<img src="<?php echo RUTA_URL?>/images/urologia.jpg">
 					<div class="caption">
 						<h3>Urología</h3>
-						<p> </p>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Urologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<img src="<?php echo RUTA_URL?>/images/cardiologia.jpg">
 					<div class="caption">
 						<h3>Cardiología</h3>
-						<p> </p>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cardiologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<img src="<?php echo RUTA_URL?>/images/otorrinolaringologia.jpg">
 					<div class="caption">
 						<h3>Otorrinolaringología</h3>
-						<p> </p>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Otorrinolaringologia"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="graficos" class="col-xs-12" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
+	</div>
+	<div id="graficos" <?php if(!isset($datos['tiempo'])) echo "hidden";?>>
+		<div class = "row">
 			<div class="col-xs-12">
 				<h2><?php if(isset($datos['fechaT']))echo$datos['fechaT'];else echo"Mes Actual";?></h2>
 			</div>
-			<div id="filtro" class="navbar-collapse collapse" align="right">
+			<div id="filtro" class="col-xs-12 impre" align="right">
 				<div class="col-xs-12">
 					<hr>
 				</div>
-				<form class="col-xs-12" method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
-					<div class="col-xs-1">
-						<label for="cbOrdenar" style="text-align: center; padding-top: 8px;">Ver por:</label>
+				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/4">
+					<div class="col-xs-3 col-md-1" align="left">
+						<div class="form-group" align="right" style="padding-top: 7px;">
+							<label for="cbOrdenar">Ver por:</label>
+						</div>
 					</div>
-					<div class="col-xs-2">
-						<select name="cbOrdenar" class="form-control" id="dates" >
-							<option value="Month">Mes</option>
-							<option value="Year">Año</option>
-							<option value="Per">Personalizado</option>
-						</select>
+					<div class="col-xs-4 col-md-2">
+						<div class="form-group">
+							<select name="cbOrdenar" class="form-control" id="dates" >
+								<option value="Month">Mes</option>
+								<option value="Year">Año</option>
+								<option value="Per">Personalizado</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-xs-2">
+					<div class="col-xs-5 col-md-2">
+						<div class="form-group">
 							<select name="cbSeparador" class="form-control" id="separador">
 								<option value="1" selected>Una sola Tabla</option>
 								<option value="2">Separar Meses</option>
 							</select>
 						</div>
-					<div class="col-xs-1">
-						<label style="text-align: center; padding-top: 8px;">Entre:</label>
 					</div>
-					<div class="col-xs-2">
+					<div class="col-xs-2 col-md-1">
+						<div class="form-group">
+							<label style="text-align: center; padding-top: 7px;">Entre:</label>
+						</div>
+					</div>
+					<div class="col-xs-5 col-md-2">
 						<div class="form-group">
 						    <div class='input-group date' id='datetimepicker1'>
 						        <input type='text' class="form-control" name="fecha1" id="fecha1" />
@@ -99,7 +117,7 @@
 						    </div>
 						</div>
 					</div>
-					<div class="col-xs-2">
+					<div class="col-xs-5 col-md-2">
 						<div class="form-group">
 						    <div class='input-group date' id='datetimepicker2'>
 						        <input type='text' class="form-control" name="fecha2" id="fecha2" />
@@ -109,59 +127,53 @@
 						    </div>
 						</div>
 					</div>
-					<div class="col-xs-2">
-						<button class="btn btn-info btn-block" type="submit">Actualizar</button>
+					<div class="col-xs-12 col-md-2" align="center">
+							<button class="btn btn-info"type="submit" >
+								<span class="glyphicon glyphicon-refresh"></span> Actualizar
+							</button>
 					</div>
 				</form>
-				<div class="col-xs-12" style="align-items: center">
+				<div class="col-xs-12">
 					<hr>
 				</div>
 			</div>
-			<div id="indicadoresEnfermeria" class="col-xs-12">
-				<div>
+		</div>
+		<div class="row">
+			<div id="indicadoresEnfermeria">
+				<div class="col-xs-12">
 					<h3>Indicadores de Enfermería</h3>
 				</div>
-				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
+				<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
 					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
-				</div>
 			</div>
-			<div id="consultas" class="col-xs-12">
+			<div class="col-xs-12">
 				<hr>
 			</div>
-			<div id="consultas" class="col-xs-12">
-				<div>
+			<div id="consultas">
+				<div class="col-xs-12">
 					<h3>Consultas</h3>
 				</div>
-				<div class="col-xs-12" style="overflow: auto;">
-					<?php if(isset($data['consultas'])){$datos=$data['consultas'];
+				<?php if(isset($data['consultas'])){$datos=$data['consultas'];
 					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
-				</div>
 			</div>
-			<div id="ausentismo" class="col-xs-12">
+			<div class="col-xs-12">
 				<hr>
 			</div>
-			<div id="ausentismo" class="col-xs-12">
-				<div>
+			<div id="ausentismo">
+				<div class="col-xs-12">
 					<h3>Ausentismo</h3>
 				</div>
-				<div class="col-xs-12">
-					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
+				<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
 					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
-				</div>
 			</div>
-			<div id="graphics" class="col-xs-12">
+			<div class="col-xs-12">
 				<hr>
 			</div>
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
-					foreach($data['graf'] as $key){ $id++;?>
-				<div class="col-xs-12">
-					<div class=thumbnail>
-					<?php $datos=$key; include RUTA_APP.'\views\reportes\pieChart.php'; ?>
-					</div>
-				</div>
-				<?php }}?>
+					foreach($data['graf'] as $key){
+					$datos=$key; include RUTA_APP.'\views\reportes\pieChart.php';
+				 }}?>
 			</div>
 		</div>
 	</div>
@@ -182,7 +194,7 @@
 		}
 		else{
 ?>
-		Mostrar_Ocultar(1,1);
+		Mostrar_Ocultar(1);
 		$("#fecha1").val("<?php echo date('Y/m/d')?>");
 		$("#fecha2").val("<?php echo date('Y/m/d')?>");
 <?php
@@ -199,11 +211,8 @@
 			$("#ep").css("color","black");
 			$("#es").css("background-color","transparent");
 			$("#es").css("color","white");
-			$('#especialidades').show('slow');
-			if(ex!=0)
-				$('#graficos').hide();
-			else
-				$('#graficos').hide('slow');
+			$('#especialidades').show('fast');
+			$('#graficos').hide('fast');
 		}
 		else{
 			$("#es").css("background-color","#E8E8EC");
@@ -213,8 +222,8 @@
 			if(ex!=0)
 				$('#especialidades').hide();
 			else
-				$('#especialidades').hide('slow');
-			$('#graficos').show('slow');
+				$('#especialidades').hide('fast');
+			$('#graficos').show();
 		}
 	}
 

@@ -1,41 +1,46 @@
-<div class="col-xs-2 navbar-collapse collapse" >
-  <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
-</div>
-<div class="col-xs-4 navbar-collapse collapse" style="padding-top:  10px;">
-  <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
-    
-    <option value="D1" selected>Degradado Azul</option>
-    <option value="D2">Degradado Rojo</option>
-    <option value="D3">Degradado Verde</option>
-    <option value="D4">Degradado Café</option>
+<?php if(isset($id))$id++;else$id=1 ?>
+<div class="col-xs-12 col-md-12">
+  <div class=thumbnail>
+    <div class="col-xs-2 navbar-collapse collapse" >
+      <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
+    </div>
+    <div class="col-xs-4 navbar-collapse collapse" style="padding-top:  10px;">
+      <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
+        
+        <option value="D1" selected>Degradado Azul</option>
+        <option value="D2">Degradado Rojo</option>
+        <option value="D3">Degradado Verde</option>
+        <option value="D4">Degradado Café</option>
 
-    <option disabled="disabled">----------</option>
+        <option disabled="disabled">----------</option>
 
-    <option value="4">Tierra</option>
-    <option value="15">Otoño</option>
-    <option value="21">Canela</option>
-    <option value="13">Tierra en Anochecer</option>
-    <option value="11">Retro</option>
-    <option value="5">Montaña</option>
-    <option value="8">Frescura</option>
-    <option value="9">Pradera</option>
-    <option value="18">Elegante</option>
-    <option value="6">Ártico</option>
-    <option value="10">Noche</option>
-    <option value="16">Fresas</option>
-    <option value="24">Cereza</option>
-    <option value="20">Naranjada</option>
-    <option value="2">Playa</option>
-    <option value="3">Pascua</option>
-    <option value="17">Intenso</option>
-    <option value="23">Neón</option>
-    <option value="1">Rosas</option>
-  </select>
+        <option value="4">Tierra</option>
+        <option value="15">Otoño</option>
+        <option value="21">Canela</option>
+        <option value="13">Tierra en Anochecer</option>
+        <option value="11">Retro</option>
+        <option value="5">Montaña</option>
+        <option value="8">Frescura</option>
+        <option value="9">Pradera</option>
+        <option value="18">Elegante</option>
+        <option value="6">Ártico</option>
+        <option value="10">Noche</option>
+        <option value="16">Fresas</option>
+        <option value="24">Cereza</option>
+        <option value="20">Naranjada</option>
+        <option value="2">Playa</option>
+        <option value="3">Pascua</option>
+        <option value="17">Intenso</option>
+        <option value="23">Neón</option>
+        <option value="1">Rosas</option>
+      </select>
+    </div>
+    <div class="navbar-collapse collapse">
+        <br><br><br>
+    </div>
+    <canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>
+  </div>
 </div>
-<div class="navbar-collapse collapse">
-    <br><br><br>
-</div>
-<canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>
 <script>
     //Variables controladoras
     var myChart<?php echo $id?>;

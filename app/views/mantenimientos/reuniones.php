@@ -1,7 +1,7 @@
 <?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;?>
 <div class="container">
-	<div class="col-xs-3"></div>
-	<div class="col-xs-6" align="center">
+	<div class="col-xs-3 colapsa"></div>
+	<div class="col-xs-12 col-md-6" align="center">
 		<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarReu/';?>"><?php 
 			if(isset($data['meetings'])){
 				echo '<input type="text" name="id" hidden value="'.$_POST['extra'].'">';
@@ -12,7 +12,7 @@
 	        <div class="row text-center">
 	        	<label for="inputFName" class="text-center">Nombre:</label>
 	        </div>
-	        <input type="name" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Descripción" required>
+	        <input type="name" name="fname" id="inputFName" height="30px" class="form-control" placeholder="Descripción" required autofocus="">
 	        <br>
 	        <div class="row text-center">
 	        	<label for="inputFName" class="text-center">Descripción:</label>
@@ -45,7 +45,7 @@
 	    	}?>
 		</form>
 	</div>
-	<div class="col-xs-3"></div>
+	<div class="col-xs-3 colapsa"></div>
 </div>
 <script type="text/javascript">
 	$(function () {

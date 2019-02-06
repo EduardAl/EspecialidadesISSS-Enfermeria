@@ -1,6 +1,8 @@
 	</div>
 	<br>
 	<br>
+  </div>
+</div>
 	<footer>
 		<p>ISSS</p>
 	</footer>
