@@ -58,37 +58,12 @@
           <option value="1">Rosas</option>
         </select>
       </div>
-            <div class="col-xs-2 navbar-collapse collapse navbar-right" style="padding-top:  10px;">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal<?php echo $id?>">
-                Open Modal
-            </button>
-            </div>
       <div class="navbar-collapse collapse">
           <br><br><br>
       </div>
       <canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
-    </div>
   </div>
 </div>
-<!-- Modal -->
-<div id="myModal<?php echo $id?>" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal contentido-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Gráfico</h4>
-      </div>
-      <div class="modal-body">
-        <p>Texto.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-    </div>
-    </div>
 <script>
 
   //Variables controladoras
