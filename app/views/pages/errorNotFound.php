@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; ?>
+<?php require RUTA_APP.'/views/inc/header.php'; ?>
 <body>
 	<div class="container">
 		<h2>¡Error!</h2>
@@ -13,4 +13,4 @@
 		?>
 	</div>
 </body>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

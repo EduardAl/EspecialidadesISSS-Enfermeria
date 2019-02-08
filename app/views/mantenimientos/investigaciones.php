@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;?>
+<?php require RUTA_APP.'/views/inc/header.php'; $data=$datos;?>
 <div class="container">
 	<div class="col-xs-3 colapsa"></div>
 	<div class="col-xs-12 col-md-6" align="center">
@@ -64,4 +64,4 @@
 
 	}
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

@@ -3,7 +3,7 @@
 	<div class="Página">
 	<header>
 	<div class="color"><br><br> </div> 
-<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
+<?php include RUTA_APP.'/views/inc/jumbotron.php'; ?>
 
 	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 		<div class="container">

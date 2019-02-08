@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos;?>
+<?php require RUTA_APP.'/views/inc/header.php';$data=$datos;?>
 <div>
 	<div style="background: #050D42;">
 		<div class="container">
@@ -43,7 +43,9 @@
 		<div class = "row">
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/urologia.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Urologia">
+						<img src="<?php echo RUTA_URL?>/images/urologia.jpg">
+					</a>
 					<div class="caption">
 						<h3>Urología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Urologia"> Ver tablas y estadísticas </a>
@@ -52,7 +54,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/cardiologia.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cardiologia">
+						<img src="<?php echo RUTA_URL?>/images/cardiologia.jpg">
+					</a>
 					<div class="caption">
 						<h3>Cardiología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cardiologia"> Ver tablas y estadísticas </a>
@@ -61,7 +65,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/otorrinolaringologia.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Otorrinolaringologia">
+						<img src="<?php echo RUTA_URL?>/images/otorrinolaringologia.jpg">
+					</a>
 					<div class="caption">
 						<h3>Otorrinolaringología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Otorrinolaringologia"> Ver tablas y estadísticas </a>
@@ -144,7 +150,7 @@
 					<h3>Indicadores de Enfermería</h3>
 				</div>
 				<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';} ?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -154,7 +160,7 @@
 					<h3>Consultas</h3>
 				</div>
 				<?php if(isset($data['consultas'])){$datos=$data['consultas'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';} ?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -164,7 +170,7 @@
 					<h3>Ausentismo</h3>
 				</div>
 				<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -172,7 +178,7 @@
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
 					foreach($data['graf'] as $key){
-					$datos=$key; include RUTA_APP.'\views\reportes\pieChart.php';
+					$datos=$key; include RUTA_APP.'/views/reportes/pieChart.php';
 				 }}?>
 			</div>
 		</div>
@@ -255,4 +261,4 @@
         });
     });
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

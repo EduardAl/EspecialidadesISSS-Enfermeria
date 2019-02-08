@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; ?>
+<?php require RUTA_APP.'/views/inc/header.php';$data=$datos; $id=0; ?>
 <div>
 	<div style="background: #050D42;">
 		<div class="container">
@@ -91,7 +91,7 @@
 		<div class = "row">
 			<div id="epidemiologia">
 				<?php if(isset($data['epidemiologia'])){$datos=$data['epidemiologia'];{
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 				<div class="col-xs-12">
 					<hr>
 				</div><?php } ?>
@@ -99,7 +99,7 @@
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
 					foreach($data['graf'] as $key){ $id++;
-					$datos=$key; include RUTA_APP.'\views\reportes\pieChart.php';
+					$datos=$key; include RUTA_APP.'/views/reportes/pieChart.php';
 				}}?>
 			</div>
 		</div>
@@ -115,7 +115,7 @@
 				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoEpidemiologia/'?>">
 					<input class="admin" type="text" name="fecha" hidden>
 					<div class="col-xs-12" style="display: inline-block; align-items: center">
-				<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+				<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 					</div>
 					<div class="col-xs-12" >
 						<div class="col-xs-12">
@@ -204,4 +204,4 @@
         });
     });
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

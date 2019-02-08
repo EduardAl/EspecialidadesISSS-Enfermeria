@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos;?>
+<?php require RUTA_APP.'/views/inc/header.php';$data=$datos;?>
 <div>
 	<div style="background: #050D42;">
 		<div class="container">
@@ -107,7 +107,7 @@
 					<h3>Indicadores de Enfermería</h3>
 				</div>
 				<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';} ?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -117,7 +117,7 @@
 					<h3>Ausentismo</h3>
 				</div>
 				<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -125,7 +125,7 @@
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
 					foreach($data['graf'] as $key){
-					$datos=$key; include RUTA_APP.'\views\reportes\pieChart.php';
+					$datos=$key; include RUTA_APP.'/views/reportes/pieChart.php';
 				}}?>
 			</div>
 		</div>
@@ -187,4 +187,4 @@
         });
     });
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

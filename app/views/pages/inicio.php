@@ -1,5 +1,5 @@
  <?php 
- require RUTA_APP.'\views\inc\header.php'; 
+ require RUTA_APP.'/views/inc/header.php'; 
  ?>
  <body>
  	<br>
@@ -49,4 +49,4 @@
  	</div>
 </body>
  <?php
- require RUTA_APP.'\views\inc\footer.php'; ?>
+ require RUTA_APP.'/views/inc/footer.php'; ?>

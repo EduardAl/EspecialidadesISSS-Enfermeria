@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;?>
+<?php require RUTA_APP.'/views/inc/header.php'; $data=$datos;?>
 <div class="container">
 	<div class="col-xs-12 col-md-6" align="center">
 		<form class=form-formulario" method="POST" action="<?php echo RUTA_URL.'/Mantenimiento/ActualizarCharla/';?>"><?php 
@@ -65,7 +65,7 @@
 				}
 				echo '<input type="text" name="id" hidden value="'.$_POST['extra'].'">';
 				echo '<input type="text" name="level" hidden value="'.$data['Charla']->nivel.'">';
-				include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+				include RUTA_APP.'/views/mantenimientos/datosNivel.php'; 
 				echo '<button class="btn btn-primary" type="submit">Actualizar datos</button>';
 				echo "</form>";
 			}
@@ -90,4 +90,4 @@
 
 	}
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

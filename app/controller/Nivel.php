@@ -122,13 +122,14 @@
 						$tiempo['separador']='1';
 					}
 					setlocale(LC_ALL, "es_ES");
-					$special=$this->modelo('ProceduresDataModel')->nombreEspecialidad($especialidad);
+					$modelo=$this->modelo('ProceduresDataModel');
+					$special=$modelo->nombreEspecialidad($especialidad);
 					if(isset($special->name)){
 						$special=$special->name;
 						$datos = [
-							'datos1'=>$this->cargarProcedimientos($special,$tiempo),
-							'datos2'=>$this->cargarDatosEspecialidades($special,$tiempo),
-							'datos3'=>$this->cargarDatosReferencias($special,$tiempo),
+							'datos1'=>$modelo->procedimientos($special,$tiempo),
+							'datos2'=>$modelo->datosEspecialidades($special,$tiempo),
+							'datos3'=>$modelo->referenciasEspecialidades($special,$tiempo),
 							'fechaT'=>$fechaT,
 							'tiempo'=>$tiempo,
 							'name'=>$especialidad,
@@ -140,13 +141,14 @@
 				}
 				else{
 					unset($_SESSION['tiempo']);
-					$special=$this->modelo('ProceduresDataModel')->nombreEspecialidad($especialidad);
+					$modelo=$this->modelo('ProceduresDataModel');
+					$special=$modelo->nombreEspecialidad($especialidad);
 					if(isset($special->name)){
 						$special=$special->name;
 						$datos = [
-							'datos1'=>$this->cargarProcedimientos($special),
-							'datos2'=>$this->cargarDatosEspecialidades($special),
-							'datos3'=>$this->cargarDatosReferencias($special),
+							'datos1'=>$modelo->procedimientos($special),
+							'datos2'=>$modelo->datosEspecialidades($special),
+							'datos3'=>$modelo->referenciasEspecialidades($special),
 							'fechaT'=>'Mes Actual',
 							'name'=>$especialidad,
 							'especialidad'=>$special,
@@ -169,31 +171,6 @@
 				Privadas
 			*****************
 								*/
-		//Carga la tabla y gráfico
-		private function cargarProcedimientos($nombre,$tiempo=0){
-			return $this->modelo('ProceduresDataModel')->procedimientos($nombre,$tiempo);
-			}
-
-		private function cargarDatosEspecialidades($nombre,$tiempo=0){
-			//Modificar los títulos
-			$param = $this->modelo('ProceduresDataModel')->datosEspecialidades($nombre,$tiempo);
-			$datos=[
-				'values' => $param,
-				'titulo' => ['Actividad','Cantidad'],
-			];
-			return $datos;
-			}
-
-		private function cargarDatosReferencias($nombre,$tiempo=0){
-			//Modificar los títulos
-			$param = $this->modelo('ProceduresDataModel')->referenciasEspecialidades($nombre,$tiempo);
-			$datos=[
-				'values' => $param,
-				'titulo' => ['Lugar','Cantidad'],
-			];
-			return $datos;
-			}
-
 		private function cargarNiveles($params){
 			setlocale(LC_ALL, "es_ES");
 			$fecha1=date('Y-m-1');

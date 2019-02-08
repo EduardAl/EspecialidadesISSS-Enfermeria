@@ -1,6 +1,6 @@
-<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
-
 <body>
+<?php require RUTA_APP.'/views/inc/jumbotron.php'; ?>
+
     <div class="container">
         <div class="col-xs-12" style="align-items: center;">
             <h1 >Recuperar contraseña</h1>
@@ -19,4 +19,4 @@
             </div>
         </form>
     </div>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

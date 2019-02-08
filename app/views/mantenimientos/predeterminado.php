@@ -76,7 +76,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoNivel/'.$nNivel?>">
 				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12">
-					<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div class="col-xs-12" align="right">
 					<button class="btn btn-primary" type="submit">
@@ -104,7 +104,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoNivel/'.$nNivel?>">
 				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12">
-					<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div class="col-xs-12" align="right">
 					<button class="btn btn-primary" type="submit">
@@ -146,7 +146,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAusentismo/'.$nNivel?>">
 				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12">
-					<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div class="col-xs-12" align="right">
 					<button class="btn btn-primary" type="submit">
@@ -177,7 +177,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				<div class="col-xs-12" >
 					<?php 
 						$datos=$data['absences_config'];
-						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+						include RUTA_APP.'/views/mantenimientos/datosNivel.php'; 
 					?>
 				</div>
 				<div class="col-xs-12" align="right">
@@ -206,7 +206,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					<div class='col-xs-12'>
 					<?php 
 						$datos=$data['specialty'];
-						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+						include RUTA_APP.'/views/mantenimientos/datosNivel.php'; 
 					?>
 					</div>
 				<div class='col-xs-12' align='right'>
@@ -247,7 +247,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 						<?php 
 						$datos=$data['procedures'];
 						$datos = $datos[$variable];
-						include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+						include RUTA_APP.'/views/mantenimientos/datosNivel.php'; 
 						?>
 					</div>
 					<div class="col-xs-12" align='right'>
@@ -300,7 +300,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 					<?php 
 					$datos=$data['procedures'];
 					$datos = $datos[$variable];
-					include RUTA_APP.'\views\mantenimientos\datosNivel.php'; 
+					include RUTA_APP.'/views/mantenimientos/datosNivel.php'; 
 					?>
 				</div >
 				<div class='col-xs-12' align='right'>
@@ -430,7 +430,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAdministrativo/'.$nNivel?>">
 				<input class="admin" type="text" name="fecha" hidden>
 				<div class="col-xs-12">
-				<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+				<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div class='col-xs-12' align='right'>
 					<button class="btn btn-primary" type="submit">
@@ -458,7 +458,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoAdministracion/'.$nNivel?>">
 				<input class="admin" type="text" name="fecha" hidden>
 				<div >
-					<?php include RUTA_APP.'\views\mantenimientos\datosNivel.php'; ?>
+					<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div align='right'>
 					<button class="btn btn-primary" type="submit">
@@ -589,7 +589,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				{
 					$extra=RUTA_URL.'/Mantenimiento/ActualizarDatos'; 
 					$datos=$data['education'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; 
+					include RUTA_APP.'/views/reportes/tablaShow.php'; 
 				}
 			?>
 		</div>
@@ -706,7 +706,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				{
 					$extra=RUTA_URL.'/Mantenimiento/ActualizarInvestigacion'; 
 					$datos=$data['investigacion'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; 
+					include RUTA_APP.'/views/reportes/tablaShow.php'; 
 				}
 			?>
 		</div>
@@ -824,7 +824,7 @@ $bool = (isset($_SESSION['acceso'])&& ($_SESSION['acceso']==1||$_SESSION['acceso
 				{
 					$extra=RUTA_URL.'/Mantenimiento/ActualizarReunion'; 
 					$datos=$data['reunion'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; 
+					include RUTA_APP.'/views/reportes/tablaShow.php'; 
 				}
 			?>
 		</div>

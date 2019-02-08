@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; ?>
+<?php require RUTA_APP.'/views/inc/header.php'; ?>
 
 <SCRIPT>
 	var prueba = false;
@@ -25,7 +25,7 @@ function Mostrar_Ocultar(){
 				<h1>Usuarios</h1>
 			</div>
 			<?php $extra=RUTA_URL.'/Users/Actualizar'; 
-			include RUTA_APP.'\views\reportes\tablaShow.php'; ?>
+			include RUTA_APP.'/views/reportes/tablaShow.php'; ?>
 			<div class="col-xs-12 col-md-12" align="right">
 				<button class="btn btn-lg btn-primary" type="submit" onclick="Mostrar_Ocultar();">
 					Nuevo Usuario
@@ -74,4 +74,4 @@ function Mostrar_Ocultar(){
 		</div>
 	</div>
 </body>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

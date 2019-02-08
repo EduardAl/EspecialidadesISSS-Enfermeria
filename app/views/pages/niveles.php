@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;$fechaBool=false; ?>
+<?php require RUTA_APP.'/views/inc/header.php'; $data=$datos;$fechaBool=false; ?>
 <div class="container" style="min-height: 350px;">
 	<div id="ConseguirDatos"hidden>
 		<div class="row" style="padding-top: 8px;">
@@ -124,16 +124,16 @@
 					<h3>Indicadores de Enfermería</h3>
 				</div>
 				<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 			<div id="preparacionNivel" hidden>
 				<div class="col-xs-12">
 					<h3>Preparación de Pacientes</h3>
 				</div>
 				<?php if(isset($data['pPacientes'])){$datos=$data['pPacientes']['meta'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';
+					include RUTA_APP.'/views/reportes/tablaShow.php';
 					if(isset($data['pPacientes']['graf']))$datos=$data['pPacientes']['graf'];
-						include RUTA_APP.'\views\reportes\levelChart.php';
+						include RUTA_APP.'/views/reportes/levelChart.php';
 					}?>
 			</div>
 			<div id="ausentismoNivel" hidden>
@@ -141,9 +141,9 @@
 					<h3>Ausentismo por Nivel</h3>
 				</div>
 					<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo']['meta'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';
+					include RUTA_APP.'/views/reportes/tablaShow.php';
 					if(isset($data['ausentismo']['graf']))$datos=$data['ausentismo']['graf'];
-						include RUTA_APP.'\views\reportes\levelChart.php';
+						include RUTA_APP.'/views/reportes/levelChart.php';
 					}?>
 			</div>
 			<div id="referencias" hidden>
@@ -155,15 +155,15 @@
 				</div>
 				<?php if(isset($data['referencias'])){
 				$datos=$data['referencias']['nivel'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['referencias']['graf']))$datos=$data['referencias']['graf'];
-				include RUTA_APP.'\views\reportes\levelChart.php';?>
+				include RUTA_APP.'/views/reportes/levelChart.php';?>
 
 				<div class="col-xs-12">
 					<h4>Por Lugar</h4>
 				</div>
 				<?php $datos=$data['referencias']['hospital'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				}?>
 			</div>
 			<div id="educacionSalud" hidden>
@@ -176,20 +176,20 @@
 					<?php if(isset($data['eduSalud'])){
 					// Por Nivel
 					$datos=$data['eduSalud']['meta'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';
+					include RUTA_APP.'/views/reportes/tablaShow.php';
 					if(isset($data['eduSalud']['graf']))$datos=$data['eduSalud']['graf'];
-						include RUTA_APP.'\views\reportes\columnChart.php';
+						include RUTA_APP.'/views/reportes/columnChart.php';
 					// Suma
 					$datos=$data['eduSalud']['total'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';
+					include RUTA_APP.'/views/reportes/tablaShow.php';
 					if(isset($data['eduSalud']['graf2']))$datos=$data['eduSalud']['graf2'];
-						include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+						include RUTA_APP.'/views/reportes/columnChart.php'; ?>
 
 				<div class="col-xs-12">
 					<h4>Oyentes</h4>
 				</div>
 					<?php $datos=$data['eduSalud']['oyentes'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';}?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';}?>
 			</div>
 			<div id="charlas" hidden>
 				<div class="col-xs-12">
@@ -200,17 +200,17 @@
 				</div>
 				<?php if(isset($data['eduCharlas'])){
 					$datos=$data['eduCharlas']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['eduCharlas']['graf']))$datos=$data['eduCharlas']['graf'];
-					include RUTA_APP.'\views\reportes\columnChart.php';
+					include RUTA_APP.'/views/reportes/columnChart.php';
 				$datos=$data['eduCharlas']['total'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
-				include RUTA_APP.'\views\reportes\columnChart.php';?>
+				include RUTA_APP.'/views/reportes/tablaShow.php';
+				include RUTA_APP.'/views/reportes/columnChart.php';?>
 				<div class="col-xs-12">
 					<h4>Oyentes</h4>
 				</div>
 					<?php $datos=$data['eduCharlas']['oyentes'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';}?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';}?>
 			</div>
 			<div id="educacionContinua" hidden>
 				<div class="col-xs-12">
@@ -221,16 +221,16 @@
 				</div>
 				<?php if(isset($data['eduContinua'])){
 					$datos=$data['eduContinua']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['eduContinua']['graf']))$datos=$data['eduContinua']['graf'];
-					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+					include RUTA_APP.'/views/reportes/columnChart.php'; ?>
 				<div class="col-xs-12">
 					<h4>Personal</h4>
 				</div>
 				<?php $datos=$data['eduContinua']['personal'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				$datos=$data['eduContinua']['grafico'];
-					include RUTA_APP.'\views\reportes\pieChart.php';
+					include RUTA_APP.'/views/reportes/pieChart.php';
 				}?>
 			</div>
 			<div id="educacionEpidemiologica" hidden>
@@ -242,16 +242,16 @@
 				</div>
 				<?php if(isset($data['eduEpidemiologia'])){
 					$datos=$data['eduEpidemiologia']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['eduEpidemiologia']['graf']))$datos=$data['eduEpidemiologia']['graf'];
-					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+					include RUTA_APP.'/views/reportes/columnChart.php'; ?>
 				<div class="col-xs-12">
 					<h4>Personal</h4>
 				</div>
 				<?php $datos=$data['eduEpidemiologia']['personal'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				$datos=$data['eduEpidemiologia']['grafico'];
-				include RUTA_APP.'\views\reportes\pieChart.php'; }?>
+				include RUTA_APP.'/views/reportes/pieChart.php'; }?>
 			</div>
 			<div id="educacionOftalmologica" hidden>
 				<div class="col-xs-12">
@@ -262,17 +262,17 @@
 				</div>
 				<?php if(isset($data['eduOftalmologia'])){
 					$datos=$data['eduOftalmologia']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['eduOftalmologia']['graf']))$datos=$data['eduOftalmologia']['graf'];
-					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+					include RUTA_APP.'/views/reportes/columnChart.php'; ?>
 
 				<div class="col-xs-12">
 					<h4>Personal</h4>
 				</div>
 					<?php $datos=$data['eduOftalmologia']['personal'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';
+					include RUTA_APP.'/views/reportes/tablaShow.php';
 					$datos=$data['eduOftalmologia']['grafico'];
-					include RUTA_APP.'\views\reportes\pieChart.php'; }?>
+					include RUTA_APP.'/views/reportes/pieChart.php'; }?>
 			</div>
 			<div id="reunionesNivel" hidden>
 				<div class="col-xs-12">
@@ -283,23 +283,23 @@
 				</div>
 				<?php if(isset($data['reuniones'])){
 					$datos=$data['reuniones']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['reuniones']['graf']))$datos=$data['reuniones']['graf'];
-				include RUTA_APP.'\views\reportes\levelChart.php'; }?>
+				include RUTA_APP.'/views/reportes/levelChart.php'; }?>
 			</div>
 			<div id="gestionAdministrativaNivel" hidden>
 				<div class="col-xs-12">
 					<h3>Gestión Administrativa</h3>
 				</div>
 				<?php if(isset($data['administracion'])){$datos=$data['administracion'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 			<div id="AdministrativaNivel" hidden>
 				<div class="col-xs-12">
 					<h3>Administración</h3>
 				</div>
 				<?php if(isset($data['administracion2'])){$datos=$data['administracion2'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 		</div>
 	</div>
@@ -405,4 +405,4 @@
 	    }
 	});
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

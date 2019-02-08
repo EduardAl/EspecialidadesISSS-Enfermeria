@@ -65,7 +65,7 @@
       }
   </style>
 
-<?php require RUTA_APP.'\views\inc\jumbotron.php'; ?>
+<?php include RUTA_APP.'/views/inc/jumbotron.php'; ?>
   <div class="container">
 
     <form class="form-signin" method="POST" action="<?= RUTA_URL . '/Login/signin' ?>">
@@ -84,4 +84,4 @@
       <a href="<?php echo RUTA_URL?>/Recuperacion/">Recuperar cuenta</a>
     </form>
   </div>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php include RUTA_APP.'/views/inc/footer.php'; ?>

@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos;?>
+<?php require RUTA_APP.'/views/inc/header.php';$data=$datos;?>
 <div>
 	<div style="background: #050D42;">
 		<div class="container">
@@ -43,7 +43,9 @@
 		<div class = "row">
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/neumologia.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Neumologia">
+						<img src="<?php echo RUTA_URL?>/images/neumologia.jpg">
+					</a>
 					<div class="caption">
 						<h3>Neumología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Neumologia"> Ver tablas y estadísticas </a>
@@ -52,7 +54,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/gastroenterologia.png">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Gastroenterologia">
+						<img src="<?php echo RUTA_URL?>/images/gastroenterologia.png">
+					</a>
 					<div class="caption">
 						<h3>Gastroenterología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Gastroenterologia"> Ver tablas y estadísticas </a>
@@ -61,7 +65,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/reumatologia.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Reumatologia">
+						<img src="<?php echo RUTA_URL?>/images/reumatologia.jpg">
+					</a>
 					<div class="caption">
 						<h3>Reumatología</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Reumatologia"> Ver tablas y estadísticas </a>
@@ -70,7 +76,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/cirugiaPeriferica.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cirugia">
+						<img src="<?php echo RUTA_URL?>/images/cirugiaPeriferica.jpg">
+					</a>
 					<div class="caption">
 						<h3>Cirugía Vascular Periférica</h3>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Cirugia"> Ver tablas y estadísticas </a>
@@ -79,7 +87,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/evaluacionCardiovascular.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Programa">
+						<img src="<?php echo RUTA_URL?>/images/evaluacionCardiovascular.jpg">
+					</a>
 					<div class="caption">
 						<h4>Programa de Hipertensión Arterial y Evaluaciones CardioVasculares</h4>
 						<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/Programa"> Ver tablas y estadísticas </a>
@@ -162,7 +172,7 @@
 					<h3>Indicadores de Enfermería</h3>
 				</div>
 				<?php if(isset($data['indicadores'])){$datos=$data['indicadores'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';} ?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -172,7 +182,7 @@
 					<h3>Consultas</h3>
 				</div>
 				<?php if(isset($data['consultas'])){$datos=$data['consultas'];
-					include RUTA_APP.'\views\reportes\tablaShow.php';} ?>
+					include RUTA_APP.'/views/reportes/tablaShow.php';} ?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -182,7 +192,7 @@
 					<h3>Ausentismo</h3>
 				</div>
 				<?php if(isset($data['ausentismo'])){$datos=$data['ausentismo'];
-					include RUTA_APP.'\views\reportes\tablaShow.php'; }?>
+					include RUTA_APP.'/views/reportes/tablaShow.php'; }?>
 			</div>
 			<div class="col-xs-12">
 				<hr>
@@ -190,7 +200,7 @@
 			<div id="graphics">
 				<?php if(isset($data['graf'])){ 
 					foreach($data['graf'] as $key){
-					$datos=$key; include RUTA_APP.'\views\reportes\pieChart.php';
+					$datos=$key; include RUTA_APP.'/views/reportes/pieChart.php';
 				}}?>
 			</div>
 		</div>
@@ -273,4 +283,4 @@
         });
     });
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

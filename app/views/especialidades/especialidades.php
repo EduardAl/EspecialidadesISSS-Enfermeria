@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; $data=$datos;$id=0;?>
+<?php require RUTA_APP.'/views/inc/header.php'; $data=$datos;$id=0;?>
 <div class = "container">
 	<div class = "row">
 		<div class="col-xs-12">
@@ -75,30 +75,31 @@
 				<h3>Procedimientos</h3>
 			</div>
 			<?php $datos=$data['datos1']['meta'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 				if(isset($data['datos1']['graf']))$datos=$data['datos1']['graf']; 
-					include RUTA_APP.'\views\reportes\columnChart.php'; ?>
+					include RUTA_APP.'/views/reportes/columnChart.php'; ?>
 			<?php }?>
 		</div>
 	<!-- Pacientes -->
 		<div id="pacientes">
-			<?php if(isset($data['datos2'])&&isset($data['datos2']['values'][0])){ ?>
+			<?php if(isset($data['datos2']['meta'])&&isset($data['datos2']['meta']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Pacientes</h3>
 			</div>
-			<?php $datos=$data['datos2'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
-				include RUTA_APP.'\views\reportes\pieChart.php';
+			<?php $datos=$data['datos2']['meta'];
+				include RUTA_APP.'/views/reportes/tablaShow.php';
+				if(isset($data['datos2']['graf']))$datos=$data['datos2']['graf']; 
+				include RUTA_APP.'/views/reportes/pieChart.php';
 			}?>
 		</div>
 	<!-- Referencias -->
 		<div id="referencias">
-			<?php if(isset($data['datos3'])&&isset($data['datos3']['values'][0])){ ?>
+			<?php if(isset($data['datos3']['meta'])&&isset($data['datos3']['meta']['values'][0])){ ?>
 			<div class="col-xs-12" >
 				<h3>Referencias</h3>
 			</div>
-			<?php $datos=$data['datos3'];
-				include RUTA_APP.'\views\reportes\tablaShow.php';
+			<?php $datos=$data['datos3']['meta'];
+				include RUTA_APP.'/views/reportes/tablaShow.php';
 			}?>
 		</div>
 	</div>
@@ -155,4 +156,4 @@
         });
     });
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

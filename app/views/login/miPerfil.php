@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php'; ?>
+<?php require RUTA_APP.'/views/inc/header.php'; ?>
 <form name="form" id="form-hide" method="POST" action="<?= RUTA_URL . '/Users/ActualizarPerfil' ?>">
 	<div class="container" align="center">
 		<div class="col-xs-3"></div>
@@ -43,4 +43,4 @@
 
 	}
 </script>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>

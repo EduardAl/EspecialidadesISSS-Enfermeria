@@ -1,4 +1,4 @@
-<?php require RUTA_APP.'\views\inc\header.php';$data=$datos; $id=0; $bool=false;?>
+<?php require RUTA_APP.'/views/inc/header.php';$data=$datos; $id=0; $bool=false;?>
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
@@ -28,11 +28,11 @@
 			</div>
 		</div>
 		<div id="management" hidden>
-			<?php require RUTA_APP.'\views\pages\Excel.php';?>
+			<?php require RUTA_APP.'/views/pages/Excel.php';?>
 		</div>
 	</div>
 </div>
-<?php require RUTA_APP.'\views\inc\footer.php'; ?>
+<?php require RUTA_APP.'/views/inc/footer.php'; ?>
 
 <script type="text/javascript">
 	var hidden=true;
