@@ -175,14 +175,16 @@
     });
     $("#colors1<?php echo $id?>").change(function(){
         myChart<?php echo $id?>.data.datasets[0].backgroundColor=($(this).val());
-        console.log("cambio");
         myChart<?php echo $id?>.update();
     });
     $("#colors2<?php echo $id?>").change(function(){
-        if(count(myChart<?php echo $id?>.data.datasets)>1){
+        if(myChart<?php echo $id?>.data.datasets.length>1){
             myChart<?php echo $id?>.data.datasets[1].backgroundColor=($(this).val());
-            myChart<?php echo $id?>.update();
         }
+        else{
+            myChart<?php echo $id?>.data.datasets[0].backgroundColor=($(this).val());
+        }
+        myChart<?php echo $id?>.update();
     });
     start<?php echo $id?>('bar');
 </script>
