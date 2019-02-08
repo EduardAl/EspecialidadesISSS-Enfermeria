@@ -13,11 +13,11 @@
 			}
 		public function Administracion(){		
 			//$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
-			$this->vista('Pages/Administracion');
+			$this->vista('pages/Administracion');
 		}
 		public function Graficas(){		
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
-			$this->vista('Pages/Niveles',$datos);
+			$this->vista('pages/Niveles',$datos);
 		}
 		// Para cargar la vista de los niveles
 		public function level ($num_registro=''){
@@ -69,7 +69,7 @@
 			unset($_SESSION['temp']);
 			$num=(int)$num_registro;
 			if($num>0)
-				$num='nivel'.$num;
+				$num='nivel'.strtolower($num);
 			else
 				$num=$num_registro;
 			$this->vista('levels/'.$num,$datos);
