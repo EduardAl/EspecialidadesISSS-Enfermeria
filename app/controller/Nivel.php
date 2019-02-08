@@ -101,23 +101,26 @@
 				if(isset($_SESSION['tiempo'])){
 					$tiempo = $_SESSION['tiempo'];
 					if($tiempo['tipo']=="Year"){
+				        $tiempo['fecha1']=date("Y-1-1");
+				        $tiempo['fecha2']=date("Y-12-31");
 						$fechaT="Año Actual";
 					}
 					else if($tiempo['tipo']=="Per"){
-						$tiempo['fecha1']=date("Y-m-d",strtotime($tiempo['fecha1']));
 						if($tiempo['separador']!=1){
-							$aux = new DateTime(date("Y-m-1",strtotime($tiempo['fecha1'])));
+							$tiempo['fecha1']=date("Y-m-1",strtotime($tiempo['fecha1']));
+							$aux = new DateTime($tiempo['fecha1']);
 							$diferencia = $aux->diff(new DateTime(date("Y-m-01",strtotime($tiempo['fecha2']))));
 							$meses = ( $diferencia->y * 12 ) + $diferencia->m;
 							if($meses>=12){
 								$aux->add(new DateInterval('P11M'));
-								$tiempo['fecha2']=$aux->format('Y-m-01');
+								$tiempo['fecha2']=$aux->format('Y-m-t');
 							}
-							$tiempo['fecha2']=date("Y-m-t",strtotime($tiempo['fecha2']));
 						}
 						$fechaT="Desde <em>".$tiempo['fecha1']."</em> hasta <em>".$tiempo['fecha2']."</em>";
 					}
 					else{
+						$tiempo['fecha1']=date('Y-m-1');
+    					$tiempo['fecha2']=date('Y-m-t');
 						$fechaT="Mes Actual";
 						$tiempo['separador']='1';
 					}

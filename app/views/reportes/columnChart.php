@@ -53,6 +53,11 @@
                 <option value="rgb(0,100,0)">Verde Oscuro</option>
               </select>
             </div>
+            <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+                <button onclick="cambiar<?php echo $id?>();" class="btn btn-info">
+                    Porcentaje
+                </button>
+            </div>
             <div class="navbar-collapse collapse">
                 <br><br><br>
             </div>
@@ -61,8 +66,33 @@
     </div>
 <script>
     //Variables controladoras
+    var cambio<?php echo $id?>=false;
     var myChart<?php echo $id?>;
     var ctx<?php echo $id?> = document.getElementById("chart<?php echo $id?>").getContext('2d');
+    var porcentaje<?php echo $id?> = {
+        labels:[<?php
+            foreach ($datos['values'] as $key) {
+              echo "'".$key->Actividad."', ";
+            }
+            ?>
+        ],
+        datasets: [
+        {
+            label: "Porcentajes",
+            backgroundColor: 'rgba(0,179,255,0.6)',
+            data: [
+            <?php
+              foreach ($datos['values'] as $key) {
+                if(isset($key->Porcentaje))
+                  echo $key->Porcentaje.", ";
+                else
+                  echo "100,";
+              }
+            ?>
+            ]
+        }
+        ]
+      };
     var data<?php echo $id?> =  {
             labels:[
             <?php
@@ -109,31 +139,13 @@
                 }
             }]
         },
-        "animation": {
-          "duration": 1,
-          "onComplete": function() {
-                var chartInstance = this.chart;
-                ctx = chartInstance.ctx;
-                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-
-                this.data.datasets.forEach(function(dataset, i) {
-                  var meta = chartInstance.controller.getDatasetMeta(i);
-                  meta.data.forEach(function(bar, index) {
-                    var data = dataset.data[index];
-                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
-                  });
-                });
-            }
-        },
         };
 
     //Inicializador del gráfico
     function start<?php echo $id?>(type){
        myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
         type: type,
-        data: this.data<?php echo $id?>
+        data: (this.cambio<?php echo $id?>)?this.porcentaje<?php echo $id?> :this.data<?php echo $id?>,
         }); 
         if(type!="radar"){
           myChart<?php echo $id?>.options=this.options<?php echo $id?>;
@@ -151,6 +163,12 @@
           myChart<?php echo $id?>.update();
     }
 
+    function cambiar<?php echo $id?>(){
+        this.cambio<?php echo $id?>=!this.cambio<?php echo $id?>;
+        myChart<?php echo $id?>.destroy();
+        this.start<?php echo $id?>('bar');
+    }
+
     $("#type<?php echo $id?>").change(function(){
         myChart<?php echo $id?>.destroy();
         start<?php echo $id?>($(this).val());
@@ -161,8 +179,10 @@
         myChart<?php echo $id?>.update();
     });
     $("#colors2<?php echo $id?>").change(function(){
-        myChart<?php echo $id?>.data.datasets[1].backgroundColor=($(this).val());
-        myChart<?php echo $id?>.update();
+        if(count(myChart<?php echo $id?>.data.datasets)>1){
+            myChart<?php echo $id?>.data.datasets[1].backgroundColor=($(this).val());
+            myChart<?php echo $id?>.update();
+        }
     });
     start<?php echo $id?>('bar');
 </script>

@@ -36,7 +36,7 @@
       </select>
     </div>
     <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
-      <button onclick="cambio();" class="btn btn-info" id="cambio<?php echo $id?>">
+      <button onclick="cambiar<?php echo $id?>();" class="btn btn-info">
         Porcentaje
       </button>
     </div>
@@ -186,7 +186,7 @@
     }
   start<?php echo $id?>('bar');
   //Cambio a porcentajes
-  function cambio(){
+  function cambiar<?php echo $id?>(){
     this.cambio<?php echo $id?>=!this.cambio<?php echo $id?>;
     myChart<?php echo $id?>.destroy();
     this.start<?php echo $id?>('bar');

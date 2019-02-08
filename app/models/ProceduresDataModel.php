@@ -11,29 +11,12 @@
     public function procedimientos($nombre,$tiempo){
       $fecha1=date('Y-m-1');
       $fecha2=date('Y-m-t');
-      $fecha3=$fecha1;
-      $fecha4=$fecha2;
       if(isset($tiempo['tipo'])){
-        $tipo=$tiempo['tipo'];
-        if($tipo=='Per'){
-          $fecha3=date('Y-m-1',strtotime($tiempo['fecha1']));
-          $fecha4=date('Y-m-t',strtotime($tiempo['fecha2']));
-          if($tiempo['separador']=="1"){
-            $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
-            $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
-          }
-          else{
-            $fecha1=$fecha3;
-            $fecha2=$fecha4;
-          }
-        }
-        else if ($tipo=='Year'){
-          $fecha1=date("Y-1-1");
-          $fecha2=date("Y-12-31");
-          $fecha3=$fecha1;
-          $fecha4=$fecha2;
-        }
+        $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
+        $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
       }
+      $fecha3=date('Y-m-01',strtotime($fecha1));;
+      $fecha4=date('Y-m-t',strtotime($fecha2));;
       $sql="SELECT A.key as 'Actividad',ifnull(B.Meta,ifnull(C.Realizado,0)) as 'Meta',ifnull(C.Realizado,0) as 'Realizado',ROUND(ifnull((ifnull(C.Realizado,0)/ifnull(B.Meta,ifnull(C.Realizado,1))),0)*100,2)as 'Porcentaje' from (Select p.name as 'key' from procedures p inner join specialties s on s.id=p.specialty_id where s.name LIKE '$nombre%')A left join ("."
       SELECT p.name as 'key',sum(g.number)as 'Meta' from goals g inner join procedures p on p.id=g.procedure_id where g.date between '$fecha3' and '$fecha4' group by p.name)B on  A.key=B.key left join (".
       "SELECT p.name as 'key',sum(pd.number) as 'Realizado' from procedure_data pd inner join procedures p on p.id=pd.procedure_id where pd.date between '$fecha1' and '$fecha2' group by p.name)C on A.key=C.key order by Actividad";
@@ -77,17 +60,8 @@
       $fecha1=date('Y-m-1');
       $fecha2=date('Y-m-t');
       if(isset($tiempo['tipo'])){
-        $tipo=$tiempo['tipo'];
-        if($tipo=='Per'){
-          if($tiempo['separador']=="1"){
-            $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
-            $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
-          }
-        }
-        else if ($tipo=='Year'){
-          $fecha1=date("Y-1-1");
-          $fecha2=date("Y-12-31");
-        }
+        $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
+        $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
       }
       //Modificar el query
       $sql = "SELECT * from (SELECT A.Título,ifnull(B.Value,0) as 'Value' from 
@@ -131,20 +105,10 @@
       $fecha1=date('Y-m-1');
       $fecha2=date('Y-m-t');
       if(isset($tiempo['tipo'])){
-        $tipo=$tiempo['tipo'];
-        if($tipo=='Per'){
-          $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
-          $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
-          if($tiempo['separador']!="1"){
-              $fecha1=date("Y-m-1",strtotime($tiempo['fecha1']));
-              $fecha2=date("Y-m-t",strtotime($tiempo['fecha2']));
-          }
-        }
-        else if ($tipo=='Year'){
-          $fecha1=date("Y-01-01");
-          $fecha2=date("Y-12-31");
-        }
+        $fecha1=date("Y-m-d",strtotime($tiempo['fecha1']));
+        $fecha2=date("Y-m-d",strtotime($tiempo['fecha2']));
       }
+
       //Modificar el query
       if($tiempo['separador']=="1"){
         $sql = "SELECT p.name as 'Título',ifnull(A.dato,0) as 'Value' from place p left join(SELECT sum(r.number) as 'dato',r.place_id as 'key' from reference r inner join specialties s on s.id=r.specialty_id where s.name LIKE '%$nombre%' and r.date between '$fecha1' and '$fecha2' group by r.place_id)A on p.id=A.key UNION ALL
@@ -157,9 +121,9 @@
         $temp[]=strtotime($fecha2);
 
         $param['tiempo']=$temp;
-        $param['sql']="SELECT K.key as 'Título'";
-        $param['key']="SELECT st.name as 'key' from specialty_things st";
-        $param['meta']="SELECT st.name as 'key', sum(std.number) as'Meta' from specialty_things_data std inner join specialty_things st on st.id=std.specialty_things_id inner join specialties s on std.specialty_id=s.id  where s.name LIKE '$nombre%' and std.date %param% group by st.id";
+        $param['sql']="SELECT K.tit as 'Título'";
+        $param['key']="SELECT p.name as 'tit',p.id as 'key' from place p UNION ALL SELECT '<b>Total</b>',-1";
+        $param['meta']="SELECT sum(r.number)as 'Meta',r.place_id as 'key' from reference r inner join specialties s on s.id=r.specialty_id where s.name LIKE '%$nombre%' and r.date %param% group by r.place_id UNION ALL SELECT sum(r.number)as 'Meta',-1 as 'key' from reference r inner join specialties s on s.id=r.specialty_id where s.name LIKE '%$nombre%' and r.date %param% group by r.place_id";
         $result=$this->separador($param);
         $this->query($result['sql']);
         $titulos[] = 'Lugar'; 
