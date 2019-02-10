@@ -14,7 +14,7 @@
 	define('DB_PORT','3306');
 //
 	//Ruta de la aplicación
-	define('RUTA_APP',dirname(dirname(__FILE__)));
+	define('RUTA_APP',dirname(dirname(__FILE__)));//
 	define('RUTA_URL','http://localhost/EspecialidadesISSS-Enfermeria');
 	define('NOMBRESITIO','ISSS Especialidades');
 
