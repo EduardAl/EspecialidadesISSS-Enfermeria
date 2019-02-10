@@ -100,7 +100,7 @@
 			<?php
 				if(isset($data['fecha'])){
 					if($data['fecha']=='Mes Actual'||$data['fecha']=='Año Actual'){
-						echo '<div class="col-xs-9 col-md-10">';
+						echo '<div class="col-xs-8 col-md-10">';
 					}
 					else{
 						echo '<div class="col-xs-12 col-md-10">';
@@ -108,7 +108,7 @@
 					echo "<h2>".$data['fecha']."</h2>";
 				}
 				else{
-					echo '<div class="col-xs-9 col-md-10">';
+					echo '<div class="col-xs-8 col-md-10">';
 					echo "<h2>Mes Actual</h2>";
 				}
 				echo "</div>";

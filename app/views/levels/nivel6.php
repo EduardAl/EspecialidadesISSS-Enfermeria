@@ -55,7 +55,7 @@
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
 					<a href="<?php echo RUTA_URL?>/Nivel/Especialidad/6/Endocrinologia">
-						<img src="<?php echo RUTA_URL?>/images/Endocrinologia.jpg">
+						<img src="<?php echo RUTA_URL?>/images/endocrinologia.jpg">
 					</a>
 					<div class="caption">
 						<h3>Endocrinología</h3>

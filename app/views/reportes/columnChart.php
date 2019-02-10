@@ -105,6 +105,7 @@
             {
                 label: "Meta",
                 backgroundColor: 'rgba(0, 179, 255, 0.6)',
+
                 data: [
                 <?php
                 foreach ($datos['values'] as $key) {
@@ -134,11 +135,40 @@
                 }
             }],
             xAxes: [{
+                width:0.1,
                 ticks: {
                     autoSkip: false
                 }
             }]
         },
+        "hover": {
+          "animationDuration": 0,
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+                ctx = chartInstance.ctx;
+            var array = new Array();
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            this.data.datasets.forEach(function(dataset, i) {
+                var meta = chartInstance.controller.getDatasetMeta(i);
+                meta.data.forEach(function(bar, index) {
+                var data = dataset.data[index];
+                if(data>0&&!array.includes(bar._model.x)){
+                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                    var algo = bar._model.x;
+                    array.push(algo);
+                }
+              });
+            });
+          }
+        },
+        tooltips: {
+          "enabled":false,
+        } 
         };
 
     //Inicializador del gráfico

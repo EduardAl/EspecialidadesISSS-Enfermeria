@@ -37,7 +37,7 @@
     </div>
     <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
       <button onclick="cambiar<?php echo $id?>();" class="btn btn-info">
-        Porcentaje
+        <span class="glyphicon glyphicon-transfer"></span> Porcentaje
       </button>
     </div>
     <div class="navbar-collapse collapse">
@@ -174,10 +174,39 @@
                 }
             }]
         },
+        "hover": {
+          "animationDuration": 0
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+            var array = new Array();
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            this.data.datasets.forEach(function(dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index) {
+                var data = dataset.data[index];
+                if(data>0&&!array.includes(bar._model.x)){
+                  ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                  array.push(bar._model.x);
+                }
+              });
+            });
+          }
+        },
+        tooltips: {
+          "enabled":false,
+        } 
         };
 
     //Inicializador del gráfico
   function start<?php echo $id?>(type){
+
     myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
       type: type,
       data: (this.cambio<?php echo $id?>)?this.porcentaje<?php echo $id?> :this.data<?php echo $id?>,
@@ -273,7 +302,6 @@
       bColor=['#A10115','#C0B2B5','#D72C16','#F0EFEA','#F25C00','#F7EFE2','#F9A603','#F1F3CE','#DB9501','#F6D7A3'];
         break;
     }
-    myChart<?php echo $id?>.data.datasets[0].backgroundColor=bColor;
     if(cambio<?php echo $id?>==false){
       myChart<?php echo $id?>.data.datasets[0].backgroundColor=bColor[0];
       myChart<?php echo $id?>.data.datasets[1].backgroundColor=bColor[1];
@@ -281,6 +309,9 @@
       myChart<?php echo $id?>.data.datasets[3].backgroundColor=bColor[3];
       <?php if(isset($datos['values'][4])){ ?>
       myChart<?php echo $id?>.data.datasets[4].backgroundColor=bColor[4];<?php }?>
+    }
+    else{
+      myChart<?php echo $id?>.data.datasets[0].backgroundColor=bColor;
     }
     myChart<?php echo $id?>.update();
   });

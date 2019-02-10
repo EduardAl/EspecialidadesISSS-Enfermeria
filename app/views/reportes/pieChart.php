@@ -90,7 +90,7 @@
           ?>
           ],
           backgroundColor:
- ['#070719','#0B173B','#0B2161','#08298A','#0431B4','#0040FF','#2E64FE','#0489B1','#58ACFA','#81DAF5']
+   ['#070719','#0B173B','#0B2161','#08298A','#0431B4','#0040FF','#2E64FE','#0489B1','#58ACFA','#81DAF5']
       },
       ]};
   var options<?php echo $id?> = {
@@ -106,6 +106,9 @@
                     autoSkip: false
                 }
             }]
+        },
+        "hover": {
+          "animationDuration": 0
         },
         "animation": {
           "duration": 1,
@@ -126,6 +129,9 @@
             });
           }
         },
+        tooltips: {
+          "enabled":false,
+        } 
         };
 
   //Inicializador del gráfico
@@ -133,6 +139,43 @@
     myChart<?php echo $id?> = new Chart(ctx<?php echo $id?>, {
       type: type,
       data: this.data<?php echo $id?>,
+      options:{
+        events:false,
+        animation: {
+          duration: 500,
+          easing: "easeOutQuart",
+           onComplete: function () {
+            var ctx = this.chart.ctx;
+              ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+
+            this.data.datasets.forEach(function (dataset) {
+
+              for (var i = 0; i < dataset.data.length; i++) {
+                var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                    total = dataset._meta[Object.keys(dataset._meta)[0]].total,
+                    mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius)/2,
+                    start_angle = model.startAngle,
+                    end_angle = model.endAngle,
+                    mid_angle = start_angle + (end_angle - start_angle)/2;
+
+                var x = mid_radius * Math.cos(mid_angle);
+                var y = mid_radius * Math.sin(mid_angle);
+
+                ctx.fillStyle = '#fff';
+                if(dataset.data[i]>0){
+                  var percent = String(Math.round(dataset.data[i]/total*100)) + "%";
+                  ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+                  // Display percent in another line, line break doesn't work for fillText
+                  ctx.fillText(percent, model.x + x, model.y + y + 15);
+                }
+              }
+            });               
+    }
+  }
+
+      }
       }); 
     if(type=="bar"){
       myChart<?php echo $id?>.options=this.options<?php echo $id?>;

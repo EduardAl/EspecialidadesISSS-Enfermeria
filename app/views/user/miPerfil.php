@@ -1,8 +1,8 @@
 <?php require RUTA_APP.'/views/inc/header.php'; ?>
 <form name="form" id="form-hide" method="POST" action="<?= RUTA_URL . '/Users/ActualizarPerfil' ?>">
 	<div class="container" align="center">
-		<div class="col-xs-3"></div>
-		<div class="col-xs-6" style="align: center;">
+		<div class="col-xs-3 colapsa"></div>
+		<div class="col-xs-12 col-md-6" style="align: center;">
 			<input type="text" name="id" hidden value="<?php echo $datos['usuario']->Id?>">
 	        <h2 class="text-center">Actualización de Usuario</h2>
 	        <div class="row text-center">
@@ -31,7 +31,7 @@
 	    	<br><br>
 	        <p>Se cerrará la sesión una vez confirmados los cambios</p>
      	</div>
-	    <div class="col-xs-3"></div>
+	    <div class="col-xs-3 colapsa"></div>
 	</div>
 </form>
 <script type="text/javascript">

@@ -24,13 +24,19 @@ function Mostrar_Ocultar(){
 			<div class="col-xs-12">
 				<h1>Usuarios</h1>
 			</div>
-			<?php $extra=RUTA_URL.'/Users/Actualizar'; 
-			include RUTA_APP.'/views/reportes/tablaShow.php'; ?>
+		</div>
+		<div class = "row">
 			<div class="col-xs-12 col-md-12" align="right">
+				<div class="form-group">
 				<button class="btn btn-lg btn-primary" type="submit" onclick="Mostrar_Ocultar();">
 					Nuevo Usuario
 				</button>
+				</div>
 			</div>
+		</div>
+		<div class = "row">
+			<?php $extra=RUTA_URL.'/Users/Actualizar'; 
+			include RUTA_APP.'/views/reportes/tablaShow.php'; ?>
 			<form name="form" id="form-hide" method="POST" hidden action="<?= RUTA_URL . '/Users/newUser' ?>">
 				<div class="container" align="center">
 					<div class="col-xs-3 colapsa"></div>

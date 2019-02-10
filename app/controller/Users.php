@@ -5,7 +5,7 @@
 		public function index(){
 			if(isset($_SESSION['acceso'])&&$_SESSION['acceso']==1){
 				$datos = $this->modelo("UsersModel")->cargarTabla();
-				$this->vista('pages/users',$datos);
+				$this->vista('user/users',$datos);
 			}
 			else{
 				$_SESSION['error']='No tienes acceso a la página';
@@ -24,7 +24,7 @@
 				    {
 						$datos = $this->modelo("UsersModel")->cargarTabla();
 				    	$datos['error_message'] = $exe->getMessage();
-	    				$this->vista('pages/Users',$datos);
+	    				$this->vista('user/Users',$datos);
 				    }
 				}
 			}
@@ -39,7 +39,7 @@
 				if(isset($_POST['extra'])){
 					$datos['usuario'] = $this->modelo("UsersModel")->cargarUsuario($_POST['extra']);
 					$datos['id']=$_POST['extra'];
-					$this->vista('pages/actualizarUsuario',$datos);
+					$this->vista('user/actualizarUsuario',$datos);
 				}
 				else if(isset($_POST['fname'])){
 					try{
@@ -50,7 +50,7 @@
 						$datos['usuario'] = $this->modelo("UsersModel")->cargarUsuario($_POST['id']);
 				    	$datos['error_message'] = $exe->getMessage();
 						$datos['id']=$_POST['id'];
-						$this->vista('pages/actualizarUsuario',$datos);
+						$this->vista('user/actualizarUsuario',$datos);
 					}
 				}
 				else if(isset($_POST['id'])){
@@ -61,7 +61,7 @@
 					catch(Exception $exe){
 						$datos['id']=$_POST['id'];
 				    	$datos['error_message'] = $exe->getMessage();
-						$this->vista('pages/actualizarUsuario',$datos);
+						$this->vista('user/actualizarUsuario',$datos);
 					}
 				}
 				else
@@ -83,7 +83,7 @@
 					$datos['usuario'] = $this->modelo("UsersModel")->cargarUsuario($_POST['id']);
 			    	$datos['error_message'] = $exe->getMessage();
 					$datos['id']=$_POST['id'];
-					$this->vista('login/miPerfil',$datos);
+					$this->vista('user/miPerfil',$datos);
 				}
 			}
 			else
@@ -93,7 +93,7 @@
 		public function miPerfil(){
 			if(isset($_SESSION['email'])){
 				$datos['usuario'] = $this->modelo("UsersModel")->cargarUsuario($_SESSION['email'],1);
-				$this->vista('login/miPerfil',$datos);
+				$this->vista('user/miPerfil',$datos);
 			}
 			}
 	}

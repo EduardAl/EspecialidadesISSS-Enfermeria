@@ -18,7 +18,7 @@
 
     <script type="text/javascript" src="<?php echo RUTA_URL?>/js/Chart.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo RUTA_URL?>/js/Chart.min.js"></script>
-    
+    <link rel="shortcut icon" href="<?php echo RUTA_URL?>/images/logo_isss_ico.ico" type="image/ico"/>
 
 </head>
 <?php

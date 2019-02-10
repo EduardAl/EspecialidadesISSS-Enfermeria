@@ -29,7 +29,7 @@
 				<div class="col-xs-12">
 					<hr>
 				</div>
-				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/epidemiologia">
+				<form method="post" action="<?php echo RUTA_URL?>/Nivel/level/Epidemiologia">
 					<div class="col-xs-3 col-md-1">
 						<div class="form-group" align="right" style="padding-top: 7px;">
 							<label for="cbOrdenar">Ver por:</label>
@@ -106,28 +106,24 @@
 	</div>
 	<div id="ingreso" hidden>
 		<div class = "row">
-			<div class="col-xs-12">
-				<?php 
-					if(isset($data['epidemiology'])){
-						$datos=$data['epidemiology'];
-						if(count($datos['TítulosY'])>0){
-				?>
-				<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoEpidemiologia/'?>">
-					<input class="admin" type="text" name="fecha" hidden>
-					<div class="col-xs-12" style="display: inline-block; align-items: center">
-				<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
-					</div>
-					<div class="col-xs-12" >
-						<div class="col-xs-12">
-							<button class="btn btn-primary navbar-right" type="submit">Ingresar Datos</button>
-						</div>
-					</div>
-				</form>
-				<?php 
-						}
+			<?php 
+				if(isset($data['epidemiology'])){
+					$datos=$data['epidemiology'];
+					if(count($datos['TítulosY'])>0){
+			?>
+			<form class="form-formulario" method="POST" action="<?=RUTA_URL.'/Mantenimiento/IngresoEpidemiologia/'?>">
+				<input class="admin" type="text" name="fecha" hidden>
+				<div class="col-xs-12" style="display: inline-block; align-items: center">
+			<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
+				</div>
+				<div class="col-xs-12" align="right">
+					<button class="btn btn-primary" type="submit">Ingresar Datos</button>
+				</div>
+			</form>
+			<?php 
 					}
-				?>
-			</div>
+				}
+			?>
 		</div>
 	</div>
 </div>
