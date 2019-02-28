@@ -17,7 +17,7 @@
 		}
 		public function Graficas(){		
 			$datos = (isset($_POST['cbInforme']))?$this->cargarNiveles($_POST):['Sin Datos'];	
-			$this->vista('pages/Niveles',$datos);
+			$this->vista('pages/niveles',$datos);
 		}
 		// Para cargar la vista de los niveles
 		public function level ($num_registro=''){
