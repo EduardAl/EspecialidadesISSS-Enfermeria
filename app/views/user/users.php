@@ -3,8 +3,8 @@
 <SCRIPT>
 	var prueba = false;
 window.onload = function(){
-	<?php if(!isset($datos['error_message'])) { ?>
-	$('#form-hide').hide();
+	<?php if(isset($datos['error_message'])) { ?>
+	$('#form-hide').show();
 <?php }?>
 }
 function Mostrar_Ocultar(){
@@ -45,17 +45,17 @@ function Mostrar_Ocultar(){
 				        <div class="row text-center">
 				        	<label for="inputFName" class="text-center">Nombre:</label>
 				        </div>
-				        <input type="name" name="fname" id="inputFName" class="form-control" placeholder="Inserte su Nombre" required autofocus>
+				        <input type="name" name="fname" id="inputFName" class="form-control" placeholder="Ingrese su nombre" required autofocus>
 				        <br>
 				        <div class="row text-center">
 					        <label for="inputLName" class="">Apellido:</label>
 					    </div>
-				        <input type="name" name="lname" id="inputLName" class="form-control" placeholder="Inserte su Apellido" required autofocus>
+				        <input type="name" name="lname" id="inputLName" class="form-control" placeholder="Ingrese su apellido" required autofocus>
 				        <br>
 				        <div class="row text-center">
 					        <label for="inputEmail" class="">Correo:</label>
 					    </div>
-				        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="nombre_usuario@dominio.com" required autofocus>
+				        <input type="email" name="email" id="inputEmail" class="form-control" placeholder=" nombre_usuario@dominio.com" required autofocus>
 				        <br>
 				        <div class="row text-center">
 				        	<label for="inputPassword" class="">Contraseña:</label>

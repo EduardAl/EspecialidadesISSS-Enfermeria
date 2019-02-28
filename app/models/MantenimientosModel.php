@@ -47,10 +47,12 @@
         return $this->execute();
       }
     }
-    public function insertarAusentismo($nivel,$id,$params,$tiempo=0){
-      if($params!=0){
+    public function insertarAusentismo($nivel,$id,$params,$minutes,$tiempo=0){
+      if($params!=0||$minutes>=0){
+        $params = $params+round($minutes/60,2);
         $params=($params<0)?0:$params;
         $sql = "INSERT into absences_data values (null, :dato, ".(($tiempo==0)?"curdate()":("'".$tiempo."'")).", :id,(select id from levels where name like '%".$nivel."%'))ON DUPLICATE KEY UPDATE number=:dato;";
+        echo $sql;
         $this->query($sql);
         $this->bind(':dato',$params);
         $this->bind(':id',$id);
@@ -225,7 +227,7 @@
       $sql = "SELECT type as 'title', id as 'id' from absences;";
       $this->query($sql);
       $formulario = [
-        'TítulosX' => ['Indicador','Cantidad'],
+        'TítulosX' => ['Indicador','Horas','Minutos'],
         'TítulosY' => $this->registros(),
       ];
       return $formulario;

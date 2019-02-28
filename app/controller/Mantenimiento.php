@@ -107,7 +107,7 @@
 			$datosRecibidos = count($_POST);
 			$data = array_keys($_POST);
 			for ($i=0; $i < $datosRecibidos; $i++) { 
-				$this->modelo('MantenimientosModel')->insertarAusentismo($nivel,$data[$i],$_POST[$data[$i]],$tiempo);
+				$this->modelo('MantenimientosModel')->insertarAusentismo($nivel, $data[$i], $_POST[$data[$i]], $_POST[$data[++$i]], $tiempo);
 			}
 			$_SESSION['cambiado']=5;
 			header('Location:'.RUTA_URL.'/Mantenimiento/Nivel/'.$level);
