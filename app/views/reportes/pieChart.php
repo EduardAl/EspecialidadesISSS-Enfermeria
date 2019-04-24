@@ -2,31 +2,35 @@
 <div>
   <div class="col-xs-12 col-md-12">
     <div class=thumbnail>
-      <div class="col-xs-1 navbar-collapse collapse" >
+      <div class="col-xs-1 colapsa impre" >
         <label style="color: white; position: center; padding-top:  14px;">Tipo de Gráfica:</label>
       </div>
-      <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+      <div class="col-xs-2 colapsa impre" style="padding-top:  10px;">
         <select name="cbTipo" class="form-control" id="type<?php echo $id?>" >
           <option value="bar">Barra</option>
           <option value="doughnut" selected>Dona</option>
           <option value="pie">Pastel</option>
         </select>
       </div>
-      <div class="col-xs-1 navbar-collapse collapse" >
+      <div class="col-xs-1 colapsa impre" >
         <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
       </div>
-      <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+      <div class="col-xs-2 colapsa collapse impre" style="padding-top:  10px;">
         <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
-          <option value="#0B0B61">Azul</option>
-          <option value="#0489B1">Celeste</option>
-          <option value="#8A0808">Rojo</option>
-          <option value="#B45F04">Naranja</option>
-          <option value="#DBA901">Amarillo</option>
-          <option value="#0B610B">Verde</option>
-          <option value="#04B404">Verde Claro</option>
-          <option value="#3B240B">Café</option>
-          <option value="#8A2908">Café Claro</option>
-          <option value="#848484">Gris</option>
+          <option value="rgb(255,215,0)">Amarillo</option>
+          <option value="rgb(0,0,139)">Azul</option>
+          <option value="rgb(139,69,19)">Café</option>
+          <option value="rgb(205,133,63)">Café Claro</option>
+          <option value="rgb(0,179,255)">Celeste</option>
+          <option value="rgb(128,128,128)">Gris</option>
+          <option value="rgb(255,140,0)">Naranja</option>
+          <option value="rgb(75,0,130)">Indigo</option>
+          <option value="rgb(255,0,0)">Rojo</option>
+          <option value="rgb(139,0,0)">Rojo Oscuro</option>
+          <option value="rgb(255,192,203)">Rosa</option>
+          <option value="rgb(0,128,0)">Verde</option>
+          <option value="rgb(17,196,17)">Verde Claro</option>
+          <option value="rgb(0,100,0)">Verde Oscuro</option>
 
           <option disabled="disabled">----------</option>
           
@@ -58,7 +62,7 @@
           <option value="1">Rosas</option>
         </select>
       </div>
-      <div class="navbar-collapse collapse">
+      <div class="colapsa impre">
           <br><br><br>
       </div>
       <canvas id="chart<?php echo $id?>" style="background-color: #FCFCFC;"></canvas>
@@ -140,7 +144,9 @@
       type: type,
       data: this.data<?php echo $id?>,
       options:{
-        events:false,
+        tooltips: {
+          "enabled":false,
+        } ,
         animation: {
           duration: 500,
           easing: "easeOutQuart",
@@ -151,7 +157,6 @@
               ctx.textBaseline = 'bottom';
 
             this.data.datasets.forEach(function (dataset) {
-
               for (var i = 0; i < dataset.data.length; i++) {
                 var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
                     total = dataset._meta[Object.keys(dataset._meta)[0]].total,
@@ -164,11 +169,13 @@
                 var y = mid_radius * Math.sin(mid_angle);
 
                 ctx.fillStyle = '#fff';
-                if(dataset.data[i]>0){
-                  var percent = String(Math.round(dataset.data[i]/total*100)) + "%";
-                  ctx.fillText(dataset.data[i], model.x + x, model.y + y);
-                  // Display percent in another line, line break doesn't work for fillText
-                  ctx.fillText(percent, model.x + x, model.y + y + 15);
+                if(start_angle!=end_angle){
+                    if(dataset.data[i]>0){
+                        var percent = String(Math.round(dataset.data[i]/total*100)) + "%";
+                        ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+                        // Display percent in another line, line break doesn't work for fillText
+                        ctx.fillText(percent, model.x + x, model.y + y + 15);
+                    }
                 }
               }
             });               

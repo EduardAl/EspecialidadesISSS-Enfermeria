@@ -44,7 +44,7 @@
 				else if(isset($_POST['fname'])){
 					try{
 						$this->modelo("UsersModel")->updateUser($_POST);
-						//header('Location:'.RUTA_URL.'/Users');
+						header('Location:'.RUTA_URL.'/Users');
 					}
 					catch(Exception $exe){
 						$datos['usuario'] = $this->modelo("UsersModel")->cargarUsuario($_POST['id']);

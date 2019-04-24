@@ -117,7 +117,9 @@
 			<?php include RUTA_APP.'/views/mantenimientos/datosNivel.php'; ?>
 				</div>
 				<div class="col-xs-12" align="right">
-					<button class="btn btn-primary" type="submit">Ingresar Datos</button>
+					<button class="btn btn-primary" type="submit">
+						<span class="glyphicon glyphicon-floppy-disk"></span> Ingresar Datos
+					</button>
 				</div>
 			</form>
 			<?php 

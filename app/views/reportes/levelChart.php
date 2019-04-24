@@ -1,10 +1,10 @@
 <?php if(isset($id))$id++;else$id=1 ?>
 <div class="col-xs-12 col-md-12">
   <div class=thumbnail>
-    <div class="col-xs-2 navbar-collapse collapse" >
+    <div class="col-xs-2 colapsa impre" >
       <label style="color: white; position: center; padding-top:  14px;">Colores:</label>
     </div>
-    <div class="col-xs-4 navbar-collapse collapse" style="padding-top:  10px;">
+    <div class="col-xs-4 colapsa impre" style="padding-top:  10px;">
       <select name="cbColores" class="form-control" id="colors<?php echo $id?>" >
         
         <option value="D1" selected>Degradado Azul</option>
@@ -35,12 +35,12 @@
         <option value="1">Rosas</option>
       </select>
     </div>
-    <div class="col-xs-2 navbar-collapse collapse" style="padding-top:  10px;">
+    <div class="col-xs-2 colapsa impre" style="padding-top:  10px;">
       <button onclick="cambiar<?php echo $id?>();" class="btn btn-info">
         <span class="glyphicon glyphicon-transfer"></span> Porcentaje
       </button>
     </div>
-    <div class="navbar-collapse collapse">
+    <div class="colapsa impre">
         <br><br><br>
     </div>
     <canvas id="chart<?php echo $id?>" style="background-color: white;"></canvas>

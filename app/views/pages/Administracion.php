@@ -10,19 +10,23 @@
 		<div id="ocultar">
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/excel.jpg">
+					<a href="<?php echo RUTA_URL?>/Nivel/Graficas">
+						<img src="<?php echo RUTA_URL?>/images/administracion-empres-uw.jpg">
+					</a>
 					<div class="caption">
-						<h3>Archivos</h3>
-						<a  onclick="Mostrar_Ocultar(1)"> Ver archivos </a>
+						<h3>Gráficas</h3>
+						<a href="<?php echo RUTA_URL?>/Nivel/Graficas"> Ver tablas y estadísticas </a>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class=thumbnail>
-					<img src="<?php echo RUTA_URL?>/images/administracion-empres-uw.jpg">
+					<a onclick="Mostrar_Ocultar(1)" class="mouseHover">
+						<img src="<?php echo RUTA_URL?>/images/excel.jpg">
+					</a>
 					<div class="caption">
-						<h3>Gráficas</h3>
-						<a href="<?php echo RUTA_URL?>/Nivel/Graficas"> Ver tablas y estadísticas </a>
+						<h3>Archivos</h3>
+						<a  onclick="Mostrar_Ocultar(1)"> Ver archivos </a>
 					</div>
 				</div>
 			</div>
